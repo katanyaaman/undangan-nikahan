@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Siluet pasangan dari belakang memandang senja">
+  <defs>
+    <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7E7BAE"/>
+      <stop offset="0.55" stop-color="#D9A5A0"/>
+      <stop offset="1" stop-color="#F6C89F"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#dusk)"/>
+  <circle cx="300" cy="400" r="110" fill="#FFF3D9"/>
+  <g stroke="#4A3A5A" stroke-width="5" stroke-linecap="round" fill="none">
+    <path d="M140 130 q 12 -12 24 0 q 12 -12 24 0"/>
+    <path d="M410 100 q 10 -10 20 0 q 10 -10 20 0"/>
+    <path d="M470 200 q 8 -8 16 0 q 8 -8 16 0"/>
+  </g>
+  <ellipse cx="300" cy="560" rx="340" ry="120" fill="#5A3A52"/>
+  <ellipse cx="300" cy="600" rx="380" ry="110" fill="#3A2B45"/>
+  <g fill="#3A2B45">
+    <path d="M60 560 q 26 -60 10 -108 q 34 38 28 108 Z"/>
+    <path d="M540 560 q -26 -60 -10 -108 q -34 38 -28 108 Z"/>
+  </g>
+  <g fill="#2E2238">
+    <path d="M232 600 C 234 520, 226 480, 238 452 C 248 432, 268 428, 278 444 C 290 466, 284 520, 286 600 Z"/>
+    <ellipse cx="258" cy="418" rx="26" ry="30"/>
+    <path d="M232 408 C 232 390, 244 380, 258 380 C 272 380, 284 390, 284 408 L284 400 C 284 386, 272 376, 258 376 C 244 376, 232 386, 232 400 Z"/>
+    <path d="M300 600 C 300 528, 292 492, 300 466 C 306 446, 330 440, 342 454 C 360 476, 372 524, 376 600 Z"/>
+    <path d="M318 452 C 310 430, 316 408, 334 402 C 352 396, 366 406, 368 426 C 370 448, 360 470, 352 486 C 340 470, 328 462, 318 452 Z"/>
+  </g>
+</svg>

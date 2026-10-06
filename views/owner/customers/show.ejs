@@ -1,0 +1,93 @@
+<div class="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+            <h3 class="text-lg font-semibold text-gray-800"><%= customer.name %></h3>
+            <p class="text-sm text-gray-500"><%= customer.email %> | Status: <%= customer.status ?? 'active' %></p>
+        </div>
+        <form method="POST" action="/owner/customers/<%= customer.id %>/suspend" onsubmit="return confirm('Ubah status aktif customer ini?')">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="inline-flex items-center px-4 py-2.5 bg-yellow-600 hover:bg-yellow-700 text-white rounded-xl font-medium transition-colors">
+                <%= (customer.status ?? 'active') === 'active' ? 'Nonaktifkan' : 'Aktifkan Lagi' %>
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Reset Password</h3>
+    <form method="POST" action="/owner/customers/<%= customer.id %>/reset-password" class="flex flex-col md:flex-row gap-3" onsubmit="return confirm('Reset password customer ini?')">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <input type="password" name="password" required minlength="8" placeholder="Password baru (min 8 karakter)"
+            class="block w-full md:w-72 px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gold-500 focus:border-gold-500">
+        <button type="submit" class="inline-flex items-center justify-center px-4 py-2.5 bg-gray-800 hover:bg-gray-900 text-white rounded-xl font-medium transition-colors">
+            Reset
+        </button>
+    </form>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden mb-6">
+    <div class="p-6 border-b border-gray-100">
+        <h3 class="text-lg font-semibold text-gray-800">Event (<%= events.length %>)</h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead class="bg-gray-50 border-b border-gray-100">
+                <tr>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Slug</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Template</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Berakhir</th>
+                    <th class="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Lihat</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-100">
+                <% if (events.length) { %>
+                <% events.forEach(function(ev) { %>
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 text-sm font-medium text-gray-900"><%= ev.slug || ('#' + ev.id) %></td>
+                    <td class="px-6 py-4 text-sm text-gray-500"><%= ev.template_slug %></td>
+                    <td class="px-6 py-4 text-sm text-gray-500"><%= ev.status %></td>
+                    <td class="px-6 py-4 text-sm text-gray-500"><%= ev.expired_at ? formatDate(ev.expired_at, 'd M Y, H:i') : '-' %></td>
+                    <td class="px-6 py-4 text-right text-sm font-medium">
+                        <a href="/u/<%= ev.slug %>" target="_blank" class="text-gold-700 hover:text-gold-800 font-medium">Buka</a>
+                    </td>
+                </tr>
+                <% }); %>
+                <% } else { %>
+                <tr>
+                    <td colspan="5" class="px-6 py-12 text-center text-gray-500">Customer ini belum punya event</td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+    <div class="p-6 border-b border-gray-100">
+        <h3 class="text-lg font-semibold text-gray-800">Akses Template</h3>
+        <p class="text-xs text-gray-500 mt-1">Cabut akses tidak merusak event yang sedang berjalan.</p>
+    </div>
+    <div class="p-6 space-y-3">
+        <% allTemplates.forEach(function(t) { %>
+        <% const has = granted.includes(t.slug); %>
+        <div class="flex items-center justify-between gap-4 p-4 border border-gray-100 rounded-xl">
+            <div>
+                <p class="text-sm font-medium text-gray-900"><%= t.name %></p>
+                <p class="text-xs text-gray-500"><%= t.slug %><%= t.active ? '' : ' (nonaktif di katalog)' %></p>
+            </div>
+            <form method="POST" action="/owner/customers/<%= customer.id %>/grants">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" name="template_slug" value="<%= t.slug %>">
+                <% if (has) { %>
+                <input type="hidden" name="action" value="revoke">
+                <button type="submit" class="px-4 py-2 text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 rounded-xl transition-colors">Cabut</button>
+                <% } else { %>
+                <input type="hidden" name="action" value="grant">
+                <button type="submit" class="px-4 py-2 text-sm font-medium text-green-700 bg-green-50 hover:bg-green-100 rounded-xl transition-colors">Beri akses</button>
+                <% } %>
+            </form>
+        </div>
+        <% }); %>
+    </div>
+</div>

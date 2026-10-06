@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <title><%= title || 'WhatsApp Undangan - ' + fv(event?.groom_name, 'David') + ' & ' + fv(event?.bride_name, 'Sarah') %></title>
+    <link rel="stylesheet" href="/css/app.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========================================================= */
+        /* STANDAR WHATSAPP RESMI: TYPOGRAPHY, WARNA & WALLPAPER     */
+        /* ========================================================= */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+            background-color: #efeae2 !important;
+            color: #111b21 !important;
+        }
+
+        /* Wallpaper Resmi WhatsApp */
+        .wa-bg-authentic {
+            background-color: #efeae2 !important;
+            background-image: radial-gradient(#d1c7b7 0.75px, transparent 0.75px), radial-gradient(#d1c7b7 0.75px, #efeae2 0.75px) !important;
+            background-size: 26px 26px !important;
+            background-position: 0 0, 13px 13px !important;
+        }
+
+        /* Gelembung Pesan Masuk Resmi WhatsApp (Putih Bersih & Teks Standar Hitam WA) */
+        .wa-bubble-in {
+            background-color: #ffffff !important;
+            color: #111b21 !important;
+            box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13) !important;
+            border-radius: 8px !important;
+            border-top-left-radius: 2px !important;
+        }
+        .wa-bubble-in p,
+        .wa-bubble-in span,
+        .wa-bubble-in strong,
+        .wa-bubble-in h2,
+        .wa-bubble-in h3,
+        .wa-bubble-in h4,
+        .wa-bubble-in h5,
+        .wa-bubble-in div {
+            color: #111b21 !important;
+        }
+        .wa-bubble-in .wa-time {
+            color: #667781 !important;
+            font-size: 11px !important;
+        }
+        .wa-bubble-in .wa-subtext {
+            color: #54656f !important;
+        }
+
+        /* Gelembung Pesan Keluar Resmi WhatsApp (Hijau Muda Khas WA) */
+        .wa-bubble-out {
+            background-color: #d9fdd3 !important;
+            color: #111b21 !important;
+            box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13) !important;
+            border-radius: 8px !important;
+            border-top-right-radius: 2px !important;
+        }
+        .wa-bubble-out p,
+        .wa-bubble-out span,
+        .wa-bubble-out strong {
+            color: #111b21 !important;
+        }
+
+        /* Kartu Di Dalam Pesan (Detail Acara, Rekening, Profil) */
+        .wa-inner-card {
+            background-color: #f7f8fa !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #111b21 !important;
+            border-radius: 10px !important;
+        }
+        .wa-inner-card p,
+        .wa-inner-card span,
+        .wa-inner-card strong,
+        .wa-inner-card h4,
+        .wa-inner-card h5 {
+            color: #111b21 !important;
+        }
+
+        /* Chip Tanggal di Atas Obrolan */
+        .wa-date-chip {
+            background-color: #ffffff !important;
+            color: #54656f !important;
+            border: 1px solid rgba(11, 20, 26, 0.08) !important;
+            box-shadow: 0 1px 1px rgba(11, 20, 26, 0.08) !important;
+            border-radius: 8px !important;
+            font-size: 11px !important;
+            font-weight: 500 !important;
+        }
+
+        /* Tombol Pilihan Menu Interaktif (Standar WA Quick Reply) */
+        .wa-action-btn {
+            background-color: #ffffff !important;
+            color: #111b21 !important;
+            border: 1px solid #d1d7db !important;
+            box-shadow: 0 1px 2px rgba(11, 20, 26, 0.06) !important;
+            border-radius: 12px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            transition: all 0.2s ease !important;
+        }
+        .wa-action-btn:hover {
+            background-color: #f0f2f5 !important;
+        }
+        .wa-action-btn.active {
+            background-color: #e7fce3 !important;
+            border-color: #25d366 !important;
+            color: #0b704c !important;
+        }
+
+        /* Pulse green status ring */
+        @keyframes ringPulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.75); }
+            70% { box-shadow: 0 0 0 8px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        .status-ring-pulse {
+            animation: ringPulse 2.2s infinite;
+        }
+
+        /* Waveform Animation */
+        @keyframes waveAnim {
+            0%, 100% { height: 6px; }
+            50% { height: 22px; }
+        }
+        .waveform-bar.playing {
+            animation: waveAnim 0.9s ease-in-out infinite;
+        }
+
+        /* Smooth Staggered Chat Arrival */
+        @keyframes chatPopIn {
+            0% { opacity: 0; transform: translateY(12px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .chat-pop {
+            animation: chatPopIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Floating reaction heart/emoji */
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.7); opacity: 1; }
+            100% { transform: translateY(-380px) scale(1.5); opacity: 0; }
+        }
+        .floating-emoji {
+            position: absolute;
+            animation: floatUp 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            pointer-events: none;
+            z-index: 70;
+        }
+    </style>
+</head>
+<body id="t5-body" class="bg-[#efeae2] text-[#111b21] font-sans antialiased overflow-x-hidden select-none">
+
+<!-- Audio Element Pernikahan -->
+<audio id="t5-audio" loop preload="auto">
+    <source src="/music/wedding-song.mp3" type="audio/mpeg">
+</audio>
+
+<!-- =================================================================== -->
+<!-- 1. LOCKSCREEN NOTIFIKASI SMARTPHONE (PROSES SMOOTH & ALAMI) -->
+<!-- =================================================================== -->
+<div id="t5-lockscreen" class="fixed inset-0 z-50 flex flex-col justify-between p-6 bg-cover bg-center transition-all duration-700 bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white">
+    
+    <!-- iPhone Dynamic Island & Status Bar -->
+    <div class="w-full flex items-center justify-between text-xs font-semibold px-2 text-slate-300">
+        <span id="t5-clock-mini" class="font-mono">09:41</span>
+        
+        <!-- Dynamic Island -->
+        <div class="h-7 w-28 bg-black/90 rounded-full border border-white/15 shadow-2xl flex items-center justify-between px-2.5 mx-auto">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <div class="flex space-x-0.5 items-center">
+                <span class="w-1 h-2 bg-emerald-400 rounded-full animate-bounce"></span>
+                <span class="w-1 h-3.5 bg-emerald-300 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
+                <span class="w-1 h-2 bg-emerald-400 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
+            </div>
+            <span class="w-2.5 h-2.5 rounded-full bg-blue-500/80"></span>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
+            <div class="w-5 h-2.5 border border-slate-300 rounded-sm p-0.5 flex items-center">
+                <div class="w-full h-full bg-emerald-400 rounded-2xs"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jam Besar Lockscreen -->
+    <div class="text-center my-auto">
+        <h1 id="t5-lockscreen-time" class="text-7xl sm:text-8xl font-extralight tracking-tight text-white/95">09:41</h1>
+        <p id="t5-lockscreen-date" class="text-sm font-medium text-slate-300 mt-1">Minggu, 31 Desember</p>
+    </div>
+
+    <!-- KARTU NOTIFIKASI WA ALAMI -->
+    <div class="max-w-md w-full mx-auto space-y-4">
+        <div id="t5-notif-card" onclick="openWAChatWithProcess(this)" class="cursor-pointer bg-white text-slate-900 rounded-2xl p-4 shadow-2xl border border-white/60 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+            <!-- Header Notifikasi -->
+            <div class="flex items-center justify-between text-[11px] text-slate-500 mb-2 font-semibold">
+                <div class="flex items-center space-x-1.5">
+                    <div class="w-4 h-4 rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-sm">
+                        <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/></svg>
+                    </div>
+                    <span class="tracking-wider uppercase font-bold text-emerald-800">WHATSAPP</span>
+                </div>
+                <span>Baru saja</span>
+            </div>
+
+            <!-- Isi Chat Masuk Alami -->
+            <div class="flex items-start space-x-3">
+                <div class="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-emerald-400 via-teal-300 to-green-300 status-ring-pulse flex-shrink-0 shadow">
+                    <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Mempelai" class="w-full h-full rounded-full object-cover">
+                </div>
+                <div class="flex-1 min-w-0">
+                    <h2 class="text-sm font-bold text-slate-900 truncate">
+                        <%= fv(event?.groom_name, 'David') %> & <%= fv(event?.bride_name, 'Sarah') %> 💕
+                    </h2>
+                    <p class="text-xs text-slate-700 line-clamp-2 mt-0.5 font-medium leading-relaxed">
+                        Hai <strong id="t5-notif-guest" class="text-slate-900 font-bold">Tamu Undangan</strong>, ada kabar bahagia dari kami berdua! Buka obrolan yaa 😊
+                    </p>
+                </div>
+            </div>
+
+            <!-- Tombol Buka Obrolan -->
+            <div class="mt-3 pt-2.5 border-t border-slate-200 flex items-center justify-between text-xs text-emerald-700 font-bold">
+                <span id="t5-notif-action-text" class="flex items-center space-x-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span>Ketuk untuk Buka Pesan</span>
+                </span>
+                <span id="t5-notif-arrow" class="text-emerald-600 transition-transform">➔</span>
+            </div>
+        </div>
+
+        <div class="text-center text-xs text-slate-400 flex items-center justify-center space-x-1.5 py-1">
+            <svg class="w-4 h-4 animate-bounce text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+            <span>Ketuk notifikasi untuk masuk</span>
+        </div>
+    </div>
+</div>
+
+<!-- =================================================================== -->
+<!-- 2. WHATSAPP FULLSCREEN STATUS / STORY -->
+<!-- =================================================================== -->
+<div id="t5-story-modal" class="fixed inset-0 z-50 bg-black hidden flex-col justify-between text-white select-none">
+    <div class="p-3 pt-4 flex space-x-1.5 z-20">
+        <div class="flex-1 h-1 bg-white/30 rounded-full overflow-hidden"><div id="sb-0" class="h-full bg-white w-0 transition-all duration-100 ease-linear"></div></div>
+        <div class="flex-1 h-1 bg-white/30 rounded-full overflow-hidden"><div id="sb-1" class="h-full bg-white w-0 transition-all duration-100 ease-linear"></div></div>
+        <div class="flex-1 h-1 bg-white/30 rounded-full overflow-hidden"><div id="sb-2" class="h-full bg-white w-0 transition-all duration-100 ease-linear"></div></div>
+    </div>
+
+    <!-- Header Story WA -->
+    <div class="flex items-center justify-between px-4 py-2 z-20">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-emerald-400 shadow">
+                <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Status" class="w-full h-full object-cover">
+            </div>
+            <div>
+                <h3 class="text-sm font-bold text-white"><%= fv(event?.groom_name, 'David') %> & <%= fv(event?.bride_name, 'Sarah') %></h3>
+                <p id="t5-story-time" class="text-[11px] text-white/70">Hari ini, 09.30</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2">
+            <span class="text-[10px] text-white/70 bg-white/10 px-2.5 py-0.5 rounded-full">Tahan untuk Jeda</span>
+            <button onclick="closeWAStory()" aria-label="Tutup Story" class="w-9 h-9 rounded-full bg-black/50 flex items-center justify-center text-white hover:bg-black/80">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Konten Foto & Sentuh Navigasi -->
+    <div id="t5-story-viewport" class="relative flex-1 flex items-center justify-center overflow-hidden">
+        <img id="t5-story-image" src="/images/demo/g-couple.svg" alt="Story" class="max-h-[75vh] w-auto max-w-full object-contain">
+        <div class="absolute inset-y-0 left-0 w-1/3 z-10 cursor-pointer" onclick="prevWAStory()"></div>
+        <div class="absolute inset-y-0 right-0 w-2/3 z-10 cursor-pointer" onclick="nextWAStory()"></div>
+    </div>
+
+    <!-- Caption & Quick Reply Emojis -->
+    <div class="p-4 z-20 bg-gradient-to-t from-black/95 via-black/60 to-transparent space-y-3">
+        <p id="t5-story-caption" class="text-sm font-medium text-white drop-shadow text-center">Our Journey Together 💕</p>
+        
+        <div class="flex items-center justify-center space-x-4 py-1">
+            <button onclick="sendStoryReaction('❤️', event)" class="text-2xl transform active:scale-125 hover:scale-110 transition-transform">❤️</button>
+            <button onclick="sendStoryReaction('😍', event)" class="text-2xl transform active:scale-125 hover:scale-110 transition-transform">😍</button>
+            <button onclick="sendStoryReaction('👏', event)" class="text-2xl transform active:scale-125 hover:scale-110 transition-transform">👏</button>
+            <button onclick="sendStoryReaction('🎉', event)" class="text-2xl transform active:scale-125 hover:scale-110 transition-transform">🎉</button>
+            <button onclick="sendStoryReaction('🤲', event)" class="text-2xl transform active:scale-125 hover:scale-110 transition-transform">🤲</button>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <input type="text" id="t5-story-reply-input" placeholder="Balas cerita pengantin..." 
+                   class="flex-1 bg-white/20 border border-white/30 rounded-full px-4 py-2 text-xs text-white placeholder-white/60 focus:outline-none focus:ring-1 focus:ring-emerald-400">
+            <button onclick="sendStoryReply()" class="w-9 h-9 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow hover:bg-emerald-600">
+                <svg class="w-4 h-4 ml-0.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- =================================================================== -->
+<!-- 3. SIMULASI PANGGILAN SUARA & VIDEO WHATSAPP -->
+<!-- =================================================================== -->
+<div id="t5-call-modal" class="fixed inset-0 z-50 bg-[#121b22]/95 text-white hidden flex-col items-center justify-between p-6 select-none">
+    <div class="text-center pt-8">
+        <span id="t5-call-badge" class="inline-block px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-emerald-400 mb-3 border border-white/10">
+            Panggilan WhatsApp Masuk
+        </span>
+        <h2 class="text-2xl font-bold mb-1"><%= fv(event?.groom_name, 'David') %> & <%= fv(event?.bride_name, 'Sarah') %></h2>
+        <p id="t5-call-status" class="text-sm text-slate-300 font-mono">Berdering...</p>
+    </div>
+
+    <div class="relative my-auto">
+        <div id="t5-call-avatar-ring" class="w-36 h-36 rounded-full overflow-hidden p-1.5 border-4 border-emerald-400 status-ring-pulse shadow-2xl">
+            <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Mempelai" class="w-full h-full rounded-full object-cover">
+        </div>
+    </div>
+
+    <div class="w-full max-w-xs text-center space-y-6 pb-6">
+        <p id="t5-call-msg" class="text-xs text-slate-300 italic px-4">
+            "Halo! Senang sekali Anda menerima panggilan kami. Mohon doa restu dan kehadirannya yaa! 💕"
+        </p>
+
+        <div id="t5-call-actions-incoming" class="flex items-center justify-around">
+            <button onclick="endWACall()" class="flex flex-col items-center space-y-1">
+                <div class="w-14 h-14 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg hover:bg-rose-700 active:scale-95 transition-all">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clip-rule="evenodd"></path><path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.064 7 9.542 7 .847 0 1.669-.105 2.454-.303z"></path></svg>
+                </div>
+                <span class="text-[11px] text-slate-400">Tolak</span>
+            </button>
+
+            <button onclick="acceptWACall()" class="flex flex-col items-center space-y-1">
+                <div class="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-lg hover:bg-emerald-600 active:scale-95 transition-all animate-bounce">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+                </div>
+                <span class="text-[11px] text-emerald-400 font-bold">Terima</span>
+            </button>
+        </div>
+
+        <div id="t5-call-actions-connected" class="hidden flex items-center justify-around">
+            <button onclick="toggleAudio()" class="w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"></path></svg>
+            </button>
+            <button onclick="endWACall()" class="w-14 h-14 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg hover:bg-rose-700 active:scale-95 transition-all">
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clip-rule="evenodd"></path><path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.064 7 9.542 7 .847 0 1.669-.105 2.454-.303z"></path></svg>
+            </button>
+            <button onclick="openWAStory(0); endWACall();" class="w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- =================================================================== -->
+<!-- 4. RUANG OBROLAN WHATSAPP UTAMA (WARNA FONT STANDAR WA RESMI) -->
+<!-- =================================================================== -->
+<div id="t5-chat-wrapper" class="hidden min-h-screen flex flex-col justify-between max-w-2xl mx-auto shadow-2xl relative">
+    
+    <!-- HEADER WHATSAPP RESMI -->
+    <header class="sticky top-0 z-40 bg-[#075E54] text-white px-3.5 py-3 flex items-center justify-between shadow-md">
+        <div class="flex items-center space-x-3 min-w-0">
+            <!-- Back Arrow -->
+            <button onclick="backToLockscreen()" aria-label="Kembali ke Notifikasi" class="text-white hover:text-emerald-200 p-1">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+
+            <!-- AVATAR MEMPELAI DENGAN LINGKARAN HIJAU STATUS STORY -->
+            <div onclick="openWAStory(0)" title="Ketuk untuk melihat Cerita Mempelai" class="relative cursor-pointer flex-shrink-0 group">
+                <div class="w-10 h-10 rounded-full p-0.5 bg-gradient-to-tr from-emerald-400 via-teal-300 to-green-300 ring-2 ring-emerald-400 ring-offset-2 ring-offset-[#075E54] status-ring-pulse">
+                    <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Mempelai" class="w-full h-full rounded-full object-cover">
+                </div>
+                <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-[#075E54] flex items-center justify-center text-[8px] font-bold text-white">
+                    +
+                </span>
+            </div>
+
+            <!-- Nama & Status Kontak -->
+            <div class="min-w-0 flex-1 cursor-pointer" onclick="openWAStory(0)">
+                <div class="flex items-center space-x-1">
+                    <h2 class="text-sm font-bold truncate text-white">
+                        <%= fv(event?.groom_name, 'David') %> & <%= fv(event?.bride_name, 'Sarah') %>
+                    </h2>
+                    <svg class="w-3.5 h-3.5 text-emerald-300 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                </div>
+                <p id="t5-header-status" class="text-[11px] text-emerald-200 truncate font-sans">
+                    🟢 Ketuk avatar untuk lihat Status Foto
+                </p>
+            </div>
+        </div>
+
+        <!-- Tombol Aksi Header -->
+        <div class="flex items-center space-x-3 text-white">
+            <button onclick="startWACall('video')" title="Video Call" class="hover:text-emerald-200 p-1">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
+            </button>
+            <button onclick="startWACall('voice')" title="Panggilan Suara" class="hover:text-emerald-200 p-1">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- STREAM CHAT BUBBLES RESMI (WARNA FONT STANDAR HITAM WA, 100% SERAGAM) -->
+    <main class="wa-bg-authentic flex-1 p-3.5 sm:p-5 space-y-3 pb-28 overflow-y-auto">
+        <!-- Date Badge Pin -->
+        <div class="text-center my-1">
+            <span class="inline-block wa-date-chip px-3 py-1 shadow-sm">
+                Hari ini &bull; <%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %>
+            </span>
+        </div>
+
+        <!-- TYPING INDICATOR BUBBLE -->
+        <div id="t5-typing-bubble" class="flex items-start max-w-[80px]">
+            <div class="wa-bubble-in px-3.5 py-2 shadow-sm flex items-center space-x-1.5">
+                <span class="w-1.5 h-1.5 bg-[#8696a0] rounded-full animate-bounce" style="animation-delay: 0ms"></span>
+                <span class="w-1.5 h-1.5 bg-[#8696a0] rounded-full animate-bounce" style="animation-delay: 150ms"></span>
+                <span class="w-1.5 h-1.5 bg-[#8696a0] rounded-full animate-bounce" style="animation-delay: 300ms"></span>
+            </div>
+        </div>
+
+        <!-- BUBBLE 1: SALAM PERSONAL & PEMBUKA -->
+        <div id="chat-step-1" class="hidden flex items-start max-w-[92%] sm:max-w-[82%] chat-pop">
+            <div class="wa-bubble-in p-3.5 shadow-sm space-y-2 w-full">
+                <p class="font-bold text-xs text-[#111b21]">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                <p class="text-xs sm:text-sm font-bold leading-relaxed text-[#111b21]">
+                    Assalamu’alaikum Warahmatullahi Wabarakatuh
+                </p>
+                <p class="text-xs sm:text-sm leading-relaxed text-[#111b21]">
+                    Halo <strong id="t5-chat-guest" class="text-[#111b21] font-bold">Tamu Undangan</strong>, gimana kabarnya? Semoga selalu diberikan kesehatan & kebahagiaan sekeluarga yaa... 🙏
+                </p>
+                <div class="wa-time text-right font-mono">09:41</div>
+            </div>
+        </div>
+
+        <!-- BUBBLE 2: KABAR BAHAGIA PERNIKAHAN -->
+        <div id="chat-step-2" class="hidden flex items-start max-w-[92%] sm:max-w-[84%] chat-pop">
+            <div class="wa-bubble-in p-3.5 shadow-sm space-y-2.5 w-full">
+                <p class="text-xs sm:text-sm leading-relaxed text-[#111b21]">
+                    Alhamdulillah, dengan penuh rasa syukur, kami ingin berbagi kabar bahagia. Insya Allah kami akan melangsungkan pernikahan pada:
+                </p>
+                <div class="wa-inner-card p-3 space-y-1">
+                    <p class="font-bold text-sm text-[#111b21]">🗓️ <%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></p>
+                    <p class="text-xs text-[#54656f]">📍 <%= fv(venueName, 'Grand Ballroom Hotel') %></p>
+                </div>
+                <p class="text-xs text-[#111b21] leading-relaxed">
+                    Kehadiran serta doa restu Anda merupakan kehormatan dan kebahagiaan terbesar bagi kami sekeluarga. 💕
+                </p>
+                <div class="wa-time text-right font-mono">09:41</div>
+            </div>
+        </div>
+
+        <!-- BUBBLE 3: VOICE NOTE PESAN SINGKAT MEMPELAI -->
+        <div id="chat-step-3" class="hidden flex items-start max-w-[92%] sm:max-w-[82%] chat-pop">
+            <div class="wa-bubble-in p-3 shadow-sm space-y-2 w-full">
+                <div class="flex items-center space-x-3">
+                    <!-- Tombol Play VN -->
+                    <button id="t5-vn-btn" onclick="toggleVNAudio()" aria-label="Putar Musik" class="w-11 h-11 rounded-full bg-[#25D366] text-white flex items-center justify-center flex-shrink-0 shadow hover:bg-emerald-600 transition-colors">
+                        <svg id="t5-vn-play-icon" class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path></svg>
+                        <svg id="t5-vn-pause-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                    </button>
+
+                    <!-- Waveform Bars -->
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center space-x-1 h-6">
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-2"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-4"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-5"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-3"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-6"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-4"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-2"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-5"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-3"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-6"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-4"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-2"></span>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-[#54656f] mt-1 font-mono">
+                            <span id="t5-vn-time">00:00</span>
+                            <span class="font-medium text-[#54656f]">Pesan Audio Pengantin 🎙️</span>
+                        </div>
+                    </div>
+
+                    <!-- Speed Multiplier Button (1x / 1.5x / 2x) -->
+                    <button id="t5-speed-btn" onclick="cycleAudioSpeed()" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-[#111b21] font-bold text-[11px] rounded-full border border-slate-300 transition-colors">
+                        1x
+                    </button>
+                </div>
+                <div class="wa-time text-right font-mono">09:42</div>
+            </div>
+        </div>
+
+        <!-- QUICK ACTION CHOICES: BACA DETAIL ATAU BUKA SEMUA SECARA SMOOTH (STANDAR WA PILLS) -->
+        <div id="chat-actions-hub" class="hidden py-1 space-y-2 chat-pop">
+            <p class="text-[11px] text-center text-[#54656f] font-medium">
+                Pilih informasi yang ingin kamu lihat:
+            </p>
+            <div class="grid grid-cols-2 gap-2 max-w-md mx-auto">
+                <button id="btn-choice-event" onclick="revealSectionSmooth('t5-event-bubble', this, '💍 Waktu & Lokasi')" class="wa-action-btn p-2.5 active:scale-95">
+                    <span>💍 Waktu & Lokasi</span>
+                </button>
+                <button id="btn-choice-gallery" onclick="revealSectionSmooth('t5-gallery-bubble', this, '📷 Album Foto')" class="wa-action-btn p-2.5 active:scale-95">
+                    <span>📷 Album Foto</span>
+                </button>
+                <button id="btn-choice-rsvp" onclick="revealSectionSmooth('t5-rsvp-bubble', this, '💌 RSVP Kehadiran')" class="wa-action-btn p-2.5 active:scale-95">
+                    <span>💌 RSVP Kehadiran</span>
+                </button>
+                <button id="btn-choice-gift" onclick="revealSectionSmooth('t5-gift-bubble', this, '🎁 Amplop Digital')" class="wa-action-btn p-2.5 active:scale-95">
+                    <span>🎁 Amplop Digital</span>
+                </button>
+            </div>
+            <div class="text-center pt-1">
+                <button id="btn-choice-all" onclick="revealAllSectionsSmooth(this)" class="wa-action-btn px-4 py-1.5 active:scale-95">
+                    ⚡ Tampilkan Semua Rincian Acara Lengkap
+                </button>
+            </div>
+        </div>
+
+        <!-- BUBBLE 4: KARTU KONTAK MEMPELAI (VCARD) -->
+        <div id="t5-couple-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[85%] chat-pop">
+            <div class="wa-bubble-in p-4 shadow-sm space-y-3.5 w-full">
+                <div class="text-xs font-bold text-[#54656f] uppercase tracking-wider flex items-center justify-between border-b border-slate-200 pb-2">
+                    <span>👤 Profil Mempelai</span>
+                    <span class="font-bold text-[#111b21]">David & Sarah</span>
+                </div>
+
+                <div class="space-y-2.5">
+                    <!-- Mempelai Pria -->
+                    <div class="wa-inner-card flex items-center space-x-3 p-2.5">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200 flex-shrink-0">
+                            <img src="<%= groomPhoto || '/images/demo/groom.svg' %>" alt="Pria" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-[#111b21] truncate"><%= fv(event?.groom_name, 'David Anderson') %></h4>
+                            <p class="text-[11px] text-[#54656f]">Putra: <%= fv(event?.groom_father, 'Bpk. Robert') %> & <%= fv(event?.groom_mother, 'Ibu Jennifer') %></p>
+                            <% if (event?.instagram_groom) { %>
+                            <a href="https://instagram.com/<%= (event.instagram_groom).replace('@', '') %>" target="_blank" class="text-[11px] text-[#008069] font-semibold hover:underline">
+                                Instagram: @<%= (event.instagram_groom).replace('@', '') %>
+                            </a>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Mempelai Wanita -->
+                    <div class="wa-inner-card flex items-center space-x-3 p-2.5">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200 flex-shrink-0">
+                            <img src="<%= bridePhoto || '/images/demo/bride.svg' %>" alt="Wanita" class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-[#111b21] truncate"><%= fv(event?.bride_name, 'Sarah Johnson') %></h4>
+                            <p class="text-[11px] text-[#54656f]">Putri: <%= fv(event?.bride_father, 'Bpk. Michael') %> & <%= fv(event?.bride_mother, 'Ibu Emily') %></p>
+                            <% if (event?.instagram_bride) { %>
+                            <a href="https://instagram.com/<%= (event.instagram_bride).replace('@', '') %>" target="_blank" class="text-[11px] text-[#008069] font-semibold hover:underline">
+                                Instagram: @<%= (event.instagram_bride).replace('@', '') %>
+                            </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wa-time text-right font-mono">09:42</div>
+            </div>
+        </div>
+
+        <!-- BUBBLE 5: DETAIL WAKTU, TEMPAT & HITUNG MUNDUR -->
+        <div id="t5-event-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[85%] chat-pop">
+            <div class="wa-bubble-in p-4 shadow-sm space-y-3.5 w-full">
+                <div class="flex items-center space-x-2 text-xs font-bold text-[#111b21] border-b border-slate-200 pb-2">
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>Rangkaian Acara Pernikahan</span>
+                </div>
+
+                <div class="space-y-2 text-xs sm:text-sm">
+                    <div class="wa-inner-card p-3">
+                        <h5 class="font-bold text-[#111b21] text-xs mb-1">💍 AKAD NIKAH</h5>
+                        <p class="font-bold text-[#111b21]"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></p>
+                        <p class="text-[11px] text-[#54656f] font-mono">Pukul 08.00 - 10.00 WIB</p>
+                    </div>
+
+                    <div class="wa-inner-card p-3">
+                        <h5 class="font-bold text-[#111b21] text-xs mb-1">🎉 RESEPSI PERNIKAHAN</h5>
+                        <p class="font-bold text-[#111b21]"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></p>
+                        <p class="text-[11px] text-[#54656f] font-mono"><%= fv(eventTimeRange, '11.00 WIB - Selesai') %></p>
+                    </div>
+
+                    <div class="pt-1">
+                        <p class="font-bold text-[#111b21]">📍 <%= fv(venueName, 'Grand Ballroom Hotel') %></p>
+                        <p class="text-xs text-[#54656f]"><%= fv(venueAddress, 'Jl. Sudirman No. 123, Jakarta') %></p>
+                    </div>
+                </div>
+
+                <!-- Countdown Timer -->
+                <div class="p-3 bg-[#111b21] text-white rounded-xl text-center shadow-inner">
+                    <span class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold block mb-1.5">Hitung Mundur Acara</span>
+                    <div id="t5-countdown" class="grid grid-cols-4 gap-1 font-mono text-xs font-bold text-white">
+                        <div><span id="t5-d" class="text-white">00</span><span class="block text-[9px] text-slate-400 font-sans">Hari</span></div>
+                        <div><span id="t5-h" class="text-white">00</span><span class="block text-slate-400 text-[9px] font-sans">Jam</span></div>
+                        <div><span id="t5-m" class="text-white">00</span><span class="block text-slate-400 text-[9px] font-sans">Mnt</span></div>
+                        <div><span id="t5-s" class="text-white">00</span><span class="block text-slate-400 text-[9px] font-sans">Dtk</span></div>
+                    </div>
+                </div>
+
+                <!-- Tombol Navigasi Peta -->
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <a href="https://maps.google.com/?q=<%= encodeURIComponent(venueAddress || venueName || 'Lokasi Acara') %>" target="_blank"
+                       class="text-center py-2.5 px-3 bg-[#075E54] text-white rounded-xl text-xs font-bold hover:bg-emerald-700 transition-colors flex items-center justify-center space-x-1 shadow">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                        <span>Petunjuk Maps</span>
+                    </a>
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+<%= encodeURIComponent(fv(event?.groom_name, 'David') + '+%26+' + fv(event?.bride_name, 'Sarah')) %>&location=<%= encodeURIComponent(fv(venueName, '') + ', ' + fv(venueAddress, '')) %>" target="_blank"
+                       class="text-center py-2.5 px-3 bg-white text-[#111b21] border border-slate-300 rounded-xl text-xs font-semibold hover:bg-slate-50 transition-colors flex items-center justify-center space-x-1 shadow-xs">
+                        <span>+ Simpan Kalender</span>
+                    </a>
+                </div>
+
+                <div class="wa-time text-right font-mono">09:43</div>
+            </div>
+        </div>
+
+        <!-- BUBBLE 6: ALBUM MEDIA FOTO BERDUA -->
+        <div id="t5-gallery-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[85%] chat-pop">
+            <div class="wa-bubble-in p-3.5 shadow-sm space-y-2 w-full">
+                <div class="text-xs font-bold text-[#54656f] mb-1 flex items-center justify-between">
+                    <span>📷 Album Foto Mempelai</span>
+                    <span class="text-[#008069] text-[11px] font-semibold cursor-pointer" onclick="openWAStory(0)">Lihat di Story ➔</span>
+                </div>
+
+                <% const _t5Demo = ['/images/demo/g-couple.svg', '/images/demo/g-rings.svg', '/images/demo/g-mosque.svg', '/images/demo/g-lantern.svg']; %>
+                <% const _t5Photos = (galleryPhotos && galleryPhotos.length) ? galleryPhotos : _t5Demo; %>
+
+                <div class="grid grid-cols-2 gap-2 rounded-xl overflow-hidden cursor-pointer" onclick="openWAStory(0)">
+                    <% _t5Photos.slice(0, 4).forEach(function(img, i) { %>
+                    <div class="relative aspect-square bg-slate-100 overflow-hidden group rounded-lg">
+                        <img src="<%= img %>" alt="Galeri <%= i + 1 %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        <% if (i === 3 && _t5Photos.length > 4) { %>
+                        <div class="absolute inset-0 bg-black/60 flex items-center justify-center text-white font-bold text-base">
+                            +<%= _t5Photos.length - 4 %> Foto
+                        </div>
+                        <% } %>
+                    </div>
+                    <% }); %>
+                </div>
+
+                <div class="flex items-center justify-between pt-1 text-[11px] text-[#54656f]">
+                    <span>Ketuk foto untuk putar Status Cerita</span>
+                    <span class="wa-time font-mono">09:43</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUBBLE 7: AMPLOP DIGITAL (TRANSFER BANK & QRIS) -->
+        <div id="t5-gift-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[85%] chat-pop">
+            <div class="wa-bubble-in p-4 shadow-sm space-y-3 w-full">
+                <div class="flex items-center justify-between text-xs font-bold text-[#54656f] border-b border-slate-200 pb-2">
+                    <span>🎁 Amplop Digital (Cashless Gift)</span>
+                    <span class="text-[#008069] font-mono text-[11px]">Terverifikasi</span>
+                </div>
+
+                <p class="text-xs text-[#111b21] leading-relaxed">
+                    Bagi rekan/keluarga yang berkenan mengirimkan tanda kasih secara cashless:
+                </p>
+
+                <!-- Rekening BCA -->
+                <div class="wa-inner-card p-3">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-bold text-blue-800">BANK BCA</span>
+                        <span class="text-[11px] text-[#54656f]">a.n <%= fv(event?.groom_name, 'David Anderson') %></span>
+                    </div>
+                    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200">
+                        <span id="t5-bca-num" class="font-mono text-sm font-bold text-[#111b21]">1234567890</span>
+                        <button onclick="copyT5('t5-bca-num', this)" class="px-2.5 py-1 bg-emerald-600 text-white text-[11px] font-bold rounded-lg hover:bg-emerald-700 transition-colors">
+                            Salin
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Rekening Mandiri -->
+                <div class="wa-inner-card p-3">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span class="text-xs font-bold text-amber-800">BANK MANDIRI</span>
+                        <span class="text-[11px] text-[#54656f]">a.n <%= fv(event?.bride_name, 'Sarah Johnson') %></span>
+                    </div>
+                    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200">
+                        <span id="t5-mandiri-num" class="font-mono text-sm font-bold text-[#111b21]">0987654321</span>
+                        <button onclick="copyT5('t5-mandiri-num', this)" class="px-2.5 py-1 bg-emerald-600 text-white text-[11px] font-bold rounded-lg hover:bg-emerald-700 transition-colors">
+                            Salin
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tombol Buka Pop-Up QRIS -->
+                <button onclick="openQRISModal()" class="w-full py-2.5 px-3 bg-emerald-50 hover:bg-emerald-100 text-[#075E54] font-bold text-xs rounded-xl border border-emerald-300 flex items-center justify-center space-x-1.5 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+                    <span>Tampilkan Scan QRIS Amplop Digital</span>
+                </button>
+
+                <div class="wa-time text-right font-mono">09:44</div>
+            </div>
+        </div>
+
+        <!-- BUBBLE 8: POLLING WHATSAPP (KONFIRMASI RSVP) -->
+        <div id="t5-rsvp-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[85%] chat-pop">
+            <div class="wa-bubble-in p-4 shadow-sm space-y-3 w-full">
+                <div class="flex items-center space-x-1.5 text-xs font-bold text-[#111b21] border-b border-slate-200 pb-2">
+                    <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
+                    <span>Polling Kehadiran (RSVP)</span>
+                </div>
+                <p class="text-xs sm:text-sm font-bold text-[#111b21]">
+                    Apakah kamu bisa hadir di hari bahagia kami?
+                </p>
+
+                <!-- Tombol Respon Cepat -->
+                <div class="space-y-2 pt-1">
+                    <div onclick="openRSVPDialog('hadir')" class="cursor-pointer p-3 rounded-xl border-2 border-emerald-500/50 hover:border-emerald-600 bg-emerald-50/70 transition-all space-y-1.5">
+                        <div class="flex items-center justify-between text-xs font-bold text-[#111b21]">
+                            <span>🟢 Ya, Insya Allah Hadir</span>
+                            <span id="t5-attending-stat" class="font-mono text-[#0b704c] font-bold"><%= attendingCount ?? 0 %> Tamu</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-emerald-500 rounded-full" style="width: 80%;"></div>
+                        </div>
+                    </div>
+
+                    <div onclick="openRSVPDialog('tidak_hadir')" class="cursor-pointer p-3 rounded-xl border border-slate-300 hover:border-slate-400 bg-slate-50 transition-all space-y-1.5">
+                        <div class="flex items-center justify-between text-xs font-semibold text-[#111b21]">
+                            <span>⚪ Maaf, Belum Bisa Hadir</span>
+                            <span id="t5-notattending-stat" class="font-mono text-[#54656f]"><%= notAttendingCount ?? 0 %> Tamu</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-slate-400 rounded-full" style="width: 20%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wa-time text-right font-mono">09:44</div>
+            </div>
+        </div>
+
+        <!-- OUTGOING CHAT BUBBLES CONTAINER (BALASAN TAMU SETELAH RSVP / STIKER) -->
+        <div id="t5-outgoing-bubbles" class="space-y-3">
+            <!-- Dynamic outgoing messages will be placed here -->
+        </div>
+
+        <!-- BUBBLE 9: DINDING DOA BERSAMA / UCAPAN TAMU -->
+        <div id="t5-wishes-section" class="hidden pt-4 chat-pop">
+            <div class="text-center my-3">
+                <span class="inline-block wa-date-chip px-3 py-1 shadow-sm font-bold">
+                    💬 Pesan & Doa Tamu Lainnya
+                </span>
+            </div>
+
+            <div id="t5-wishes-stream" class="space-y-2.5">
+                <% if ((wishes ?? []).length) { %>
+                    <% (wishes ?? []).forEach(function(wish) { %>
+                    <div class="flex items-start max-w-[88%]">
+                        <div class="wa-bubble-in p-3 shadow-sm text-xs w-full">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-bold text-[#111b21]"><%= wish.name %></span>
+                                <span class="text-[10px] px-1.5 py-0.2 rounded font-semibold <%= wish.attendance === 'hadir' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-700' %>">
+                                    <%= wish.attendance === 'hadir' ? 'Hadir' : 'Berhalangan' %>
+                                </span>
+                            </div>
+                            <% if (wish.message) { %>
+                            <p class="leading-relaxed text-[#111b21]"><%= wish.message %></p>
+                            <% } %>
+                            <div class="wa-time text-right font-mono mt-1"><%= timeAgo(wish.created_at) %></div>
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <div id="t5-empty-wishes" class="text-center py-6 text-xs text-[#54656f] bg-white rounded-xl border border-slate-200">
+                        Belum ada doa tertulis. Jadilah yang pertama mengirimkan ucapan di bawah!
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <!-- STICKER PACK DRAWER -->
+    <div id="t5-sticker-drawer" class="hidden bg-[#f0f2f5] p-3 border-t border-slate-200 grid grid-cols-3 gap-2.5 z-40">
+        <button onclick="sendWASticker('💍 Happy Wedding! Semoga Sakinah Mawaddah Warahmah 💕')" class="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 hover:border-emerald-500 text-center text-xs active:scale-95 transition-all">
+            <span class="text-2xl block mb-1">💍</span>
+            <span class="font-bold text-[10px] text-[#111b21]">Happy Wedding</span>
+        </button>
+        <button onclick="sendWASticker('🕊️ Barakallahu Lakuma Wa Baraka \'Alaika!')" class="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 hover:border-emerald-500 text-center text-xs active:scale-95 transition-all">
+            <span class="text-2xl block mb-1">🕊️</span>
+            <span class="font-bold text-[10px] text-[#111b21]">Barakallah</span>
+        </button>
+        <button onclick="sendWASticker('🥳 Kondangan Time! Selamat Berbahagia! 🎉')" class="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 hover:border-emerald-500 text-center text-xs active:scale-95 transition-all">
+            <span class="text-2xl block mb-1">🥳</span>
+            <span class="font-bold text-[10px] text-[#111b21]">Kondangan!</span>
+        </button>
+        <button onclick="sendWASticker('💖 Langgeng Selamanya ya Kalian Berdua! ✨')" class="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 hover:border-emerald-500 text-center text-xs active:scale-95 transition-all">
+            <span class="text-2xl block mb-1">💖</span>
+            <span class="font-bold text-[10px] text-[#111b21]">Langgeng Ya!</span>
+        </button>
+        <button onclick="sendWASticker('🤲 Bismillah, Lancar dan Sukses Sampai Hari H 🙏')" class="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 hover:border-emerald-500 text-center text-xs active:scale-95 transition-all">
+            <span class="text-2xl block mb-1">🤲</span>
+            <span class="font-bold text-[10px] text-[#111b21]">Doa Terbaik</span>
+        </button>
+        <button onclick="sendWASticker('🥂 Cheers to Love and Forever! 🎊')" class="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 hover:border-emerald-500 text-center text-xs active:scale-95 transition-all">
+            <span class="text-2xl block mb-1">🥂</span>
+            <span class="font-bold text-[10px] text-[#111b21]">Cheers!</span>
+        </button>
+    </div>
+
+    <!-- 5. BOTTOM BAR CHAT INPUT DENGAN BUTTON KIRIM MENGHADAP KE KANAN (➔) -->
+    <div class="fixed bottom-0 left-0 right-0 max-w-2xl mx-auto bg-[#f0f2f5] p-2.5 px-3.5 flex items-center space-x-2.5 z-40 border-t border-slate-200">
+        <!-- Sticker Drawer Toggle Button -->
+        <button type="button" onclick="toggleStickerDrawer()" aria-label="Buka Stiker" class="text-[#54656f] hover:text-emerald-600 p-1">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </button>
+
+        <!-- Input Field Tulis Ucapan -->
+        <input type="text" id="t5-quick-input" placeholder="Ketik ucapan doa restu..." 
+               class="flex-1 px-4 py-2 bg-white text-[#111b21] rounded-full text-xs sm:text-sm border-0 focus:outline-none focus:ring-1 focus:ring-emerald-500 placeholder-slate-400 shadow-xs">
+
+        <!-- TOMBOL SEND HIJAU DENGAN PANAH MENGHADAP KE KANAN (➔) -->
+        <button type="button" onclick="sendQuickWish()" aria-label="Kirim Pesan" class="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center flex-shrink-0 shadow hover:bg-emerald-600 active:scale-95 transition-all">
+            <svg class="w-5 h-5 ml-0.5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<!-- =================================================================== -->
+<!-- 6. MODAL SCAN QRIS POPUP -->
+<!-- =================================================================== -->
+<div id="t5-qris-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs hidden items-center justify-center p-4 select-none">
+    <div class="bg-white text-[#111b21] rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center space-y-4">
+        <div class="flex items-center justify-between border-b pb-2">
+            <h3 class="font-bold text-sm text-[#111b21]">QRIS Hadiah / Kado Pernikahan</h3>
+            <button onclick="closeQRISModal()" class="text-slate-400 hover:text-slate-700">✕</button>
+        </div>
+
+        <div class="p-4 bg-white rounded-2xl border-2 border-dashed border-slate-300 inline-block shadow-inner">
+            <svg class="w-48 h-48 mx-auto text-slate-900" viewBox="0 0 100 100" fill="currentColor">
+                <rect x="10" y="10" width="25" height="25" fill="#000"/>
+                <rect x="15" y="15" width="15" height="15" fill="#fff"/>
+                <rect x="18" y="18" width="9" height="9" fill="#000"/>
+                <rect x="65" y="10" width="25" height="25" fill="#000"/>
+                <rect x="70" y="15" width="15" height="15" fill="#fff"/>
+                <rect x="73" y="18" width="9" height="9" fill="#000"/>
+                <rect x="10" y="65" width="25" height="25" fill="#000"/>
+                <rect x="15" y="70" width="15" height="15" fill="#fff"/>
+                <rect x="18" y="73" width="9" height="9" fill="#000"/>
+                <rect x="42" y="12" width="6" height="6" fill="#000"/>
+                <rect x="52" y="12" width="6" height="6" fill="#000"/>
+                <rect x="42" y="24" width="6" height="6" fill="#000"/>
+                <rect x="52" y="24" width="6" height="6" fill="#000"/>
+                <rect x="42" y="42" width="16" height="16" fill="#000"/>
+                <rect x="12" y="42" width="6" height="6" fill="#000"/>
+                <rect x="24" y="42" width="6" height="6" fill="#000"/>
+                <rect x="65" y="42" width="6" height="6" fill="#000"/>
+                <rect x="80" y="42" width="6" height="6" fill="#000"/>
+                <rect x="65" y="65" width="6" height="6" fill="#000"/>
+                <rect x="75" y="65" width="6" height="6" fill="#000"/>
+                <rect x="85" y="75" width="6" height="6" fill="#000"/>
+                <rect x="65" y="85" width="16" height="6" fill="#000"/>
+            </svg>
+        </div>
+
+        <div>
+            <p class="font-bold text-xs text-[#111b21]">QRIS Amplop Digital</p>
+            <p class="text-[11px] text-[#54656f]">BCA, Mandiri, BRI, BNI, GoPay, OVO, DANA, ShopeePay</p>
+        </div>
+
+        <button onclick="closeQRISModal()" class="w-full py-2.5 bg-[#25D366] text-white font-bold text-xs rounded-xl shadow hover:bg-emerald-600 transition-colors">
+            Tutup
+        </button>
+    </div>
+</div>
+
+<!-- =================================================================== -->
+<!-- 7. MODAL FORM RSVP POPUP -->
+<!-- =================================================================== -->
+<div id="t5-rsvp-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white text-[#111b21] rounded-3xl p-6 max-w-sm w-full shadow-2xl">
+        <div class="flex items-center justify-between mb-3 border-b pb-2">
+            <h3 class="font-bold text-sm text-[#111b21]">Konfirmasi RSVP WhatsApp</h3>
+            <button onclick="closeRSVPDialog()" class="text-slate-400 hover:text-slate-700">✕</button>
+        </div>
+
+        <form id="t5-rsvp-form" class="space-y-3">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" id="t5-form-att" name="attendance" value="hadir">
+
+            <div>
+                <label class="block text-[11px] font-bold text-[#54656f] uppercase mb-1">Nama Anda *</label>
+                <input type="text" id="t5-form-name" name="name" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 text-[#111b21] rounded-xl text-xs focus:ring-1 focus:ring-emerald-500">
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-[#54656f] uppercase mb-1">No. WhatsApp / Email</label>
+                <input type="text" id="t5-form-email" name="email" placeholder="08xxxxxxxxxx atau email" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 text-[#111b21] rounded-xl text-xs focus:ring-1 focus:ring-emerald-500">
+            </div>
+
+            <div id="t5-form-guest-wrap">
+                <label class="block text-[11px] font-bold text-[#54656f] uppercase mb-1">Jumlah Tamu</label>
+                <input type="number" id="t5-form-num" name="number_of_guests" min="1" max="5" value="1" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 text-[#111b21] rounded-xl text-xs focus:ring-1 focus:ring-emerald-500">
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold text-[#54656f] uppercase mb-1">Ucapan & Doa Restu</label>
+                <textarea id="t5-form-msg" name="message" rows="3" placeholder="Tuliskan ucapan doa restu..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 text-[#111b21] rounded-xl text-xs focus:ring-1 focus:ring-emerald-500"></textarea>
+            </div>
+
+            <button type="submit" id="t5-form-btn" class="w-full py-2.5 bg-[#25D366] text-white font-bold text-xs rounded-xl hover:bg-emerald-600 transition-colors shadow">
+                Kirim Konfirmasi Balasan
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- TOAST ALERT -->
+<div id="t5-toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-5 py-2.5 rounded-full bg-[#075E54] text-white font-bold text-xs shadow-2xl transition-all duration-300 opacity-0 pointer-events-none -translate-y-4">
+    Tersalin ke clipboard!
+</div>
+
+<!-- =================================================================== -->
+<!-- JAVASCRIPT LOGIC INTERAKTIF -->
+<!-- =================================================================== -->
+<script>
+// Data Foto Story WhatsApp: HANYA FOTO BERDUA & PERJALANAN
+const storyList = [
+    { src: '/images/demo/g-couple.svg', caption: 'The Happy Couple 💕', time: 'Hari ini, 09.15' },
+    { src: '/images/demo/g-rings.svg', caption: 'Counting Days to Forever 💍', time: 'Hari ini, 09.25' },
+    { src: '/images/demo/g-mosque.svg', caption: 'Bismillah Menuju Hari Bahagia ✨', time: 'Hari ini, 09.30' }
+];
+
+let currentStoryIndex = 0;
+let storyTimer = null;
+let isStoryPaused = false;
+let isAudioPlaying = false;
+let currentSpeed = 1;
+let synthAudioCtx = null;
+let synthIntervalId = null;
+let callDurationTimer = null;
+let callSeconds = 0;
+
+// Web Audio synthesizer for UI sound effects
+function playTone(freq, type = 'sine', duration = 0.15, vol = 0.05) {
+    try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        if (!synthAudioCtx) synthAudioCtx = new AC();
+        if (synthAudioCtx.state === 'suspended') synthAudioCtx.resume();
+        const osc = synthAudioCtx.createOscillator();
+        const g = synthAudioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, synthAudioCtx.currentTime);
+        g.gain.setValueAtTime(vol, synthAudioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.0001, synthAudioCtx.currentTime + duration);
+        osc.connect(g);
+        g.connect(synthAudioCtx.destination);
+        osc.start();
+        osc.stop(synthAudioCtx.currentTime + duration);
+    } catch(e) {}
+}
+
+function playSentSound() {
+    playTone(587.33, 'triangle', 0.1, 0.04);
+}
+
+function playIncomingSound() {
+    playTone(880, 'sine', 0.12, 0.05);
+    setTimeout(() => playTone(1174.66, 'sine', 0.15, 0.05), 90);
+}
+
+// Background melody synth fallback
+function playMelodySynth() {
+    try {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        if (!synthAudioCtx) synthAudioCtx = new AC();
+        if (synthAudioCtx.state === 'suspended') synthAudioCtx.resume();
+        const notes = [329.63, 392.00, 440.00, 523.25, 440.00, 392.00, 349.23, 329.63];
+        let n = 0;
+        if (synthIntervalId) clearInterval(synthIntervalId);
+        synthIntervalId = setInterval(() => {
+            if (!isAudioPlaying || !synthAudioCtx) return;
+            const osc = synthAudioCtx.createOscillator();
+            const g = synthAudioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(notes[n % notes.length], synthAudioCtx.currentTime);
+            g.gain.setValueAtTime(0.04, synthAudioCtx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.0001, synthAudioCtx.currentTime + 1.2);
+            osc.connect(g);
+            g.connect(synthAudioCtx.destination);
+            osc.start();
+            osc.stop(synthAudioCtx.currentTime + 1.2);
+            n++;
+        }, 600);
+    } catch(e) {}
+}
+
+function stopMelodySynth() {
+    if (synthIntervalId) clearInterval(synthIntervalId);
+    if (synthAudioCtx && synthAudioCtx.state === 'running') synthAudioCtx.suspend();
+}
+
+function toggleAudio(play) {
+    const audio = document.getElementById('t5-audio');
+    const playIcon = document.getElementById('t5-vn-play-icon');
+    const pauseIcon = document.getElementById('t5-vn-pause-icon');
+    const waveBars = document.querySelectorAll('.waveform-bar');
+
+    if (play === undefined) play = !isAudioPlaying;
+    isAudioPlaying = play;
+
+    if (isAudioPlaying) {
+        if (audio) {
+            audio.playbackRate = currentSpeed;
+            audio.play().catch(() => playMelodySynth());
+        } else {
+            playMelodySynth();
+        }
+        if (playIcon) playIcon.classList.add('hidden');
+        if (pauseIcon) pauseIcon.classList.remove('hidden');
+        waveBars.forEach(b => b.classList.add('playing'));
+    } else {
+        if (audio) audio.pause();
+        stopMelodySynth();
+        if (playIcon) playIcon.classList.remove('hidden');
+        if (pauseIcon) pauseIcon.classList.add('hidden');
+        waveBars.forEach(b => b.classList.remove('playing'));
+    }
+}
+
+function toggleVNAudio() {
+    toggleAudio();
+}
+
+// Speed multiplier (1x -> 1.5x -> 2x)
+function cycleAudioSpeed() {
+    const btn = document.getElementById('t5-speed-btn');
+    const audio = document.getElementById('t5-audio');
+    if (currentSpeed === 1) currentSpeed = 1.5;
+    else if (currentSpeed === 1.5) currentSpeed = 2;
+    else currentSpeed = 1;
+
+    if (btn) btn.textContent = currentSpeed + 'x';
+    if (audio) audio.playbackRate = currentSpeed;
+}
+
+// BUKA CHAT DENGAN PROSES SMOOTH & ALIRAN ALAMI
+function openWAChatWithProcess(cardEl) {
+    const actionText = document.getElementById('t5-notif-action-text');
+    const arrow = document.getElementById('t5-notif-arrow');
+    
+    if (actionText) actionText.innerHTML = '<span class="inline-block w-2.5 h-2.5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></span> <span>Membuka obrolan...</span>';
+    if (arrow) arrow.classList.add('translate-x-2');
+    playIncomingSound();
+
+    setTimeout(() => {
+        const lock = document.getElementById('t5-lockscreen');
+        const chat = document.getElementById('t5-chat-wrapper');
+
+        if (lock) {
+            lock.classList.add('-translate-y-full', 'opacity-0');
+            setTimeout(() => {
+                lock.style.display = 'none';
+                if (chat) chat.classList.remove('hidden');
+                startStaggeredChatStream();
+            }, 600);
+        }
+    }, 450);
+}
+
+function startStaggeredChatStream() {
+    const hStatus = document.getElementById('t5-header-status');
+    const typingBubble = document.getElementById('t5-typing-bubble');
+    const step1 = document.getElementById('chat-step-1');
+    const step2 = document.getElementById('chat-step-2');
+    const step3 = document.getElementById('chat-step-3');
+    const actionsHub = document.getElementById('chat-actions-hub');
+
+    // Sedang mengetik...
+    if (hStatus) hStatus.textContent = '✍️ sedang mengetik...';
+    if (typingBubble) typingBubble.classList.remove('hidden');
+
+    // Pesan 1 Muncul
+    setTimeout(() => {
+        playIncomingSound();
+        if (step1) step1.classList.remove('hidden');
+        step1.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        // Lanjut ngetik pesan 2
+        setTimeout(() => {
+            if (hStatus) hStatus.textContent = '✍️ sedang mengetik...';
+            if (typingBubble) typingBubble.classList.remove('hidden');
+
+            // Pesan 2 Muncul
+            setTimeout(() => {
+                playIncomingSound();
+                if (step2) step2.classList.remove('hidden');
+                step2.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+                // Lanjut pesan VN
+                setTimeout(() => {
+                    playIncomingSound();
+                    if (step3) step3.classList.remove('hidden');
+                    if (actionsHub) actionsHub.classList.remove('hidden');
+                    if (typingBubble) typingBubble.classList.add('hidden');
+                    if (hStatus) hStatus.textContent = '🟢 Online';
+                    toggleAudio(true);
+                    step3.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 1200);
+            }, 1000);
+        }, 750);
+    }, 850);
+}
+
+// Buka rincian satu persatu secara smooth
+function revealSectionSmooth(sectionId, btnEl, labelText) {
+    const targetEl = document.getElementById(sectionId);
+    if (!targetEl) return;
+
+    if (btnEl) {
+        btnEl.classList.add('active');
+        btnEl.innerHTML = '<span class="inline-block w-2.5 h-2.5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></span> <span>Memuat...</span>';
+    }
+
+    const hStatus = document.getElementById('t5-header-status');
+    const typingBubble = document.getElementById('t5-typing-bubble');
+    if (hStatus) hStatus.textContent = '✍️ sedang mengetik...';
+    if (typingBubble) typingBubble.classList.remove('hidden');
+
+    setTimeout(() => {
+        playIncomingSound();
+        targetEl.classList.remove('hidden');
+        if (hStatus) hStatus.textContent = '🟢 Online';
+        if (typingBubble) typingBubble.classList.add('hidden');
+        if (btnEl) btnEl.innerHTML = `<span>✓ ${labelText}</span>`;
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 550);
+}
+
+// Buka semua bagian langsung secara smooth
+function revealAllSectionsSmooth(btnEl) {
+    if (btnEl) {
+        btnEl.innerHTML = '<span class="inline-block w-2.5 h-2.5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></span> <span>Memuat seluruh rincian...</span>';
+    }
+
+    const ids = ['chat-step-1', 'chat-step-2', 'chat-step-3', 'chat-actions-hub', 't5-couple-bubble', 't5-event-bubble', 't5-gallery-bubble', 't5-gift-bubble', 't5-rsvp-bubble', 't5-wishes-section'];
+    
+    setTimeout(() => {
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('hidden');
+        });
+        const typingBubble = document.getElementById('t5-typing-bubble');
+        if (typingBubble) typingBubble.classList.add('hidden');
+        const hStatus = document.getElementById('t5-header-status');
+        if (hStatus) hStatus.textContent = '🟢 Online';
+        if (btnEl) btnEl.innerHTML = '<span>✓ Seluruh Rincian Terbuka</span>';
+        playIncomingSound();
+        toggleAudio(true);
+    }, 450);
+}
+
+function backToLockscreen() {
+    const lock = document.getElementById('t5-lockscreen');
+    const chat = document.getElementById('t5-chat-wrapper');
+    if (lock && chat) {
+        lock.style.display = 'flex';
+        setTimeout(() => {
+            lock.classList.remove('-translate-y-full', 'opacity-0');
+            chat.classList.add('hidden');
+        }, 50);
+    }
+}
+
+// WhatsApp Story Functions
+function openWAStory(index) {
+    currentStoryIndex = index || 0;
+    const modal = document.getElementById('t5-story-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        showStorySlide(currentStoryIndex);
+    }
+}
+
+function closeWAStory() {
+    const modal = document.getElementById('t5-story-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        if (storyTimer) clearTimeout(storyTimer);
+    }
+}
+
+function showStorySlide(idx) {
+    if (idx < 0) idx = 0;
+    if (idx >= storyList.length) {
+        closeWAStory();
+        return;
+    }
+    currentStoryIndex = idx;
+    const item = storyList[currentStoryIndex];
+    const img = document.getElementById('t5-story-image');
+    const cap = document.getElementById('t5-story-caption');
+    const time = document.getElementById('t5-story-time');
+
+    if (img) img.src = item.src;
+    if (cap) cap.textContent = item.caption;
+    if (time) time.textContent = item.time;
+
+    for (let i = 0; i < 3; i++) {
+        const bar = document.getElementById('sb-' + i);
+        if (bar) {
+            bar.style.transition = 'none';
+            if (i < currentStoryIndex) bar.style.width = '100%';
+            else bar.style.width = '0%';
+        }
+    }
+
+    const curBar = document.getElementById('sb-' + currentStoryIndex);
+    if (curBar) {
+        setTimeout(() => {
+            curBar.style.transition = 'width 4s linear';
+            curBar.style.width = '100%';
+        }, 50);
+    }
+
+    if (storyTimer) clearTimeout(storyTimer);
+    storyTimer = setTimeout(() => {
+        if (!isStoryPaused) nextWAStory();
+    }, 4100);
+}
+
+function nextWAStory() {
+    showStorySlide(currentStoryIndex + 1);
+}
+
+function prevWAStory() {
+    showStorySlide(currentStoryIndex - 1);
+}
+
+// Story Hold-to-Pause
+const storyViewport = document.getElementById('t5-story-viewport');
+if (storyViewport) {
+    const pauseStory = () => { isStoryPaused = true; };
+    const resumeStory = () => { isStoryPaused = false; };
+    storyViewport.addEventListener('mousedown', pauseStory);
+    storyViewport.addEventListener('mouseup', resumeStory);
+    storyViewport.addEventListener('touchstart', pauseStory);
+    storyViewport.addEventListener('touchend', resumeStory);
+}
+
+// Story Quick Reaction & Reply
+function sendStoryReaction(emoji, ev) {
+    const span = document.createElement('span');
+    span.className = 'floating-emoji text-4xl';
+    span.textContent = emoji;
+    span.style.left = (ev ? ev.clientX - 15 : window.innerWidth / 2) + 'px';
+    span.style.top = (ev ? ev.clientY - 20 : window.innerHeight / 2) + 'px';
+    document.body.appendChild(span);
+    setTimeout(() => span.remove(), 2100);
+
+    playSentSound();
+    showToast('Bereaksi ' + emoji + ' pada status mempelai');
+    appendOutgoingBubble(`Bereaksi ${emoji} pada status`);
+}
+
+function sendStoryReply() {
+    const input = document.getElementById('t5-story-reply-input');
+    if (!input || !input.value.trim()) return;
+    const txt = input.value.trim();
+    appendOutgoingBubble(txt);
+    input.value = '';
+    closeWAStory();
+    showToast('Balasan terkirim ke obrolan!');
+}
+
+// WhatsApp Simulated Calling
+function startWACall(type) {
+    const modal = document.getElementById('t5-call-modal');
+    const status = document.getElementById('t5-call-status');
+    const badge = document.getElementById('t5-call-badge');
+    const incomingActions = document.getElementById('t5-call-actions-incoming');
+    const connectedActions = document.getElementById('t5-call-actions-connected');
+
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        if (incomingActions) incomingActions.classList.remove('hidden');
+        if (connectedActions) connectedActions.classList.add('hidden');
+        if (status) status.textContent = 'Berdering...';
+        if (badge) badge.textContent = type === 'video' ? 'Panggilan Video Masuk' : 'Panggilan Suara Masuk';
+        playTone(440, 'triangle', 0.5, 0.08);
+    }
+}
+
+function acceptWACall() {
+    const status = document.getElementById('t5-call-status');
+    const incomingActions = document.getElementById('t5-call-actions-incoming');
+    const connectedActions = document.getElementById('t5-call-actions-connected');
+
+    if (incomingActions) incomingActions.classList.add('hidden');
+    if (connectedActions) connectedActions.classList.remove('hidden');
+
+    callSeconds = 0;
+    if (callDurationTimer) clearInterval(callDurationTimer);
+    callDurationTimer = setInterval(() => {
+        callSeconds++;
+        const m = String(Math.floor(callSeconds / 60)).padStart(2, '0');
+        const s = String(callSeconds % 60).padStart(2, '0');
+        if (status) status.textContent = `${m}:${s}`;
+    }, 1000);
+
+    toggleAudio(true);
+}
+
+function endWACall() {
+    const modal = document.getElementById('t5-call-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+    if (callDurationTimer) clearInterval(callDurationTimer);
+}
+
+// RSVP Dialog
+function openRSVPDialog(att) {
+    const modal = document.getElementById('t5-rsvp-modal');
+    const attInput = document.getElementById('t5-form-att');
+    const guestWrap = document.getElementById('t5-form-guest-wrap');
+
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+    if (attInput) attInput.value = att;
+    if (guestWrap) {
+        if (att === 'hadir') guestWrap.classList.remove('hidden');
+        else guestWrap.classList.add('hidden');
+    }
+}
+
+function closeRSVPDialog() {
+    const modal = document.getElementById('t5-rsvp-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+}
+
+// QRIS Modal
+function openQRISModal() {
+    const m = document.getElementById('t5-qris-modal');
+    if (m) {
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+    }
+}
+
+function closeQRISModal() {
+    const m = document.getElementById('t5-qris-modal');
+    if (m) {
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+    }
+}
+
+// Sticker Drawer
+function toggleStickerDrawer() {
+    const drawer = document.getElementById('t5-sticker-drawer');
+    if (drawer) drawer.classList.toggle('hidden');
+}
+
+function sendWASticker(text) {
+    appendOutgoingBubble(text, true);
+    toggleStickerDrawer();
+    playSentSound();
+}
+
+// Salin Text Toast
+function copyT5(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const txt = el.textContent.trim();
+    navigator.clipboard.writeText(txt).then(() => {
+        showToast('Berhasil disalin: ' + txt);
+        if (btn) {
+            const org = btn.textContent;
+            btn.textContent = '✓';
+            setTimeout(() => btn.textContent = org, 1500);
+        }
+    });
+}
+
+function showToast(msg) {
+    const toast = document.getElementById('t5-toast');
+    if (toast) {
+        toast.textContent = msg;
+        toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        setTimeout(() => {
+            toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+            toast.classList.remove('opacity-100', 'translate-y-0');
+        }, 2500);
+    }
+}
+
+// Outgoing Chat Bubbles Builder
+function appendOutgoingBubble(msg, isSticker = false) {
+    const outBox = document.getElementById('t5-outgoing-bubbles');
+    if (!outBox) return;
+
+    const outBubble = document.createElement('div');
+    outBubble.className = 'flex justify-end max-w-[90%] sm:max-w-[80%] ml-auto chat-pop';
+    
+    if (isSticker) {
+        outBubble.innerHTML = `
+            <div class="bg-white p-3 rounded-2xl shadow-sm text-center space-y-1 border border-slate-200">
+                <p class="text-sm font-bold text-[#111b21]">${msg}</p>
+                <div class="flex items-center justify-end space-x-1 text-[10px] text-slate-500 font-mono pt-0.5">
+                    <span>Baru saja</span>
+                    <span class="text-blue-500 font-bold">✓✓</span>
+                </div>
+            </div>
+        `;
+    } else {
+        outBubble.innerHTML = `
+            <div class="wa-bubble-out p-3 shadow-sm text-xs space-y-1">
+                <p class="leading-relaxed font-medium text-[#111b21]">${msg}</p>
+                <div class="flex items-center justify-end space-x-1 text-[10px] text-slate-600 font-mono pt-0.5">
+                    <span>Baru saja</span>
+                    <span class="text-blue-500 font-bold">✓✓</span>
+                </div>
+            </div>
+        `;
+    }
+
+    outBox.appendChild(outBubble);
+    outBubble.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Inisialisasi DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Recipient Query Param ?to=
+    const params = new URLSearchParams(window.location.search);
+    const to = params.get('to');
+    if (to) {
+        const nGuest = document.getElementById('t5-notif-guest');
+        const cGuest = document.getElementById('t5-chat-guest');
+        const fName = document.getElementById('t5-form-name');
+        if (nGuest) nGuest.textContent = to;
+        if (cGuest) cGuest.textContent = to;
+        if (fName) fName.value = to;
+    }
+
+    // 2. Jam Mini Lockscreen
+    function updateClock() {
+        const now = new Date();
+        const hrs = String(now.getHours()).padStart(2, '0');
+        const mns = String(now.getMinutes()).padStart(2, '0');
+        const mini = document.getElementById('t5-clock-mini');
+        const big = document.getElementById('t5-lockscreen-time');
+        if (mini) mini.textContent = `${hrs}:${mns}`;
+        if (big) big.textContent = `${hrs}:${mns}`;
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    // 3. Countdown Acara
+    const target = new Date("<%= event?.event_date || eventDate || '2025-12-31 19:00:00' %>").getTime();
+    function refreshCountdown() {
+        const diff = target - new Date().getTime();
+        if (diff <= 0) return;
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+        const dEl = document.getElementById('t5-d');
+        const hEl = document.getElementById('t5-h');
+        const mEl = document.getElementById('t5-m');
+        const sEl = document.getElementById('t5-s');
+        if (dEl) dEl.textContent = String(d).padStart(2, '0');
+        if (hEl) hEl.textContent = String(h).padStart(2, '0');
+        if (mEl) mEl.textContent = String(m).padStart(2, '0');
+        if (sEl) sEl.textContent = String(s).padStart(2, '0');
+    }
+    refreshCountdown();
+    setInterval(refreshCountdown, 1000);
+
+    // 4. RSVP Submit Handler
+    const rForm = document.getElementById('t5-rsvp-form');
+    const rBtn = document.getElementById('t5-form-btn');
+    const outBox = document.getElementById('t5-outgoing-bubbles');
+    const wStream = document.getElementById('t5-wishes-stream');
+    const wSection = document.getElementById('t5-wishes-section');
+
+    if (rForm) {
+        rForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (rBtn) {
+                rBtn.disabled = true;
+                rBtn.innerHTML = '<span class="inline-block w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></span> <span>Mengirimkan Konfirmasi...</span>';
+            }
+
+            const fd = new FormData(this);
+            const data = Object.fromEntries(fd.entries());
+
+            // Normalisasi email & phone agar selalu lolos validasi server
+            if (!data.email || !data.email.includes('@')) {
+                const phoneInput = data.email || '';
+                const safeName = (data.name || 'tamu').toLowerCase().replace(/[^a-z0-9]/g, '') || 'tamu';
+                data.email = `${safeName}_${Date.now()}@undangan.local`;
+                if (phoneInput) data.phone = phoneInput;
+            }
+
+            try {
+                const res = await fetch('<%= rsvpPath %>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+
+                if (res.ok) {
+                    closeRSVPDialog();
+                    playSentSound();
+
+                    // Bubble Chat Keluar (Hijau dengan Double Checkmarks)
+                    if (outBox) {
+                        const outBubble = document.createElement('div');
+                        outBubble.className = 'flex justify-end max-w-[90%] sm:max-w-[80%] ml-auto chat-pop';
+                        outBubble.innerHTML = `
+                            <div class="wa-bubble-out p-3 shadow-sm text-xs space-y-1">
+                                <p class="font-bold text-[#111b21]">${data.attendance === 'hadir' ? '✅ Saya Konfirmasi Hadir' : '❌ Saya Berhalangan Hadir'}</p>
+                                ${data.message ? `<p class="leading-relaxed font-medium text-[#111b21]">"${data.message}"</p>` : ''}
+                                <div class="flex items-center justify-end space-x-1 text-[10px] text-slate-600 font-mono pt-0.5">
+                                    <span>Baru saja</span>
+                                    <span class="text-blue-500 font-bold">✓✓</span>
+                                </div>
+                            </div>
+                        `;
+                        outBox.appendChild(outBubble);
+
+                        // Balasan otomatis dari Mempelai setelah 1.2 detik
+                        setTimeout(() => {
+                            playIncomingSound();
+                            const replyBubble = document.createElement('div');
+                            replyBubble.className = 'flex items-start max-w-[90%] sm:max-w-[80%] chat-pop';
+                            replyBubble.innerHTML = `
+                                <div class="wa-bubble-in p-3.5 shadow-sm text-xs space-y-1">
+                                    <p class="font-bold text-[#111b21]"><%= fv(event?.groom_name, 'David') %> & <%= fv(event?.bride_name, 'Sarah') %></p>
+                                    <p class="leading-relaxed text-[#111b21]">
+                                        Alhamdulillah, terima kasih banyak <strong>${data.name}</strong> atas konfirmasi dan doanya! Semoga Allah membalas dengan kebaikan berlipat. Sampai jumpa di hari bahagia kami 🙏🥰
+                                    </p>
+                                    <div class="wa-time text-right font-mono">Baru saja</div>
+                                </div>
+                            `;
+                            outBox.appendChild(replyBubble);
+                            replyBubble.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 1200);
+                    }
+
+                    if (wSection) wSection.classList.remove('hidden');
+
+                    if (data.message && wStream) {
+                        const emptyEl = document.getElementById('t5-empty-wishes');
+                        if (emptyEl) emptyEl.remove();
+
+                        const streamItem = document.createElement('div');
+                        streamItem.className = 'flex items-start max-w-[88%] chat-pop';
+                        streamItem.innerHTML = `
+                            <div class="wa-bubble-in p-3 shadow-sm text-xs w-full">
+                                <div class="flex items-center justify-between mb-1">
+                                    <span class="font-bold text-[#111b21]">${data.name}</span>
+                                    <span class="text-[10px] px-1.5 py-0.2 rounded font-semibold ${data.attendance === 'hadir' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-700'}">
+                                        ${data.attendance === 'hadir' ? 'Hadir' : 'Berhalangan'}
+                                    </span>
+                                </div>
+                                <p class="leading-relaxed text-[#111b21]">${data.message}</p>
+                                <div class="wa-time text-right font-mono mt-1">Baru saja</div>
+                            </div>
+                        `;
+                        wStream.prepend(streamItem);
+                    }
+
+                    rForm.reset();
+                } else {
+                    alert('Gagal mengirim RSVP: ' + (result.message || 'Terjadi kesalahan'));
+                }
+            } catch(e) {
+                alert('Gagal mengirim RSVP.');
+            } finally {
+                if (rBtn) {
+                    rBtn.disabled = false;
+                    rBtn.textContent = 'Kirim Konfirmasi Balasan';
+                }
+            }
+        });
+    }
+});
+
+// Quick Wish Send dari Bottom Bar
+function sendQuickWish() {
+    const input = document.getElementById('t5-quick-input');
+    if (!input || !input.value.trim()) return;
+    const msg = input.value.trim();
+    const guestName = document.getElementById('t5-chat-guest')?.textContent || 'Tamu Undangan';
+
+    openRSVPDialog('hadir');
+    const fMsg = document.getElementById('t5-form-msg');
+    const fName = document.getElementById('t5-form-name');
+    if (fMsg) fMsg.value = msg;
+    if (fName && !fName.value) fName.value = guestName;
+    input.value = '';
+}
+</script>
+</body>
+</html>

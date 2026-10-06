@@ -1,0 +1,22 @@
+<% if (pagination && pagination.hasPages) { %>
+<nav class="flex items-center justify-center gap-2" aria-label="Pagination">
+  <% if (pagination.page > 1) { %>
+  <a href="<%= pagination.baseUrl %>?<%= new URLSearchParams({ ...pagination.query, page: String(pagination.page - 1) }).toString() %>"
+     class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Previous</a>
+  <% } %>
+  <% paginationLinks(pagination).forEach(function(link) { %>
+    <% if ('ellipsis' in link) { %>
+    <span class="px-2 text-sm text-gray-400">...</span>
+    <% } else if (link.active) { %>
+    <span class="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg" aria-current="page"><%= link.num %></span>
+    <% } else { %>
+    <a href="<%= link.url %>"
+       class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"><%= link.num %></a>
+    <% } %>
+  <% }); %>
+  <% if (pagination.page < pagination.totalPages) { %>
+  <a href="<%= pagination.baseUrl %>?<%= new URLSearchParams({ ...pagination.query, page: String(pagination.page + 1) }).toString() %>"
+     class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">Next</a>
+  <% } %>
+</nav>
+<% } %>

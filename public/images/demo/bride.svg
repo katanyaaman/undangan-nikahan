@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Ilustrasi mempelai wanita berhijab">
+  <rect width="400" height="400" fill="#FBF5EA"/>
+  <path d="M52 368 L52 168 A148 148 0 0 1 348 168 L348 368 Z" fill="#F0E4CB"/>
+  <path d="M52 368 L52 168 A148 148 0 0 1 348 168 L348 368 Z" fill="none" stroke="#C9A227" stroke-width="3" opacity="0.7"/>
+  <path d="M70 368 L70 176 A130 130 0 0 1 330 176 L330 368 Z" fill="none" stroke="#C9A227" stroke-width="1" opacity="0.35"/>
+  <g stroke="#9CAF88" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M84 330 C 96 300, 92 276, 108 256"/>
+    <path d="M316 330 C 304 300, 308 276, 292 256"/>
+  </g>
+  <g fill="#9CAF88">
+    <ellipse cx="104" cy="272" rx="14" ry="7" transform="rotate(-38 104 272)"/>
+    <ellipse cx="296" cy="272" rx="14" ry="7" transform="rotate(38 296 272)"/>
+    <ellipse cx="110" cy="300" rx="12" ry="6" transform="rotate(-20 110 300)"/>
+    <ellipse cx="290" cy="300" rx="12" ry="6" transform="rotate(20 290 300)"/>
+  </g>
+  <g fill="#D9A5A0">
+    <circle cx="108" cy="252" r="9"/>
+    <circle cx="292" cy="252" r="9"/>
+    <circle cx="98" cy="316" r="7"/>
+    <circle cx="302" cy="316" r="7"/>
+  </g>
+  <path d="M96 400 C 100 330, 120 300, 150 288 L250 288 C 280 300, 300 330, 304 400 Z" fill="#0E4D3F"/>
+  <path d="M150 288 C 170 300, 230 300, 250 288 L244 278 L156 278 Z" fill="#0B3D33"/>
+  <rect x="188" y="252" width="24" height="30" rx="10" fill="#EFB98A"/>
+  <ellipse cx="200" cy="196" rx="54" ry="66" fill="#F3C6A0"/>
+  <path d="M200 108 C 150 108, 132 148, 134 196 C 135 240, 120 262, 108 276 C 128 300, 160 312, 200 312 C 240 312, 272 300, 292 276 C 280 262, 265 240, 266 196 C 268 148, 250 108, 200 108 Z" fill="#E7B9A4"/>
+  <path d="M200 108 C 150 108, 132 148, 134 196 C 135 240, 120 262, 108 276 L124 288 C 138 270, 150 244, 149 198 C 148 154, 162 122, 200 122 C 238 122, 252 154, 251 198 C 250 244, 262 270, 276 288 L292 276 C 280 262, 265 240, 266 196 C 268 148, 250 108, 200 108 Z" fill="#D69A7E" opacity="0.55"/>
+  <path d="M152 170 C 156 140, 174 124, 200 124" fill="none" stroke="#F4D9BE" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="252" cy="330" r="10" fill="none" stroke="#C9A227" stroke-width="4"/>
+  <circle cx="252" cy="330" r="3.5" fill="#C9A227"/>
+  <g fill="#C9A227" opacity="0.9">
+    <circle cx="120" cy="120" r="3"/>
+    <circle cx="282" cy="118" r="3"/>
+    <circle cx="200" cy="84" r="3"/>
+  </g>
+</svg>

@@ -1,0 +1,123 @@
+<!-- Wedding Gift Section -->
+<section id="gift" class="relative py-20 bg-slate-950 text-white overflow-hidden">
+    <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+        <div class="text-center mb-14">
+            <span class="inline-block text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold mb-2">Tanda Kasih</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-white mb-4">
+                Amplop Digital
+            </h2>
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto mb-4"></div>
+            <p class="text-slate-300 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+                Doa restu Anda merupakan karunia terindah bagi kami. Namun apabila Anda berkenan memberikan tanda kasih secara cashless, silakan menggunakan rekening di bawah ini:
+            </p>
+        </div>
+
+        <!-- Bank Cards Grid -->
+        <div class="grid md:grid-cols-2 gap-6 mb-10">
+            <!-- Account 1 - Groom -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-850 to-slate-800 p-6 sm:p-7 border border-gold-400/30 shadow-xl shadow-black/40">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-gold-400">Pemberian Kepada Pria</span>
+                    <span class="text-lg font-black tracking-widest text-white">BCA</span>
+                </div>
+                
+                <div class="w-10 h-7 rounded bg-gradient-to-br from-amber-300 to-yellow-600 mb-6 flex items-center justify-center shadow-inner opacity-80">
+                    <div class="w-6 h-4 border border-slate-900/40 rounded-sm"></div>
+                </div>
+
+                <div class="mb-5">
+                    <span class="text-xs text-slate-400 uppercase tracking-wider block mb-1">Nomor Rekening</span>
+                    <div class="flex items-center justify-between bg-slate-950/70 rounded-xl px-4 py-3 border border-slate-800">
+                        <span id="t1-acc-bca" class="font-mono text-lg sm:text-xl font-bold tracking-wider text-gold-300">1234567890</span>
+                        <button type="button" onclick="copyGiftAcc('t1-acc-bca', this)" class="inline-flex items-center px-3 py-1.5 rounded-lg bg-gold-400 text-slate-950 text-xs font-bold hover:bg-gold-300 active:scale-95 transition-all">
+                            <span>Salin</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                    <span>Atas Nama:</span>
+                    <span class="font-semibold text-slate-200"><%= fv(event?.groom_name, 'Nama Mempelai Pria') %></span>
+                </div>
+            </div>
+
+            <!-- Account 2 - Bride -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-850 to-slate-800 p-6 sm:p-7 border border-gold-400/30 shadow-xl shadow-black/40">
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-gold-400">Pemberian Kepada Wanita</span>
+                    <span class="text-lg font-black tracking-widest text-white">MANDIRI</span>
+                </div>
+                
+                <div class="w-10 h-7 rounded bg-gradient-to-br from-amber-300 to-yellow-600 mb-6 flex items-center justify-center shadow-inner opacity-80">
+                    <div class="w-6 h-4 border border-slate-900/40 rounded-sm"></div>
+                </div>
+
+                <div class="mb-5">
+                    <span class="text-xs text-slate-400 uppercase tracking-wider block mb-1">Nomor Rekening</span>
+                    <div class="flex items-center justify-between bg-slate-950/70 rounded-xl px-4 py-3 border border-slate-800">
+                        <span id="t1-acc-mandiri" class="font-mono text-lg sm:text-xl font-bold tracking-wider text-gold-300">0987654321</span>
+                        <button type="button" onclick="copyGiftAcc('t1-acc-mandiri', this)" class="inline-flex items-center px-3 py-1.5 rounded-lg bg-gold-400 text-slate-950 text-xs font-bold hover:bg-gold-300 active:scale-95 transition-all">
+                            <span>Salin</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                    <span>Atas Nama:</span>
+                    <span class="font-semibold text-slate-200"><%= fv(event?.bride_name, 'Nama Mempelai Wanita') %></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Physical Gift Address -->
+        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-6 text-center max-w-xl mx-auto">
+            <div class="w-10 h-10 rounded-full bg-gold-400/10 text-gold-400 mx-auto mb-3 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+            </div>
+            <h3 class="text-base font-semibold text-white mb-1">Kirim Kado Fisik</h3>
+            <p id="t1-gift-address" class="text-xs sm:text-sm text-slate-300 mb-4 leading-relaxed">
+                <%= fv(venueAddress, 'Jl. Sudirman No. 123, Jakarta Pusat') %>
+            </p>
+            <button type="button" onclick="copyGiftAcc('t1-gift-address', this)" class="inline-flex items-center px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-gold-300 text-xs font-medium border border-slate-700 transition-colors">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                <span>Salin Alamat Kirim</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Toast Feedback element -->
+<div id="t1-toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl bg-gold-400 text-slate-950 font-bold text-sm shadow-2xl transition-all duration-300 opacity-0 pointer-events-none -translate-y-4">
+    Tersalin ke clipboard!
+</div>
+
+<script>
+function copyGiftAcc(elementId, btn) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    const text = el.textContent.trim();
+    navigator.clipboard.writeText(text).then(function() {
+        const toast = document.getElementById('t1-toast');
+        if (toast) {
+            toast.textContent = 'Berhasil disalin: ' + text;
+            toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(function() {
+                toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 2500);
+        }
+        if (btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✓ Tersalin';
+            setTimeout(function() { btn.innerHTML = originalText; }, 2000);
+        }
+    }).catch(function() {
+        alert('Tersalin: ' + text);
+    });
+}
+</script>

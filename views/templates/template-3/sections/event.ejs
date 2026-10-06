@@ -1,0 +1,101 @@
+<!-- Event Section - Elegant Nature -->
+<section id="event" class="py-20 bg-cream-50 relative overflow-hidden">
+    <div class="relative z-10 container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-16">
+            <span class="inline-block text-xs uppercase tracking-[0.25em] text-nature-700 font-bold mb-2">Save The Date</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-stone-900 mb-4">
+                Waktu & Lokasi
+            </h2>
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-nature-500 to-transparent mx-auto mb-4"></div>
+            <p class="text-stone-600 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+                Hari penuh berkah di mana kami melangsungkan akad dan resepsi pernikahan:
+            </p>
+        </div>
+
+        <!-- Countdown Timer -->
+        <div class="max-w-xl mx-auto mb-14 bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-md text-center">
+            <h3 class="text-xs uppercase tracking-widest text-nature-700 font-bold mb-6">Hitung Mundur Acara</h3>
+            <div id="t3-countdown" class="grid grid-cols-4 gap-3 sm:gap-4">
+                <div class="bg-stone-50 rounded-2xl p-3 sm:p-4 border border-stone-200/60">
+                    <div id="t3-days" class="text-2xl sm:text-4xl font-serif font-bold text-nature-800">00</div>
+                    <div class="text-[11px] text-stone-500 uppercase tracking-wider mt-1">Hari</div>
+                </div>
+                <div class="bg-stone-50 rounded-2xl p-3 sm:p-4 border border-stone-200/60">
+                    <div id="t3-hours" class="text-2xl sm:text-4xl font-serif font-bold text-nature-800">00</div>
+                    <div class="text-[11px] text-stone-500 uppercase tracking-wider mt-1">Jam</div>
+                </div>
+                <div class="bg-stone-50 rounded-2xl p-3 sm:p-4 border border-stone-200/60">
+                    <div id="t3-minutes" class="text-2xl sm:text-4xl font-serif font-bold text-nature-800">00</div>
+                    <div class="text-[11px] text-stone-500 uppercase tracking-wider mt-1">Menit</div>
+                </div>
+                <div class="bg-stone-50 rounded-2xl p-3 sm:p-4 border border-stone-200/60">
+                    <div id="t3-seconds" class="text-2xl sm:text-4xl font-serif font-bold text-nature-800">00</div>
+                    <div class="text-[11px] text-stone-500 uppercase tracking-wider mt-1">Detik</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Cards Grid -->
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <!-- Akad Nikah Card -->
+            <div class="bg-white rounded-3xl shadow-md p-7 sm:p-8 border border-stone-200 hover:shadow-xl transition-all duration-300 text-center">
+                <div class="w-12 h-12 rounded-full bg-nature-100 text-nature-800 font-serif font-bold text-lg mx-auto mb-4 flex items-center justify-center">
+                    I
+                </div>
+                <h3 class="text-2xl font-serif text-stone-900 mb-3">Akad Nikah</h3>
+                <div class="space-y-2 text-sm text-stone-600 mb-6">
+                    <p class="font-semibold text-nature-800">
+                        <span data-demo="event_date" data-fmt="long" data-raw="<%= event?.event_date || '' %>"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></span>
+                    </p>
+                    <p class="font-mono text-xs text-stone-500">Pukul 08.00 - 10.00 WIB</p>
+                    <p class="font-bold text-stone-900 pt-2"><span data-demo="venue_name"><%= fv(venueName, 'Masjid / Villa Pine Garden') %></span></p>
+                    <p class="text-xs text-stone-500 leading-relaxed"><span data-demo="venue_address"><%= fv(venueAddress, 'Jl. Contoh No. 123, Kota') %></span></p>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
+                    <a href="https://maps.google.com/?q=<%= encodeURIComponent(venueAddress || venueName || 'Lokasi Acara') %>" target="_blank"
+                       class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-nature-700 text-white text-xs font-semibold hover:bg-nature-800 transition-colors shadow-sm">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Google Maps
+                    </a>
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Akad+Nikah+<%= encodeURIComponent(fv(event?.groom_name, 'Pria') + '+%26+' + fv(event?.bride_name, 'Wanita')) %>&location=<%= encodeURIComponent(fv(venueName, '') + ', ' + fv(venueAddress, '')) %>" target="_blank"
+                       class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-stone-100 text-stone-800 border border-stone-300 text-xs font-semibold hover:bg-stone-200 transition-colors">
+                        + Kalender
+                    </a>
+                </div>
+            </div>
+
+            <!-- Resepsi Pernikahan Card -->
+            <div class="bg-white rounded-3xl shadow-md p-7 sm:p-8 border border-stone-200 hover:shadow-xl transition-all duration-300 text-center">
+                <div class="w-12 h-12 rounded-full bg-nature-100 text-nature-800 font-serif font-bold text-lg mx-auto mb-4 flex items-center justify-center">
+                    II
+                </div>
+                <h3 class="text-2xl font-serif text-stone-900 mb-3">Resepsi Pernikahan</h3>
+                <div class="space-y-2 text-sm text-stone-600 mb-6">
+                    <p class="font-semibold text-nature-800">
+                        <span data-demo="event_date" data-fmt="long" data-raw="<%= event?.event_date || '' %>"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></span>
+                    </p>
+                    <p class="font-mono text-xs text-stone-500"><%= fv(eventTimeRange, '11.00 WIB - Selesai') %></p>
+                    <p class="font-bold text-stone-900 pt-2"><span data-demo="venue_name"><%= fv(venueName, 'Outdoor Garden Resort') %></span></p>
+                    <p class="text-xs text-stone-500 leading-relaxed"><span data-demo="venue_address"><%= fv(venueAddress, 'Jl. Contoh No. 123, Kota') %></span></p>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
+                    <a href="https://maps.google.com/?q=<%= encodeURIComponent(venueAddress || venueName || 'Lokasi Acara') %>" target="_blank"
+                       class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-nature-700 text-white text-xs font-semibold hover:bg-nature-800 transition-colors shadow-sm">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Google Maps
+                    </a>
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Resepsi+Pernikahan+<%= encodeURIComponent(fv(event?.groom_name, 'Pria') + '+%26+' + fv(event?.bride_name, 'Wanita')) %>&location=<%= encodeURIComponent(fv(venueName, '') + ', ' + fv(venueAddress, '')) %>" target="_blank"
+                       class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-stone-100 text-stone-800 border border-stone-300 text-xs font-semibold hover:bg-stone-200 transition-colors">
+                        + Kalender
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,29 @@
+<!-- Hero Section - Elegant Nature -->
+<section id="opening" class="min-h-[92vh] flex items-center justify-center text-center px-4 relative overflow-hidden bg-gradient-to-b from-stone-100/60 via-nature-50/40 to-cream-50">
+    <div class="relative z-10 max-w-3xl mx-auto py-16">
+        <span class="inline-block text-xs uppercase tracking-[0.3em] text-nature-700 font-bold mb-3">The Wedding Celebration</span>
+        
+        <h1 class="font-script text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-stone-900 mb-4 leading-tight">
+            <span data-demo="groom_name"><%= fv(event?.groom_name, 'Nama Pria') %></span>
+            <span class="block text-2xl sm:text-3xl font-serif text-nature-600 my-2">&</span>
+            <span data-demo="bride_name"><%= fv(event?.bride_name, 'Nama Wanita') %></span>
+        </h1>
+
+        <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-nature-500 to-transparent mx-auto my-5"></div>
+
+        <p class="text-sm sm:text-base text-stone-700 font-serif tracking-widest">
+            <span data-demo="event_date" data-fmt="long" data-raw="<%= event?.event_date || '' %>"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></span>
+        </p>
+        <p class="text-xs text-nature-700 font-mono tracking-wider mt-1">
+            <%= fv(eventTimeStart, 'Pukul 09.00 WIB') %>
+        </p>
+
+        <div class="mt-10 animate-bounce">
+            <a href="#couple" class="inline-flex items-center text-nature-600 hover:text-nature-800 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>

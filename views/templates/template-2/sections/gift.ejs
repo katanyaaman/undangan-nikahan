@@ -1,0 +1,103 @@
+<!-- Wedding Gift Section - Classic Romantic -->
+<section id="gift" class="py-20 bg-white relative overflow-hidden">
+    <div class="relative z-10 container mx-auto px-4 max-w-4xl">
+        <div class="text-center mb-16">
+            <span class="inline-block text-xs uppercase tracking-[0.25em] text-rose-600 font-semibold mb-2">Tanda Kasih</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-slate-800 mb-4">
+                Amplop Digital
+            </h2>
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-rose-400 to-transparent mx-auto mb-4"></div>
+            <p class="text-slate-600 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+                Kehadiran dan doa restu Anda merupakan hadiah terindah bagi kami. Bagi Anda yang ingin mengirimkan kado pernikahan secara cashless:
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-10">
+            <!-- Account BCA -->
+            <div class="rounded-3xl bg-gradient-to-br from-rose-50 to-pink-50 p-6 sm:p-7 border border-rose-200/80 shadow-md">
+                <div class="flex items-center justify-between mb-5">
+                    <span class="text-xs font-bold uppercase tracking-wider text-rose-700">Bank Transfer</span>
+                    <span class="text-xl font-black text-rose-900 tracking-wider">BCA</span>
+                </div>
+                <div class="mb-4">
+                    <span class="text-xs text-slate-500 uppercase tracking-wide block mb-1">Nomor Rekening</span>
+                    <div class="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-rose-200 shadow-sm">
+                        <span id="t2-bca-acc" class="font-mono text-lg font-bold text-slate-800">1234567890</span>
+                        <button type="button" onclick="copyT2Text('t2-bca-acc', this)" class="px-3 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 active:scale-95 transition-all">
+                            Salin
+                        </button>
+                    </div>
+                </div>
+                <div class="pt-2 border-t border-rose-200/60 flex items-center justify-between text-xs text-slate-600">
+                    <span>Atas Nama:</span>
+                    <span class="font-semibold text-slate-800"><%= fv(event?.groom_name, 'Nama Mempelai Pria') %></span>
+                </div>
+            </div>
+
+            <!-- Account Mandiri -->
+            <div class="rounded-3xl bg-gradient-to-br from-rose-50 to-pink-50 p-6 sm:p-7 border border-rose-200/80 shadow-md">
+                <div class="flex items-center justify-between mb-5">
+                    <span class="text-xs font-bold uppercase tracking-wider text-rose-700">Bank Transfer</span>
+                    <span class="text-xl font-black text-rose-900 tracking-wider">MANDIRI</span>
+                </div>
+                <div class="mb-4">
+                    <span class="text-xs text-slate-500 uppercase tracking-wide block mb-1">Nomor Rekening</span>
+                    <div class="flex items-center justify-between bg-white rounded-xl px-4 py-3 border border-rose-200 shadow-sm">
+                        <span id="t2-mandiri-acc" class="font-mono text-lg font-bold text-slate-800">0987654321</span>
+                        <button type="button" onclick="copyT2Text('t2-mandiri-acc', this)" class="px-3 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-bold hover:bg-rose-700 active:scale-95 transition-all">
+                            Salin
+                        </button>
+                    </div>
+                </div>
+                <div class="pt-2 border-t border-rose-200/60 flex items-center justify-between text-xs text-slate-600">
+                    <span>Atas Nama:</span>
+                    <span class="font-semibold text-slate-800"><%= fv(event?.bride_name, 'Nama Mempelai Wanita') %></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Physical Gift Address -->
+        <div class="rounded-2xl bg-rose-50/50 border border-rose-200 p-6 text-center max-w-xl mx-auto">
+            <h3 class="text-sm font-bold text-rose-900 mb-1">Kirim Kado Fisik</h3>
+            <p id="t2-gift-address" class="text-xs sm:text-sm text-slate-600 mb-3 leading-relaxed">
+                <%= fv(venueAddress, 'Jl. Sudirman No. 123, Jakarta') %>
+            </p>
+            <button type="button" onclick="copyT2Text('t2-gift-address', this)" class="inline-flex items-center px-4 py-2 rounded-xl bg-white text-rose-700 text-xs font-semibold border border-rose-300 hover:bg-rose-100 transition-colors">
+                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                <span>Salin Alamat</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Toast alert -->
+<div id="t2-toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-full bg-rose-700 text-white font-bold text-xs shadow-2xl transition-all duration-300 opacity-0 pointer-events-none -translate-y-4">
+    Tersalin ke clipboard!
+</div>
+
+<script>
+function copyT2Text(elId, btn) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    const text = el.textContent.trim();
+    navigator.clipboard.writeText(text).then(function() {
+        const toast = document.getElementById('t2-toast');
+        if (toast) {
+            toast.textContent = 'Berhasil disalin: ' + text;
+            toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(function() {
+                toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+                toast.classList.remove('opacity-100', 'translate-y-0');
+            }, 2500);
+        }
+        if (btn) {
+            const original = btn.innerHTML;
+            btn.innerHTML = '✓ Tersalin';
+            setTimeout(function() { btn.innerHTML = original; }, 2000);
+        }
+    });
+}
+</script>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <title><%= title || 'Pesan Template' %></title>
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-primary-50 via-white to-gold-50 flex items-center justify-center p-4">
+    <div class="w-full max-w-lg">
+        <div class="text-center mb-6">
+            <a href="/" class="inline-flex items-center text-sm text-gray-600 hover:text-primary-700 transition-colors">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Kembali ke katalog
+            </a>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+            <% if (template) { %>
+            <div class="flex items-start justify-between gap-4 pb-6 mb-6 border-b border-gray-100">
+                <div>
+                    <h1 class="text-2xl font-serif text-gray-800"><%= template.name %></h1>
+                    <p class="text-sm text-gray-500 mt-1"><%= template.description || '' %></p>
+                </div>
+                <p class="text-xl font-bold text-primary-700 whitespace-nowrap"><%= formatIDR(template.price) %></p>
+            </div>
+            <% } else { %>
+            <h1 class="text-2xl font-serif text-gray-800 mb-6">Pesan Template</h1>
+            <% } %>
+
+            <% if (errors && errors.length) { %>
+            <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+                <% errors.forEach(function(error) { %>
+                <p class="text-sm text-red-700"><%= error %></p>
+                <% }); %>
+            </div>
+            <% } %>
+
+            <form method="POST" action="/order" class="space-y-5">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <% if (template) { %>
+                <input type="hidden" name="template_slug" value="<%= template.slug %>">
+                <% } else { %>
+                <div>
+                    <label for="template_slug" class="block text-sm font-medium text-gray-700 mb-2">Template</label>
+                    <select id="template_slug" name="template_slug" required
+                        class="block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        <option value="">Pilih template</option>
+                        <% templates.forEach(function(t) { %>
+                        <option value="<%= t.slug %>" <%= (old.template_slug === t.slug) ? 'selected' : '' %>><%= t.name %> (<%= formatIDR(t.price) %>)</option>
+                        <% }); %>
+                    </select>
+                    <% if (fieldErrors.template_slug) { %>
+                    <p class="mt-1 text-sm text-red-600"><%= fieldErrors.template_slug %></p>
+                    <% } %>
+                </div>
+                <% } %>
+
+                <% if (!loggedIn) { %>
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+                    <input type="text" id="name" name="name" value="<%= old.name ?? '' %>" required
+                        placeholder="Nama kamu"
+                        class="block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    <% if (fieldErrors.name) { %>
+                    <p class="mt-1 text-sm text-red-600"><%= fieldErrors.name %></p>
+                    <% } %>
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <input type="email" id="email" name="email" value="<%= old.email ?? '' %>" required
+                        placeholder="email@example.com"
+                        class="block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    <% if (fieldErrors.email) { %>
+                    <p class="mt-1 text-sm text-red-600"><%= fieldErrors.email %></p>
+                    <% } %>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Password (min 8 karakter)</label>
+                    <input type="password" id="password" name="password" required minlength="8"
+                        placeholder="Buat password untuk dashboard"
+                        class="block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    <% if (fieldErrors.password) { %>
+                    <p class="mt-1 text-sm text-red-600"><%= fieldErrors.password %></p>
+                    <% } %>
+                </div>
+                <% } %>
+
+                <div>
+                    <label for="slug" class="block text-sm font-medium text-gray-700 mb-2">Alamat Undangan</label>
+                    <div class="flex items-center">
+                        <span class="px-4 py-3 bg-gray-100 border border-r-0 border-gray-300 rounded-l-xl text-sm text-gray-500">/u/</span>
+                        <input type="text" id="slug" name="slug" value="<%= old.slug ?? '' %>" required minlength="3" maxlength="60"
+                            placeholder="rudi-ayunda" pattern="[a-z0-9]+(-[a-z0-9]+)*"
+                            class="block w-full px-4 py-3 border border-gray-300 rounded-r-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    </div>
+                    <% if (fieldErrors.slug) { %>
+                    <p class="mt-1 text-sm text-red-600"><%= fieldErrors.slug %></p>
+                    <% } %>
+                </div>
+
+                <div class="bg-primary-50 rounded-xl p-4 text-sm text-gray-600">
+                    Trial 7 hari langsung aktif setelah order. Upgrade untuk memperpanjang masa aktif dan membuka semua limit.
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-primary-600 to-primary-500 text-white py-3 px-6 rounded-xl font-medium text-lg hover:shadow-lg transition-all duration-200">
+                    Buat Undangan Trial
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

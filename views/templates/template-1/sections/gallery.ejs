@@ -1,0 +1,117 @@
+<!-- Gallery Section -->
+<section id="gallery" class="relative py-20 bg-slate-900 text-white overflow-hidden">
+    <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+        <div class="text-center mb-14">
+            <span class="inline-block text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold mb-2">Precious Memories</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-white mb-4">
+                Galeri Kebahagiaan
+            </h2>
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto mb-4"></div>
+            <p class="text-slate-300 max-w-xl mx-auto text-sm sm:text-base">
+                Setiap momen berharga yang mengiringi perjalanan cinta kami menuju hari bahagia.
+            </p>
+        </div>
+
+        <!-- Photo Grid -->
+        <% const _demoTiles = ['/images/demo/g-mosque.svg', '/images/demo/g-rings.svg', '/images/demo/g-couple.svg', '/images/demo/g-lantern.svg', '/images/demo/g-bouquet.svg', '/images/demo/g-pattern.svg']; %>
+        <% const _isDemo = !galleryPhotos || !galleryPhotos.length; %>
+        <% const _tiles = _isDemo ? _demoTiles : galleryPhotos; %>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-5">
+            <% _tiles.forEach(function(_tile, _idx) { %>
+            <div class="group relative overflow-hidden rounded-2xl cursor-pointer aspect-square bg-slate-800 border border-slate-700/60 shadow-lg hover:shadow-gold-500/10 hover:border-gold-400/50 transition-all duration-300"
+                 onclick="openLightbox(<%= _idx %>)">
+                <img src="<%= _tile %>" alt="<%= _isDemo ? ('Dokumentasi Momen ' + (_idx + 1)) : ('Foto ' + (_idx + 1)) %>" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                
+                <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div class="w-11 h-11 rounded-full bg-gold-400 text-slate-900 flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md hidden items-center justify-center p-4">
+    <button onclick="closeLightbox()" aria-label="Tutup Galeri" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/10 text-white hover:bg-gold-400 hover:text-slate-900 transition-colors flex items-center justify-center z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+
+    <button onclick="previousImage()" aria-label="Foto Sebelumnya" class="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 text-white hover:bg-gold-400 hover:text-slate-900 transition-colors flex items-center justify-center z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+    </button>
+
+    <button onclick="nextImage()" aria-label="Foto Berikutnya" class="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 text-white hover:bg-gold-400 hover:text-slate-900 transition-colors flex items-center justify-center z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+    </button>
+
+    <div class="max-w-4xl max-h-[85vh] flex flex-col items-center justify-center">
+        <img id="lightbox-img" src="" alt="Detail Foto" class="max-h-[75vh] max-w-full rounded-xl object-contain shadow-2xl border border-white/10">
+        <p id="lightbox-caption" class="text-slate-300 text-sm mt-3 font-medium"></p>
+    </div>
+</div>
+
+<script>
+(function() {
+    const galleryItems = <%- JSON.stringify(_tiles) %>;
+    let currentIdx = 0;
+
+    window.openLightbox = function(index) {
+        currentIdx = index;
+        const box = document.getElementById('lightbox');
+        const img = document.getElementById('lightbox-img');
+        const cap = document.getElementById('lightbox-caption');
+        if (box && img) {
+            img.src = galleryItems[currentIdx];
+            if (cap) cap.textContent = 'Momen ' + (currentIdx + 1) + ' dari ' + galleryItems.length;
+            box.classList.remove('hidden');
+            box.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+    };
+
+    window.closeLightbox = function() {
+        const box = document.getElementById('lightbox');
+        if (box) {
+            box.classList.add('hidden');
+            box.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+    };
+
+    window.previousImage = function() {
+        currentIdx = (currentIdx - 1 + galleryItems.length) % galleryItems.length;
+        const img = document.getElementById('lightbox-img');
+        const cap = document.getElementById('lightbox-caption');
+        if (img) img.src = galleryItems[currentIdx];
+        if (cap) cap.textContent = 'Momen ' + (currentIdx + 1) + ' dari ' + galleryItems.length;
+    };
+
+    window.nextImage = function() {
+        currentIdx = (currentIdx + 1) % galleryItems.length;
+        const img = document.getElementById('lightbox-img');
+        const cap = document.getElementById('lightbox-caption');
+        if (img) img.src = galleryItems[currentIdx];
+        if (cap) cap.textContent = 'Momen ' + (currentIdx + 1) + ' dari ' + galleryItems.length;
+    };
+
+    document.addEventListener('keydown', function(e) {
+        const box = document.getElementById('lightbox');
+        if (box && !box.classList.contains('hidden')) {
+            if (e.key === 'Escape') window.closeLightbox();
+            if (e.key === 'ArrowLeft') window.previousImage();
+            if (e.key === 'ArrowRight') window.nextImage();
+        }
+    });
+})();
+</script>

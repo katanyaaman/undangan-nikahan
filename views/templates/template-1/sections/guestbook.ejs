@@ -1,0 +1,58 @@
+<!-- Guest Book & Wishes Section -->
+<section id="wishes" class="relative py-20 bg-slate-900 text-white overflow-hidden">
+    <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+        <div class="text-center mb-14">
+            <span class="inline-block text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold mb-2">Warm Wishes</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-white mb-4">
+                Untaian Doa & Ucapan
+            </h2>
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto mb-4"></div>
+            <p class="text-slate-300 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+                Terima kasih atas doa tulus dan restu yang Anda sampaikan untuk mengiringi langkah baru kami.
+            </p>
+        </div>
+
+        <!-- Wishes List Container -->
+        <div id="wishes-list-container" class="space-y-4 mb-10 max-h-[520px] overflow-y-auto pr-1">
+            <% if ((wishes ?? []).length) { %>
+                <% (wishes ?? []).forEach(function(wish) { %>
+                <div class="bg-slate-850/90 rounded-2xl p-5 border border-slate-700/60 shadow-lg">
+                    <div class="flex items-start space-x-3.5">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold-400 to-gold-600 text-slate-950 font-bold flex items-center justify-center text-sm shadow flex-shrink-0">
+                            <%= (wish.name || 'G').substring(0, 1).toUpperCase() %>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-wrap items-center justify-between gap-1 mb-1.5">
+                                <h3 class="text-sm sm:text-base font-semibold text-white truncate"><%= wish.name %></h3>
+                                <div class="flex items-center gap-2">
+                                    <% if (wish.attendance === 'hadir') { %>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-900/60 text-emerald-300 border border-emerald-700/50">
+                                            ✓ Hadir
+                                        </span>
+                                    <% } else { %>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-slate-800 text-slate-400 border border-slate-700">
+                                            Berhalangan
+                                        </span>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <% if (wish.message) { %>
+                            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mt-1">
+                                <%= wish.message %>
+                            </p>
+                            <% } %>
+                            <div class="mt-2 text-[11px] text-slate-500 font-mono">
+                                <%= timeAgo(wish.created_at) %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+            <% } else { %>
+                <div id="empty-wishes" class="text-center py-12 bg-slate-850/40 rounded-2xl border border-slate-800">
+                    <p class="text-slate-400 text-sm">Belum ada ucapan. Jadilah yang pertama memberikan doa restu!</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</section>

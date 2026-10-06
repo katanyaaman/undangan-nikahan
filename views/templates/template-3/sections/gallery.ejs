@@ -1,0 +1,105 @@
+<!-- Gallery Section - Elegant Nature -->
+<section id="gallery" class="py-20 bg-stone-100/60 relative overflow-hidden">
+    <div class="relative z-10 container mx-auto px-4 max-w-6xl">
+        <div class="text-center mb-16">
+            <span class="inline-block text-xs uppercase tracking-[0.25em] text-nature-700 font-bold mb-2">Our Gallery</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-stone-900 mb-4">
+                Potret Kebahagiaan
+            </h2>
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-nature-500 to-transparent mx-auto mb-4"></div>
+            <p class="text-stone-600 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+                Potret kebersamaan kami dalam hangatnya suasana alam dan kasih sayang.
+            </p>
+        </div>
+
+        <% const _t3DemoTiles = ['/images/demo/g-mosque.svg', '/images/demo/g-rings.svg', '/images/demo/g-couple.svg', '/images/demo/g-lantern.svg', '/images/demo/g-bouquet.svg', '/images/demo/g-pattern.svg']; %>
+        <% const _t3Tiles = (galleryPhotos && galleryPhotos.length) ? galleryPhotos : _t3DemoTiles; %>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5">
+            <% _t3Tiles.forEach(function(_tile, _idx) { %>
+            <div class="group relative overflow-hidden rounded-2xl bg-white p-1.5 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer aspect-square border border-stone-200"
+                 onclick="openT3Lightbox(<%= _idx %>)">
+                <div class="w-full h-full overflow-hidden rounded-xl bg-stone-100 relative">
+                    <img src="<%= _tile %>" alt="Foto Galeri <%= _idx + 1 %>" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                    <div class="absolute inset-0 bg-nature-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div class="w-10 h-10 rounded-full bg-white text-nature-800 flex items-center justify-center shadow">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div id="t3-lightbox" class="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-md hidden items-center justify-center p-4">
+    <button onclick="closeT3Lightbox()" aria-label="Tutup" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/10 text-white hover:bg-nature-700 transition-colors flex items-center justify-center z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+    <button onclick="prevT3Img()" aria-label="Sebelumnya" class="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 text-white hover:bg-nature-700 transition-colors flex items-center justify-center z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+    </button>
+    <button onclick="nextT3Img()" aria-label="Berikutnya" class="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 text-white hover:bg-nature-700 transition-colors flex items-center justify-center z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+    </button>
+    <div class="max-w-4xl max-h-[85vh] flex flex-col items-center justify-center">
+        <img id="t3-lightbox-img" src="" alt="Detail Foto" class="max-h-[75vh] max-w-full rounded-2xl object-contain shadow-2xl border border-white/20">
+        <p id="t3-lightbox-cap" class="text-stone-300 text-xs mt-3 font-medium"></p>
+    </div>
+</div>
+
+<script>
+(function() {
+    const images = <%- JSON.stringify(_t3Tiles) %>;
+    let idx = 0;
+
+    window.openT3Lightbox = function(i) {
+        idx = i;
+        const box = document.getElementById('t3-lightbox');
+        const img = document.getElementById('t3-lightbox-img');
+        const cap = document.getElementById('t3-lightbox-cap');
+        if (box && img) {
+            img.src = images[idx];
+            if (cap) cap.textContent = (idx + 1) + ' / ' + images.length;
+            box.classList.remove('hidden');
+            box.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+    };
+
+    window.closeT3Lightbox = function() {
+        const box = document.getElementById('t3-lightbox');
+        if (box) {
+            box.classList.add('hidden');
+            box.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+    };
+
+    window.prevT3Img = function() {
+        idx = (idx - 1 + images.length) % images.length;
+        const img = document.getElementById('t3-lightbox-img');
+        const cap = document.getElementById('t3-lightbox-cap');
+        if (img) img.src = images[idx];
+        if (cap) cap.textContent = (idx + 1) + ' / ' + images.length;
+    };
+
+    window.nextT3Img = function() {
+        idx = (idx + 1) % images.length;
+        const img = document.getElementById('t3-lightbox-img');
+        const cap = document.getElementById('t3-lightbox-cap');
+        if (img) img.src = images[idx];
+        if (cap) cap.textContent = (idx + 1) + ' / ' + images.length;
+    };
+})();
+</script>

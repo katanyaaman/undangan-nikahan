@@ -1,0 +1,70 @@
+<!-- Couple Section - Elegant Nature -->
+<section id="couple" class="py-20 bg-cream-50 relative overflow-hidden">
+    <div class="relative z-10 container mx-auto px-4 max-w-5xl">
+        <div class="text-center mb-16">
+            <span class="inline-block text-xs uppercase tracking-[0.25em] text-nature-700 font-bold mb-2">Kedua Mempelai</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-stone-900 mb-4">
+                Sang Mempelai
+            </h2>
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-nature-500 to-transparent mx-auto mb-4"></div>
+            <p class="text-stone-600 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+                "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan-pasangan dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya." (QS. Ar-Rum: 21)
+            </p>
+        </div>
+
+        <!-- Couple Cards -->
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <!-- Groom Card -->
+            <div class="bg-white rounded-3xl p-8 border border-stone-200/80 shadow-md text-center hover:shadow-xl transition-all duration-300">
+                <div class="relative w-36 h-36 mx-auto mb-6">
+                    <div class="w-full h-full rounded-full p-1.5 bg-gradient-to-tr from-nature-600 via-nature-400 to-amber-200 shadow-md">
+                        <div class="w-full h-full rounded-full overflow-hidden bg-stone-100">
+                            <img src="<%= groomPhoto || '/images/demo/groom.svg' %>" alt="Mempelai Pria" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="font-script text-3xl sm:text-4xl text-stone-900 mb-2">
+                    <span data-demo="groom_name"><%= fv(event?.groom_name, 'Nama Lengkap Pria') %></span>
+                </h3>
+                <p class="text-xs text-stone-500 uppercase tracking-wider mb-2 font-medium">Putra Tercinta Dari</p>
+                <p class="text-sm font-semibold text-stone-800 mb-4 leading-snug">
+                    <span data-demo="groom_father"><%= fv(event?.groom_father, 'Bapak [Nama]') %></span> & <span data-demo="groom_mother"><%= fv(event?.groom_mother, 'Ibu [Nama]') %></span>
+                </p>
+
+                <% if (event?.instagram_groom) { %>
+                <a href="https://instagram.com/<%= (event.instagram_groom).replace('@', '') %>" target="_blank"
+                   class="inline-flex items-center px-4 py-1.5 bg-stone-50 text-nature-800 rounded-full text-xs font-semibold border border-stone-200 hover:bg-stone-100 transition-colors shadow-sm">
+                    <span>@<%= (event.instagram_groom).replace('@', '') %></span>
+                </a>
+                <% } %>
+            </div>
+
+            <!-- Bride Card -->
+            <div class="bg-white rounded-3xl p-8 border border-stone-200/80 shadow-md text-center hover:shadow-xl transition-all duration-300">
+                <div class="relative w-36 h-36 mx-auto mb-6">
+                    <div class="w-full h-full rounded-full p-1.5 bg-gradient-to-tr from-nature-600 via-nature-400 to-amber-200 shadow-md">
+                        <div class="w-full h-full rounded-full overflow-hidden bg-stone-100">
+                            <img src="<%= bridePhoto || '/images/demo/bride.svg' %>" alt="Mempelai Wanita" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="font-script text-3xl sm:text-4xl text-stone-900 mb-2">
+                    <span data-demo="bride_name"><%= fv(event?.bride_name, 'Nama Lengkap Wanita') %></span>
+                </h3>
+                <p class="text-xs text-stone-500 uppercase tracking-wider mb-2 font-medium">Putri Tercinta Dari</p>
+                <p class="text-sm font-semibold text-stone-800 mb-4 leading-snug">
+                    <span data-demo="bride_father"><%= fv(event?.bride_father, 'Bapak [Nama]') %></span> & <span data-demo="bride_mother"><%= fv(event?.bride_mother, 'Ibu [Nama]') %></span>
+                </p>
+
+                <% if (event?.instagram_bride) { %>
+                <a href="https://instagram.com/<%= (event.instagram_bride).replace('@', '') %>" target="_blank"
+                   class="inline-flex items-center px-4 py-1.5 bg-stone-50 text-nature-800 rounded-full text-xs font-semibold border border-stone-200 hover:bg-stone-100 transition-colors shadow-sm">
+                    <span>@<%= (event.instagram_bride).replace('@', '') %></span>
+                </a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>

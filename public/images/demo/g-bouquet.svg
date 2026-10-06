@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Rangkaian bunga dalam vas">
+  <rect width="600" height="600" fill="#DDE5D2"/>
+  <circle cx="300" cy="270" r="200" fill="#D2DDBE"/>
+  <g stroke="#5F7A54" stroke-width="7" stroke-linecap="round" fill="none">
+    <path d="M300 470 C 296 400, 280 350, 240 310"/>
+    <path d="M300 470 C 300 400, 310 340, 350 300"/>
+    <path d="M300 470 C 300 410, 300 360, 300 300"/>
+    <path d="M300 470 C 288 410, 260 380, 220 360"/>
+    <path d="M300 470 C 312 410, 340 380, 380 360"/>
+  </g>
+  <g fill="#7A9A6D">
+    <ellipse cx="252" cy="382" rx="34" ry="15" transform="rotate(-32 252 382)"/>
+    <ellipse cx="348" cy="382" rx="34" ry="15" transform="rotate(32 348 382)"/>
+    <ellipse cx="226" cy="430" rx="30" ry="13" transform="rotate(-18 226 430)"/>
+    <ellipse cx="374" cy="430" rx="30" ry="13" transform="rotate(18 374 430)"/>
+    <ellipse cx="272" cy="336" rx="26" ry="12" transform="rotate(-40 272 336)"/>
+    <ellipse cx="330" cy="332" rx="26" ry="12" transform="rotate(40 330 332)"/>
+  </g>
+  <g>
+    <g transform="translate(300 250)">
+      <circle r="52" fill="#B65D6E"/>
+      <circle r="38" fill="#D9A5A0"/>
+      <circle r="24" fill="#E8C4C0"/>
+      <circle r="11" fill="#F5E3DA"/>
+    </g>
+    <g transform="translate(212 300)">
+      <circle r="40" fill="#D9A5A0"/>
+      <circle r="28" fill="#E8C4C0"/>
+      <circle r="15" fill="#F7E8E2"/>
+    </g>
+    <g transform="translate(390 296)">
+      <circle r="42" fill="#C98A86"/>
+      <circle r="29" fill="#DFA9A5"/>
+      <circle r="15" fill="#F2D7D2"/>
+    </g>
+    <g transform="translate(252 190)">
+      <circle r="30" fill="#EFE3CB"/>
+      <circle r="20" fill="#F7EFDD"/>
+      <circle r="10" fill="#E3C98F"/>
+    </g>
+    <g transform="translate(352 186)">
+      <circle r="30" fill="#F2D7D2"/>
+      <circle r="20" fill="#F9E8E4"/>
+      <circle r="10" fill="#C98A86"/>
+    </g>
+  </g>
+  <g fill="#C9A227">
+    <circle cx="170" cy="200" r="7"/>
+    <circle cx="436" cy="210" r="7"/>
+    <circle cx="300" cy="130" r="7"/>
+  </g>
+  <path d="M238 470 L362 470 L344 570 L256 570 Z" fill="#B0714F"/>
+  <path d="M238 470 L362 470 L358 496 L242 496 Z" fill="#96603F"/>
+  <rect x="230" y="456" width="140" height="20" rx="8" fill="#8A5636"/>
+</svg>

@@ -1,0 +1,202 @@
+<!-- RSVP & Wishes Section - Classic Romantic -->
+<section id="rsvp" class="py-20 bg-gradient-to-b from-white via-rose-50/50 to-white relative overflow-hidden">
+    <div class="relative z-10 container mx-auto px-4 max-w-3xl">
+        <!-- Section Header -->
+        <div class="text-center mb-14">
+            <span class="inline-block text-xs uppercase tracking-[0.25em] text-rose-600 font-semibold mb-2">Konfirmasi & Doa</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-slate-800 mb-4">
+                Reservasi & Buku Tamu
+            </h2>
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-rose-400 to-transparent mx-auto mb-4"></div>
+            <p class="text-slate-600 max-w-xl mx-auto text-sm leading-relaxed">
+                Mohon konfirmasi kehadiran Anda untuk membantu kami mempersiapkan jamuan terbaik bagi Anda.
+            </p>
+        </div>
+
+        <!-- RSVP Form Card -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-rose-150 shadow-xl mb-12">
+            <div id="t2-alert-container"></div>
+
+            <form id="t2-rsvp-form" class="space-y-4">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                <div>
+                    <label for="t2-name" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Nama Lengkap *</label>
+                    <input type="text" id="t2-name" name="name" required class="w-full px-4 py-3 rounded-xl border border-rose-200 focus:outline-none focus:ring-2 focus:ring-rose-500 text-sm" placeholder="Nama Anda">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="t2-email" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Email / Kontak</label>
+                        <input type="text" id="t2-email" name="email" class="w-full px-4 py-3 rounded-xl border border-rose-200 focus:outline-none focus:ring-2 focus:ring-rose-500 text-sm" placeholder="email@contoh.com">
+                    </div>
+                    <div>
+                        <label for="t2-attendance" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Konfirmasi Kehadiran *</label>
+                        <select id="t2-attendance" name="attendance" required class="w-full px-4 py-3 rounded-xl border border-rose-200 focus:outline-none focus:ring-2 focus:ring-rose-500 text-sm bg-white">
+                            <option value="">Pilih Kehadiran</option>
+                            <option value="hadir">Hadir</option>
+                            <option value="tidak_hadir">Berhalangan Hadir</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="t2-guests-field" class="hidden">
+                    <label for="t2-number_of_guests" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Jumlah Tamu Hadir</label>
+                    <input type="number" id="t2-number_of_guests" name="number_of_guests" min="1" max="5" value="1" class="w-full px-4 py-3 rounded-xl border border-rose-200 focus:outline-none focus:ring-2 focus:ring-rose-500 text-sm">
+                </div>
+
+                <div>
+                    <label for="t2-message" class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">Ucapan & Doa Restu</label>
+                    <textarea id="t2-message" name="message" rows="3" class="w-full px-4 py-3 rounded-xl border border-rose-200 focus:outline-none focus:ring-2 focus:ring-rose-500 text-sm resize-none" placeholder="Tuliskan doa restu untuk kami..."></textarea>
+                </div>
+
+                <button type="submit" id="t2-submit-btn" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-rose-600 to-pink-600 text-white font-bold text-sm tracking-wide shadow-md hover:from-rose-500 hover:to-pink-500 transition-all active:scale-95">
+                    Kirim Konfirmasi Kehadiran
+                </button>
+            </form>
+
+            <!-- Attendance Stats -->
+            <div class="grid grid-cols-3 gap-3 pt-6 mt-6 border-t border-rose-100 text-center">
+                <div class="p-3 bg-rose-50/60 rounded-xl">
+                    <div id="t2-confirmed-count" class="text-xl font-bold text-rose-700"><%= confirmedGuests ?? 0 %></div>
+                    <div class="text-[11px] text-slate-500 mt-0.5">Terkonfirmasi</div>
+                </div>
+                <div class="p-3 bg-rose-50/60 rounded-xl">
+                    <div class="text-xl font-bold text-emerald-600"><%= attendingCount ?? 0 %></div>
+                    <div class="text-[11px] text-slate-500 mt-0.5">Hadir</div>
+                </div>
+                <div class="p-3 bg-rose-50/60 rounded-xl">
+                    <div class="text-xl font-bold text-slate-600"><%= notAttendingCount ?? 0 %></div>
+                    <div class="text-[11px] text-slate-500 mt-0.5">Berhalangan</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Wishes Wall -->
+        <div>
+            <h3 class="text-lg font-serif font-bold text-slate-800 text-center mb-6">Untaian Doa Dari Para Tamu</h3>
+            <div id="t2-wishes-list" class="space-y-4 max-h-[460px] overflow-y-auto pr-1">
+                <% if ((wishes ?? []).length) { %>
+                    <% (wishes ?? []).forEach(function(wish) { %>
+                    <div class="bg-white rounded-2xl p-5 border border-rose-100 shadow-sm">
+                        <div class="flex items-start space-x-3.5">
+                            <div class="w-9 h-9 rounded-full bg-rose-100 text-rose-700 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                                <%= (wish.name || 'G').substring(0, 1).toUpperCase() %>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between gap-1 mb-1">
+                                    <h4 class="text-sm font-bold text-slate-800 truncate"><%= wish.name %></h4>
+                                    <span class="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold <%= wish.attendance === 'hadir' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-500' %>">
+                                        <%= wish.attendance === 'hadir' ? 'Hadir' : 'Berhalangan' %>
+                                    </span>
+                                </div>
+                                <% if (wish.message) { %>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed"><%= wish.message %></p>
+                                <% } %>
+                                <div class="mt-1.5 text-[10px] text-slate-400 font-mono"><%= timeAgo(wish.created_at) %></div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <div id="t2-empty-wishes" class="text-center py-8 text-xs text-slate-400 bg-white rounded-2xl border border-rose-100">
+                        Belum ada doa tertulis. Jadilah yang pertama memberikan ucapan!
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+(function() {
+    const attSelect = document.getElementById('t2-attendance');
+    const gField = document.getElementById('t2-guests-field');
+    const rsvpForm = document.getElementById('t2-rsvp-form');
+    const submitBtn = document.getElementById('t2-submit-btn');
+    const alertBox = document.getElementById('t2-alert-container');
+    const wishesList = document.getElementById('t2-wishes-list');
+
+    if (attSelect && gField) {
+        attSelect.addEventListener('change', function() {
+            if (this.value === 'hadir') {
+                gField.classList.remove('hidden');
+            } else {
+                gField.classList.add('hidden');
+            }
+        });
+    }
+
+    if (rsvpForm) {
+        rsvpForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Mengirimkan...';
+            }
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const res = await fetch('<%= rsvpPath %>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+
+                if (res.ok) {
+                    if (alertBox) {
+                        alertBox.innerHTML = '<div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-semibold mb-3">✓ ' + (result.message || 'Konfirmasi kehadiran berhasil dikirim.') + '</div>';
+                    }
+                    if (data.message && wishesList) {
+                        const emptyN = document.getElementById('t2-empty-wishes');
+                        if (emptyN) emptyN.remove();
+
+                        const card = document.createElement('div');
+                        card.className = 'bg-white rounded-2xl p-5 border border-rose-100 shadow-sm animate-fade-in-up';
+                        card.innerHTML = `
+                            <div class="flex items-start space-x-3.5">
+                                <div class="w-9 h-9 rounded-full bg-rose-100 text-rose-700 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                                    ${(data.name || 'G').substring(0, 1).toUpperCase()}
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between gap-1 mb-1">
+                                        <h4 class="text-sm font-bold text-slate-800 truncate">${data.name}</h4>
+                                        <span class="inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold ${data.attendance === 'hadir' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-500'}">
+                                            ${data.attendance === 'hadir' ? 'Hadir' : 'Berhalangan'}
+                                        </span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${data.message}</p>
+                                    <div class="mt-1.5 text-[10px] text-slate-400 font-mono">Baru saja</div>
+                                </div>
+                            </div>
+                        `;
+                        wishesList.prepend(card);
+                    }
+                    rsvpForm.reset();
+                    if (gField) gField.classList.add('hidden');
+                } else {
+                    const err = result.errors ? Object.values(result.errors).flat().join('<br>') : (result.message || 'Gagal mengirim.');
+                    if (alertBox) {
+                        alertBox.innerHTML = '<div class="p-3.5 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-xs font-semibold mb-3">✕ ' + err + '</div>';
+                    }
+                }
+            } catch(e) {
+                if (alertBox) {
+                    alertBox.innerHTML = '<div class="p-3.5 rounded-xl bg-rose-50 border border-rose-300 text-rose-800 text-xs font-semibold mb-3">✕ Terjadi kesalahan jaringan.</div>';
+                }
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Kirim Konfirmasi Kehadiran';
+                }
+            }
+        });
+    }
+})();
+</script>

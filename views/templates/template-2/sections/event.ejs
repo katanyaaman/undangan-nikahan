@@ -1,0 +1,102 @@
+<!-- Event Section - Classic Romantic -->
+<section id="event" class="py-20 bg-white relative overflow-hidden">
+    <div class="relative z-10 container mx-auto px-4 max-w-5xl">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+            <span class="inline-block text-xs uppercase tracking-[0.25em] text-rose-600 font-semibold mb-2">Waktu & Tempat</span>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-slate-800 mb-4">
+                Jadwal Rangkaian Acara
+            </h2>
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-rose-400 to-transparent mx-auto mb-4"></div>
+            <p class="text-slate-600 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+                Suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu pada acara kami.
+            </p>
+        </div>
+
+        <!-- Countdown Timer -->
+        <div class="max-w-xl mx-auto mb-14 bg-gradient-to-br from-rose-50 to-pink-50 rounded-3xl p-6 sm:p-8 border border-rose-200/80 shadow-md text-center">
+            <h3 class="text-xs uppercase tracking-widest text-rose-700 font-bold mb-6">Menghitung Mundur Hari Bahagia</h3>
+            <div id="t2-countdown" class="grid grid-cols-4 gap-3 sm:gap-4">
+                <div class="bg-white rounded-2xl p-3 sm:p-4 border border-rose-100 shadow-sm">
+                    <div id="t2-days" class="text-2xl sm:text-4xl font-serif font-bold text-rose-700">00</div>
+                    <div class="text-[11px] text-slate-500 uppercase tracking-wider mt-1">Hari</div>
+                </div>
+                <div class="bg-white rounded-2xl p-3 sm:p-4 border border-rose-100 shadow-sm">
+                    <div id="t2-hours" class="text-2xl sm:text-4xl font-serif font-bold text-rose-700">00</div>
+                    <div class="text-[11px] text-slate-500 uppercase tracking-wider mt-1">Jam</div>
+                </div>
+                <div class="bg-white rounded-2xl p-3 sm:p-4 border border-rose-100 shadow-sm">
+                    <div id="t2-minutes" class="text-2xl sm:text-4xl font-serif font-bold text-rose-700">00</div>
+                    <div class="text-[11px] text-slate-500 uppercase tracking-wider mt-1">Menit</div>
+                </div>
+                <div class="bg-white rounded-2xl p-3 sm:p-4 border border-rose-100 shadow-sm">
+                    <div id="t2-seconds" class="text-2xl sm:text-4xl font-serif font-bold text-rose-700">00</div>
+                    <div class="text-[11px] text-slate-500 uppercase tracking-wider mt-1">Detik</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Cards Grid -->
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <!-- Akad Nikah Card -->
+            <div class="bg-white rounded-3xl shadow-lg p-7 sm:p-8 border border-rose-150 hover:shadow-xl transition-all duration-300 text-center">
+                <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-700 font-serif font-bold text-lg mx-auto mb-4 flex items-center justify-center">
+                    I
+                </div>
+                <h3 class="text-2xl font-serif text-slate-850 mb-3">Akad Nikah</h3>
+                <div class="space-y-2 text-sm text-slate-600 mb-6">
+                    <p class="font-semibold text-rose-700">
+                        <span data-demo="event_date" data-fmt="long" data-raw="<%= event?.event_date || '' %>"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></span>
+                    </p>
+                    <p class="font-mono text-xs text-slate-500">Pukul 08.00 - 10.00 WIB</p>
+                    <p class="font-bold text-slate-800 pt-2"><span data-demo="venue_name"><%= fv(venueName, 'Kediaman Mempelai / Masjid Agung') %></span></p>
+                    <p class="text-xs text-slate-500 leading-relaxed"><span data-demo="venue_address"><%= fv(venueAddress, 'Jl. Contoh No. 123, Kota') %></span></p>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
+                    <a href="https://maps.google.com/?q=<%= encodeURIComponent(venueAddress || venueName || 'Lokasi Acara') %>" target="_blank"
+                       class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-rose-600 text-white text-xs font-semibold hover:bg-rose-700 transition-colors shadow-sm">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Google Maps
+                    </a>
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Akad+Nikah+<%= encodeURIComponent(fv(event?.groom_name, 'Pria') + '+%26+' + fv(event?.bride_name, 'Wanita')) %>&location=<%= encodeURIComponent(fv(venueName, '') + ', ' + fv(venueAddress, '')) %>" target="_blank"
+                       class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold hover:bg-rose-100 transition-colors">
+                        + Kalender
+                    </a>
+                </div>
+            </div>
+
+            <!-- Resepsi Pernikahan Card -->
+            <div class="bg-white rounded-3xl shadow-lg p-7 sm:p-8 border border-rose-150 hover:shadow-xl transition-all duration-300 text-center">
+                <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-700 font-serif font-bold text-lg mx-auto mb-4 flex items-center justify-center">
+                    II
+                </div>
+                <h3 class="text-2xl font-serif text-slate-850 mb-3">Resepsi Pernikahan</h3>
+                <div class="space-y-2 text-sm text-slate-600 mb-6">
+                    <p class="font-semibold text-rose-700">
+                        <span data-demo="event_date" data-fmt="long" data-raw="<%= event?.event_date || '' %>"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></span>
+                    </p>
+                    <p class="font-mono text-xs text-slate-500"><%= fv(eventTimeRange, '11.00 WIB - Selesai') %></p>
+                    <p class="font-bold text-slate-800 pt-2"><span data-demo="venue_name"><%= fv(venueName, 'Grand Ballroom Hotel') %></span></p>
+                    <p class="text-xs text-slate-500 leading-relaxed"><span data-demo="venue_address"><%= fv(venueAddress, 'Jl. Contoh No. 123, Kota') %></span></p>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
+                    <a href="https://maps.google.com/?q=<%= encodeURIComponent(venueAddress || venueName || 'Lokasi Acara') %>" target="_blank"
+                       class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-rose-600 text-white text-xs font-semibold hover:bg-rose-700 transition-colors shadow-sm">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Google Maps
+                    </a>
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Resepsi+Pernikahan+<%= encodeURIComponent(fv(event?.groom_name, 'Pria') + '+%26+' + fv(event?.bride_name, 'Wanita')) %>&location=<%= encodeURIComponent(fv(venueName, '') + ', ' + fv(venueAddress, '')) %>" target="_blank"
+                       class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200 text-xs font-semibold hover:bg-rose-100 transition-colors">
+                        + Kalender
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Cincin kawin emas di atas bantal">
+  <rect width="600" height="600" fill="#F5EDDD"/>
+  <circle cx="300" cy="300" r="220" fill="#EFE3CB"/>
+  <ellipse cx="300" cy="470" rx="180" ry="26" fill="#D9C8A6" opacity="0.7"/>
+  <g transform="rotate(-8 300 320)">
+    <rect x="140" y="220" width="320" height="200" rx="60" fill="#B65D6E"/>
+    <rect x="140" y="220" width="320" height="200" rx="60" fill="none" stroke="#8E4256" stroke-width="6"/>
+    <rect x="164" y="244" width="272" height="152" rx="44" fill="none" stroke="#E3A9A4" stroke-width="4" opacity="0.8"/>
+    <circle cx="220" cy="320" r="12" fill="#8E4256"/>
+    <circle cx="380" cy="320" r="12" fill="#8E4256"/>
+  </g>
+  <circle cx="262" cy="252" r="58" fill="none" stroke="#C9A227" stroke-width="20"/>
+  <circle cx="342" cy="252" r="58" fill="none" stroke="#DDB84A" stroke-width="20"/>
+  <circle cx="262" cy="252" r="58" fill="none" stroke="#FFFFFF" stroke-width="4" opacity="0.35"/>
+  <g transform="translate(342 178)">
+    <polygon points="0,-20 14,-6 0,8 -14,-6" fill="#DFF1F5" stroke="#9FB9C4" stroke-width="3"/>
+    <polygon points="0,-20 14,-6 0,2 -14,-6" fill="#FFFFFF" opacity="0.7"/>
+  </g>
+  <g fill="#D9A5A0">
+    <circle cx="150" cy="470" r="20"/>
+    <circle cx="452" cy="160" r="16"/>
+    <circle cx="470" cy="440" r="12"/>
+  </g>
+  <g fill="#9CAF88">
+    <ellipse cx="170" cy="495" rx="22" ry="10" transform="rotate(-24 170 495)"/>
+    <ellipse cx="432" cy="182" rx="18" ry="8" transform="rotate(24 432 182)"/>
+    <ellipse cx="150" cy="140" rx="20" ry="9" transform="rotate(-30 150 140)"/>
+    <ellipse cx="455" cy="462" rx="20" ry="9" transform="rotate(30 455 462)"/>
+  </g>
+  <g fill="#C9A227">
+    <circle cx="150" cy="140" r="9"/>
+    <circle cx="480" cy="300" r="7"/>
+    <circle cx="120" cy="300" r="7"/>
+  </g>
+</svg>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Ilustrasi mempelai pria berpeci">
+  <rect width="400" height="400" fill="#0B3D33"/>
+  <g stroke="#C9A227" stroke-width="2" opacity="0.14" fill="none">
+    <g transform="translate(70 84)">
+      <rect x="-16" y="-16" width="32" height="32"/>
+      <rect x="-16" y="-16" width="32" height="32" transform="rotate(45)"/>
+    </g>
+    <g transform="translate(330 84)">
+      <rect x="-16" y="-16" width="32" height="32"/>
+      <rect x="-16" y="-16" width="32" height="32" transform="rotate(45)"/>
+    </g>
+    <g transform="translate(70 316)">
+      <rect x="-16" y="-16" width="32" height="32"/>
+      <rect x="-16" y="-16" width="32" height="32" transform="rotate(45)"/>
+    </g>
+    <g transform="translate(330 316)">
+      <rect x="-16" y="-16" width="32" height="32"/>
+      <rect x="-16" y="-16" width="32" height="32" transform="rotate(45)"/>
+    </g>
+  </g>
+  <path d="M52 368 L52 168 A148 148 0 0 1 348 168 L348 368 Z" fill="#0F4A3E"/>
+  <path d="M52 368 L52 168 A148 148 0 0 1 348 168 L348 368 Z" fill="none" stroke="#C9A227" stroke-width="3" opacity="0.8"/>
+  <path d="M104 400 C 108 336, 132 308, 164 300 L236 300 C 268 308, 292 336, 296 400 Z" fill="#22303E"/>
+  <path d="M200 300 L182 308 L200 400 L218 308 Z" fill="#F5EDDD"/>
+  <path d="M182 308 L200 330 L193 344 L176 316 Z" fill="#E4D7BE"/>
+  <path d="M218 308 L200 330 L207 344 L224 316 Z" fill="#E4D7BE"/>
+  <path d="M200 330 L192 352 L200 400 L208 352 Z" fill="#22303E"/>
+  <rect x="188" y="256" width="24" height="34" rx="10" fill="#E0A878"/>
+  <ellipse cx="200" cy="200" rx="54" ry="66" fill="#EFB98A"/>
+  <path d="M146 196 C 146 150, 168 128, 200 128 C 232 128, 254 150, 254 196 L254 178 C 254 140, 232 118, 200 118 C 168 118, 146 140, 146 178 Z" fill="#161616"/>
+  <path d="M146 178 C 146 140, 168 118, 200 118 C 232 118, 254 140, 254 178 L254 170 C 254 134, 232 112, 200 112 C 168 112, 146 134, 146 170 Z" fill="#2A2A2A"/>
+  <ellipse cx="182" cy="140" rx="18" ry="8" fill="#FFFFFF" opacity="0.12" transform="rotate(-12 182 140)"/>
+  <g transform="translate(244 344)">
+    <circle cx="0" cy="0" r="9" fill="#D9A5A0"/>
+    <circle cx="-8" cy="4" r="6" fill="#C98A86"/>
+    <circle cx="8" cy="4" r="6" fill="#C98A86"/>
+    <ellipse cx="0" cy="12" rx="4" ry="7" fill="#9CAF88"/>
+  </g>
+  <g fill="#C9A227" opacity="0.9">
+    <circle cx="120" cy="120" r="3"/>
+    <circle cx="282" cy="118" r="3"/>
+    <circle cx="200" cy="84" r="3"/>
+  </g>
+</svg>

@@ -1,0 +1,105 @@
+<div class="mb-6 bg-white rounded-2xl shadow-sm p-4 sm:p-5 border border-gray-100 flex items-center justify-between">
+    <p class="text-xs sm:text-sm text-gray-600">
+        Nonaktifkan untuk menarik dari katalog. Event yang sudah jalan tidak terganggu. Tombol Preview membuka demo template.
+    </p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+    <% templates.forEach(function(t) { %>
+    <article class="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100 flex flex-col">
+        <!-- Compact Header with Small Thumbnail -->
+        <div class="p-4 border-b border-gray-100 bg-gray-50/60 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+                <!-- Small Thumbnail Box -->
+                <div class="w-14 h-10 rounded-lg bg-gradient-to-br <%= previews[t.slug] || 'from-gray-500 to-gray-400' %> flex items-center justify-center text-white shadow-sm flex-shrink-0">
+                    <span class="font-script text-xs font-bold truncate px-1"><%= t.name.split(' ')[0] %></span>
+                </div>
+                <div class="min-w-0">
+                    <h3 class="font-bold text-gray-900 text-sm truncate"><%= t.name %></h3>
+                    <span class="text-[11px] font-mono text-gray-400 block"><%= t.slug %></span>
+                </div>
+            </div>
+            <div class="flex-shrink-0">
+                <span class="px-2 py-0.5 text-[11px] font-semibold rounded-full <%= t.active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-500' %>">
+                    <%= t.active ? 'Aktif' : 'Nonaktif' %>
+                </span>
+            </div>
+        </div>
+
+        <form method="POST" action="/owner/templates/<%= t.slug %>" class="p-4 space-y-3 flex-1 flex flex-col justify-between">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Nama Tampilan</label>
+                    <input type="text" name="name" value="<%= t.name %>" required maxlength="255"
+                        class="block w-full px-3 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gold-500 focus:border-gold-500 text-xs sm:text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Deskripsi Singkat</label>
+                    <textarea name="description" rows="2" maxlength="1000"
+                        class="block w-full px-3 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gold-500 focus:border-gold-500 text-xs sm:text-sm"><%= t.description || '' %></textarea>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="flex-1">
+                        <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Harga (Rp)</label>
+                        <input type="number" name="price" value="<%= t.price %>" min="0" step="1000"
+                            class="block w-full px-3 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-gold-500 focus:border-gold-500 text-xs sm:text-sm">
+                    </div>
+                    <label class="inline-flex items-center gap-1.5 text-xs font-medium text-gray-700 pt-5 cursor-pointer">
+                        <input type="checkbox" name="active" value="1" <%= t.active ? 'checked' : '' %> class="h-4 w-4 text-gold-600 rounded border-gray-300">
+                        Tampil
+                    </label>
+                </div>
+
+                <details class="border border-gray-100 rounded-xl bg-gray-50/30">
+                    <summary class="px-3 py-2 text-xs font-semibold text-gray-600 cursor-pointer hover:text-gold-700 transition-colors">
+                        ⚙ Data Demo Jualan
+                    </summary>
+                    <div class="p-3 pt-0 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div>
+                            <label class="block text-[10px] text-gray-500 mb-0.5">Mempelai Wanita</label>
+                            <input type="text" name="demo_bride" value="<%= t.demo_bride || '' %>" maxlength="255" placeholder="Sarah Johnson"
+                                class="block w-full px-2.5 py-1.5 border border-gray-200 rounded-lg text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-500 mb-0.5">Mempelai Pria</label>
+                            <input type="text" name="demo_groom" value="<%= t.demo_groom || '' %>" maxlength="255" placeholder="David Anderson"
+                                class="block w-full px-2.5 py-1.5 border border-gray-200 rounded-lg text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-500 mb-0.5">Tanggal Acara</label>
+                            <input type="text" name="demo_date" value="<%= t.demo_date || '' %>" maxlength="255" placeholder="2025-12-31 19:00:00"
+                                class="block w-full px-2.5 py-1.5 border border-gray-200 rounded-lg text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-500 mb-0.5">Venue</label>
+                            <input type="text" name="demo_venue" value="<%= t.demo_venue || '' %>" maxlength="255" placeholder="Ballroom Hotel"
+                                class="block w-full px-2.5 py-1.5 border border-gray-200 rounded-lg text-xs">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-[10px] text-gray-500 mb-0.5">Alamat</label>
+                            <input type="text" name="demo_address" value="<%= t.demo_address || '' %>" maxlength="255" placeholder="Jl. Sudirman No. 123"
+                                class="block w-full px-2.5 py-1.5 border border-gray-200 rounded-lg text-xs">
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <div class="flex gap-2 pt-2 border-t border-gray-100 mt-3">
+                <button type="submit" class="flex-1 px-3 py-2 bg-gold-600 hover:bg-gold-700 text-white rounded-xl text-xs font-semibold transition-colors shadow-sm">
+                    Simpan
+                </button>
+                <a href="/template-<%= t.slug.replace('template-', '') %>" target="_blank" class="flex-1 text-center px-3 py-2 border border-gray-200 hover:border-gold-400 text-gray-700 rounded-xl text-xs font-semibold transition-colors">
+                    Preview
+                </a>
+                <a href="/owner/templates/<%= t.slug %>/preview" class="flex-1 text-center px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-semibold transition-colors">
+                    Edit Demo
+                </a>
+            </div>
+        </form>
+    </article>
+    <% }); %>
+</div>

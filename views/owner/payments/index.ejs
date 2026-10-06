@@ -1,0 +1,72 @@
+<div class="bg-white rounded-2xl shadow-lg p-6 mb-6 border border-gray-100">
+    <form method="GET" action="/owner/payments">
+        <select
+            name="status"
+            onchange="this.form.submit()"
+            class="block w-full md:w-48 px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-gold-500 focus:border-gold-500"
+        >
+            <option value="pending" <%= filter === 'pending' ? 'selected' : '' %>>Pending</option>
+            <option value="all" <%= filter === 'all' ? 'selected' : '' %>>Semua</option>
+        </select>
+    </form>
+</div>
+
+<div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full">
+            <thead class="bg-gray-50 border-b border-gray-100">
+                <tr>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nominal</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bukti</th>
+                    <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-100">
+                <% if (payments.length) { %>
+                <% payments.forEach(function(p) { %>
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 text-sm text-gray-500"><%= formatDate(p.created_at, 'd M Y, H:i') %></td>
+                    <td class="px-6 py-4 text-sm text-gray-900"><%= p.customer_name || '-' %></td>
+                    <td class="px-6 py-4 text-sm text-gray-500"><%= p.event_slug || ('#' + p.event_id) %></td>
+                    <td class="px-6 py-4 text-sm text-gray-900"><%= formatIDR(p.amount) %></td>
+                    <td class="px-6 py-4 text-sm">
+                        <% if (p.proof_image) { %>
+                        <a href="<%= p.proof_image %>" target="_blank" class="text-gold-700 hover:text-gold-800 font-medium">Lihat</a>
+                        <% } else { %>
+                        <span class="text-gray-400">-</span>
+                        <% } %>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-500"><%= p.status %></td>
+                    <td class="px-6 py-4 text-right text-sm font-medium">
+                        <% if (p.status === 'pending') { %>
+                        <div class="flex items-center justify-end gap-2">
+                            <form method="POST" action="/owner/payments/<%= p.id %>/verify" class="inline">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <input type="hidden" name="action" value="verify">
+                                <button type="submit" class="text-green-700 hover:text-green-800 font-medium">Verifikasi</button>
+                            </form>
+                            <form method="POST" action="/owner/payments/<%= p.id %>/verify" class="inline" onsubmit="return confirm('Tolak pembayaran ini?')">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <input type="hidden" name="action" value="reject">
+                                <button type="submit" class="text-red-600 hover:text-red-800 font-medium">Tolak</button>
+                            </form>
+                        </div>
+                        <% } else { %>
+                        <span class="text-gray-400">-</span>
+                        <% } %>
+                    </td>
+                </tr>
+                <% }); %>
+                <% } else { %>
+                <tr>
+                    <td colspan="7" class="px-6 py-12 text-center text-gray-500">Tidak ada pembayaran</td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>

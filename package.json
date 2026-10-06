@@ -1,21 +1,50 @@
 {
-    "$schema": "https://www.schemastore.org/package.json",
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "build": "vite build",
-        "dev": "vite"
-    },
-    "devDependencies": {
-        "@tailwindcss/forms": "^0.5.11",
-        "@tailwindcss/postcss": "^4.1.18",
-        "@tailwindcss/vite": "^4.0.0",
-        "autoprefixer": "^10.4.23",
-        "axios": "^1.11.0",
-        "concurrently": "^9.0.1",
-        "laravel-vite-plugin": "^2.0.0",
-        "postcss": "^8.5.6",
-        "tailwindcss": "^4.1.18",
-        "vite": "^7.0.7"
-    }
+  "$schema": "https://www.schemastore.org/package.json",
+  "name": "undangan-online",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Undangan Online — Express + TypeScript + EJS + SQLite (rewrite dari Laravel)",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "db:migrate": "tsx src/db/migrate.ts",
+    "db:seed": "tsx src/db/seed.ts",
+    "db:reset": "tsx src/db/reset.ts",
+    "css:build": "tailwindcss -i ./assets/css/app.css -o ./public/css/app.css --minify",
+    "css:watch": "tailwindcss -i ./assets/css/app.css -o ./public/css/app.css --watch"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "better-sqlite3": "^12.2.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.7.1",
+    "express-session": "^1.18.1",
+    "helmet": "^8.3.0",
+    "method-override": "^3.0.0",
+    "multer": "^2.4.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/ejs": "^3.1.5",
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
+    "@types/method-override": "^3.0.0",
+    "@types/multer": "^2.3.0",
+    "@types/node": "^22.9.0",
+    "tailwindcss": "^4.1.18",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "allowScripts": {
+    "better-sqlite3@12.11.1": true
+  }
 }
