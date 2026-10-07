@@ -6,9 +6,31 @@
     <meta name="csrf-token" content="<%= csrfToken %>">
     <title><%= title || 'Edit Demo' %></title>
     <link rel="stylesheet" href="/css/app.css">
+    <style>
+        .phone-bezel {
+            border: 2px solid #334155;
+            border-radius: 0px !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            position: relative;
+            background: #0f172a;
+        }
+
+        /* Hilangkan seluruh scrollbar pada frame preview telepon */
+        #demo-screen,
+        #demo-frame {
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
+        }
+        #demo-screen::-webkit-scrollbar,
+        #demo-frame::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+    </style>
 </head>
-<body class="bg-gray-900 min-h-screen flex flex-col">
-    <header class="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between gap-3 sticky top-0 z-50">
+<body class="bg-slate-950 min-h-screen flex flex-col text-slate-100">
+    <header class="bg-white text-gray-800 border-b border-gray-200 px-4 py-3 flex flex-wrap items-center justify-between gap-3 sticky top-0 z-50">
         <div class="flex items-center gap-3">
             <a href="/owner/templates" class="inline-flex items-center text-sm text-gray-600 hover:text-gold-700 transition-colors">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -16,27 +38,43 @@
                 </svg>
                 Templates
             </a>
-            <h1 class="text-base md:text-lg font-bold text-gray-800">Edit Demo: <%= template.name %></h1>
-            <span id="demo-dirty" class="hidden px-2 py-1 bg-gold-100 text-gold-700 text-xs font-medium rounded-full">Belum disimpan</span>
+            <h1 class="text-base md:text-lg font-bold text-gray-900 truncate">Edit Demo: <%= template.name %></h1>
+            <span id="demo-dirty" class="hidden px-2 py-0.5 bg-amber-100 text-amber-800 text-xs font-medium rounded-full">Belum disimpan</span>
         </div>
+
+        <!-- Preset Ukuran Telepon Standar Indonesia -->
+        <div class="flex items-center gap-1.5 bg-gray-100 p-1 rounded-xl text-xs">
+            <span class="text-gray-500 font-medium px-2 hidden sm:inline">Ukuran HP:</span>
+            <button type="button" onclick="setDeviceWidth(360, this)" id="btn-dev-360" class="dev-size-btn px-2.5 py-1 rounded-lg font-semibold transition-all bg-white text-gray-900 shadow-xs">
+                360px <span class="text-[10px] text-gray-600">(Standar ID)</span>
+            </button>
+            <button type="button" onclick="setDeviceWidth(390, this)" id="btn-dev-390" class="dev-size-btn px-2.5 py-1 rounded-lg font-semibold transition-all text-gray-600 hover:text-gray-900">
+                390px <span class="text-[10px] text-gray-600">(Modern)</span>
+            </button>
+            <button type="button" onclick="setDeviceWidth(412, this)" id="btn-dev-412" class="dev-size-btn px-2.5 py-1 rounded-lg font-semibold transition-all text-gray-600 hover:text-gray-900">
+                412px <span class="text-[10px] text-gray-600">(Plus)</span>
+            </button>
+        </div>
+
         <div class="flex items-center gap-2">
-            <button id="demo-rotate" title="Putar tampilan vertikal / horizontal" class="inline-flex items-center gap-1.5 px-4 py-2 text-sm border border-gray-200 hover:border-gold-400 text-gray-700 rounded-xl transition-colors">
+            <button id="demo-rotate" title="Putar tampilan vertikal / horizontal" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs sm:text-sm border border-gray-200 hover:border-gold-400 text-gray-700 rounded-xl transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h5M20 20v-5h-5M5 9a8 8 0 0114-3M19 15a8 8 0 01-14 3"></path>
                 </svg>
                 <span id="demo-rotate-label">Vertikal</span>
             </button>
-            <a href="<%= demoSrc %>" target="_blank" class="px-4 py-2 text-sm border border-gray-200 hover:border-gold-400 text-gray-700 rounded-xl transition-colors">Buka Demo</a>
-            <button id="demo-reset" class="px-4 py-2 text-sm border border-gray-200 hover:border-gray-400 text-gray-700 rounded-xl transition-colors">Reset</button>
-            <button id="demo-save" disabled class="px-5 py-2 text-sm bg-gold-600 hover:bg-gold-700 disabled:opacity-40 text-white rounded-xl transition-colors">Simpan</button>
+            <a href="<%= demoSrc %>" target="_blank" class="px-3 py-1.5 text-xs sm:text-sm border border-gray-200 hover:border-gold-400 text-gray-700 rounded-xl transition-colors">Buka Demo</a>
+            <button id="demo-reset" class="px-3 py-1.5 text-xs sm:text-sm border border-gray-200 hover:border-gray-400 text-gray-700 rounded-xl transition-colors">Reset</button>
+            <button id="demo-save" disabled class="px-4 py-1.5 text-xs sm:text-sm bg-gold-600 hover:bg-gold-700 disabled:opacity-40 text-white rounded-xl transition-colors font-medium">Simpan</button>
         </div>
     </header>
 
-    <p id="demo-hint" class="text-center text-xs text-gray-400 py-2">Klik teks di HP untuk ubah. Klik foto untuk ganti.</p>
+    <p id="demo-hint" class="text-center text-xs text-slate-400 py-2">Klik teks di layar HP untuk mengubah. Klik foto untuk mengganti foto.</p>
 
-    <main class="flex-1 flex items-start justify-center p-4 md:p-6 overflow-auto">
-        <div id="demo-device" class="w-[393px] max-w-full shrink-0 bg-white border border-gray-700 shadow-2xl">
-            <div id="demo-screen" class="relative bg-white overflow-hidden" style="height: calc(100vh - 180px); min-height: 560px;">
+    <main class="flex-1 flex items-start justify-center p-3 sm:p-6 overflow-auto">
+        <!-- Mockup Telepon Pintar Standar Indonesia (Flat Tanpa Melengkung) -->
+        <div id="demo-device" class="phone-bezel transition-all duration-300 w-[360px] max-w-full shrink-0 shadow-2xl">
+            <div id="demo-screen" class="relative bg-white rounded-none overflow-hidden" style="height: calc(100vh - 190px); min-height: 600px; max-height: 840px;">
                 <iframe id="demo-frame" src="<%= demoSrc %>" title="Preview demo" class="w-full h-full border-0"></iframe>
             </div>
         </div>
@@ -50,28 +88,49 @@
             saveUrl: '/owner/templates/<%= template.slug %>/demo',
             photoUrl: '/owner/templates/<%= template.slug %>/demo-photo'
         };
-    </script>
-    <script>
-        // Putar preview: vertikal 393px <-> horizontal 852px (standar layar HP saat ini).
+
+        var currentDeviceWidth = 360;
+        var landscape = false;
+
+        function setDeviceWidth(width, btn) {
+            currentDeviceWidth = width;
+            var device = document.getElementById('demo-device');
+            var screen = document.getElementById('demo-screen');
+            if (!device || !screen) return;
+
+            if (!landscape) {
+                device.style.width = width + 'px';
+            }
+
+            document.querySelectorAll('.dev-size-btn').forEach(function(b) {
+                b.classList.remove('bg-white', 'text-gray-900', 'shadow-xs');
+                b.classList.add('text-gray-600');
+            });
+            if (btn) {
+                btn.classList.add('bg-white', 'text-gray-900', 'shadow-xs');
+                btn.classList.remove('text-gray-600');
+            }
+        }
+
+        // Putar preview: vertikal <-> horizontal
         (function () {
             var device = document.getElementById('demo-device');
             var screen = document.getElementById('demo-screen');
             var btn = document.getElementById('demo-rotate');
             var label = document.getElementById('demo-rotate-label');
-            var landscape = false;
             btn.addEventListener('click', function () {
                 landscape = !landscape;
                 if (landscape) {
-                    device.classList.remove('w-[393px]');
-                    device.classList.add('w-[852px]');
-                    screen.style.height = '393px';
+                    device.style.width = '780px';
+                    screen.style.height = currentDeviceWidth + 'px';
                     screen.style.minHeight = '0';
+                    screen.style.maxHeight = 'none';
                     label.textContent = 'Horizontal';
                 } else {
-                    device.classList.remove('w-[852px]');
-                    device.classList.add('w-[393px]');
-                    screen.style.height = 'calc(100vh - 180px)';
-                    screen.style.minHeight = '560px';
+                    device.style.width = currentDeviceWidth + 'px';
+                    screen.style.height = 'calc(100vh - 190px)';
+                    screen.style.minHeight = '600px';
+                    screen.style.maxHeight = '840px';
                     label.textContent = 'Vertikal';
                 }
             });

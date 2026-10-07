@@ -16,6 +16,7 @@ export const templates: TemplateMeta[] = [
   { slug: 'template-3', name: 'Elegant Nature', view: 'templates/template-3/index', rsvpPath: '/template-3/rsvp' },
   { slug: 'template-4', name: 'Bugis Emerald', view: 'templates/template-4/index', rsvpPath: '/template-4/rsvp' },
   { slug: 'template-5', name: 'WhatsApp Story', view: 'templates/template-5/index', rsvpPath: '/template-5/rsvp' },
+  { slug: 'template-6', name: 'Misi Truk MBG (3D)', view: 'templates/template-6/index', rsvpPath: '/template-6/rsvp' },
 ];
 
 export function getTemplate(slug: string): TemplateMeta | undefined {
@@ -29,4 +30,5 @@ export const PREVIEWS: Record<string, string> = {
   'template-3': 'from-yellow-900 via-yellow-800 to-stone-700',
   'template-4': 'from-emerald-700 via-emerald-600 to-emerald-500',
   'template-5': 'from-emerald-600 via-teal-600 to-green-500',
+  'template-6': 'from-amber-600 via-orange-600 to-yellow-500',
 };

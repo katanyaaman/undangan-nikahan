@@ -6,110 +6,301 @@
     <meta name="csrf-token" content="<%= csrfToken %>">
     <title><%= title || 'WhatsApp Undangan - ' + fv(event?.groom_name, 'David') + ' & ' + fv(event?.bride_name, 'Sarah') %></title>
     <link rel="stylesheet" href="/css/app.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         /* ========================================================= */
-        /* STANDAR WHATSAPP RESMI: TYPOGRAPHY, WARNA & WALLPAPER     */
+        /* STANDAR WHATSAPP RESMI: TYPOGRAPHY ROBOTO, WARNA & WALLPAPER */
         /* ========================================================= */
+        html, body, #t5-chat-wrapper, .font-sans, p, span, div, h1, h2, h3, h4, h5, h6, strong, a, label, input, textarea, button, select {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
             background-color: #efeae2 !important;
+            color: #111b21 !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .wa-arabic, .wa-arabic * {
+            font-family: 'Amiri', 'Traditional Arabic', serif !important;
+            font-size: 18px !important;
+            line-height: 1.8 !important;
+            letter-spacing: 0 !important;
             color: #111b21 !important;
         }
 
-        /* Wallpaper Resmi WhatsApp */
+        /* Wallpaper Resmi WhatsApp (Doodle Asli Ringan WebP) - Full Terus Tanpa Terpotong */
         .wa-bg-authentic {
             background-color: #efeae2 !important;
-            background-image: radial-gradient(#d1c7b7 0.75px, transparent 0.75px), radial-gradient(#d1c7b7 0.75px, #efeae2 0.75px) !important;
-            background-size: 26px 26px !important;
-            background-position: 0 0, 13px 13px !important;
+            background-image: url('/images/wa-background.webp') !important;
+            background-repeat: no-repeat !important;
+            background-size: 100% 100% !important;
+            background-position: center center !important;
+            background-blend-mode: multiply !important;
         }
 
-        /* Gelembung Pesan Masuk Resmi WhatsApp (Putih Bersih & Teks Standar Hitam WA) */
+        /* Gelembung Pesan Masuk Resmi WhatsApp (Putih Bersih & Lengkungan Khas WA) */
         .wa-bubble-in {
             background-color: #ffffff !important;
             color: #111b21 !important;
             box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13) !important;
             border-radius: 8px !important;
             border-top-left-radius: 2px !important;
+            position: relative !important;
+            font-size: 14.5px !important;
+            line-height: 1.38 !important;
+            letter-spacing: -0.01em !important;
+            display: flow-root !important;
         }
-        .wa-bubble-in p,
-        .wa-bubble-in span,
-        .wa-bubble-in strong,
+        .wa-bubble-in.has-tail::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -6px;
+            width: 8px;
+            height: 12px;
+            background-color: #ffffff;
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+        }
+        .wa-bubble-in > p,
+        .wa-bubble-in > span,
+        .wa-bubble-in .wa-bubble-text,
         .wa-bubble-in h2,
         .wa-bubble-in h3,
         .wa-bubble-in h4,
-        .wa-bubble-in h5,
-        .wa-bubble-in div {
+        .wa-bubble-in h5 {
+            color: #111b21;
+        }
+        .wa-bubble-in strong {
             color: #111b21 !important;
-        }
-        .wa-bubble-in .wa-time {
-            color: #667781 !important;
-            font-size: 11px !important;
-        }
-        .wa-bubble-in .wa-subtext {
-            color: #54656f !important;
+            font-weight: 500 !important;
         }
 
-        /* Gelembung Pesan Keluar Resmi WhatsApp (Hijau Muda Khas WA) */
+        /* Countdown Timer & Tombol Berwarna Gelap: Wajib Teks Putih Terang & Kontras Tinggi */
+        .wa-countdown-box,
+        .wa-countdown-box span,
+        .wa-countdown-box div,
+        .wa-countdown-box p {
+            color: #ffffff !important;
+        }
+        .wa-countdown-box .wa-countdown-title {
+            color: #a7f3d0 !important;
+        }
+        .wa-countdown-box .wa-countdown-label {
+            color: #d1fae5 !important;
+        }
+        .wa-btn-maps,
+        .wa-btn-maps span,
+        .wa-btn-maps svg {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+        }
+
+        /* Gelembung Pesan Keluar Resmi WhatsApp (Hijau Lembut Khas WA) */
         .wa-bubble-out {
-            background-color: #d9fdd3 !important;
+            background-color: #DCF8C6 !important;
             color: #111b21 !important;
             box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13) !important;
             border-radius: 8px !important;
             border-top-right-radius: 2px !important;
+            position: relative !important;
+            font-size: 14.5px !important;
+            line-height: 1.38 !important;
+            letter-spacing: -0.01em !important;
+            display: flow-root !important;
+        }
+        .wa-bubble-out.has-tail::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -6px;
+            width: 8px;
+            height: 12px;
+            background-color: #DCF8C6;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
         }
         .wa-bubble-out p,
-        .wa-bubble-out span,
+        .wa-bubble-out span {
+            color: #111b21 !important;
+        }
         .wa-bubble-out strong {
             color: #111b21 !important;
+            font-weight: 500 !important;
+        }
+
+        /* Format Posisi Teks & Jam Resmi WhatsApp (Inline Float Right di Akhir Kalimat) */
+        .wa-bubble-text {
+            display: inline;
+            font-size: 14.5px;
+            line-height: 1.38;
+            color: #111b21;
+            word-break: break-word;
+            margin: 0;
+        }
+        .wa-msg-meta {
+            float: right;
+            margin-left: 7px;
+            margin-top: 4px;
+            margin-bottom: -2px;
+            font-size: 11px;
+            line-height: 15px;
+            color: #667781;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            user-select: none;
+        }
+        .wa-time {
+            font-size: 11px !important;
+            font-weight: 400 !important;
+            color: #667781 !important;
+            letter-spacing: 0.02em !important;
+            font-variant-numeric: tabular-nums;
+            line-height: 15px;
         }
 
         /* Kartu Di Dalam Pesan (Detail Acara, Rekening, Profil) */
         .wa-inner-card {
-            background-color: #f7f8fa !important;
-            border: 1px solid #e2e8f0 !important;
-            color: #111b21 !important;
-            border-radius: 10px !important;
+            background-color: #f8f9fa !important;
+            border: 1px solid rgba(0, 0, 0, 0.06) !important;
+            color: #000000 !important;
+            border-radius: 12px !important;
         }
         .wa-inner-card p,
         .wa-inner-card span,
         .wa-inner-card strong,
         .wa-inner-card h4,
         .wa-inner-card h5 {
-            color: #111b21 !important;
+            color: #000000 !important;
         }
 
         /* Chip Tanggal di Atas Obrolan */
         .wa-date-chip {
-            background-color: #ffffff !important;
-            color: #54656f !important;
-            border: 1px solid rgba(11, 20, 26, 0.08) !important;
-            box-shadow: 0 1px 1px rgba(11, 20, 26, 0.08) !important;
+            background-color: rgba(255, 255, 255, 0.82) !important;
+            backdrop-filter: blur(10px) !important;
+            color: #667781 !important;
+            box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.06) !important;
             border-radius: 8px !important;
             font-size: 11px !important;
             font-weight: 500 !important;
+            padding: 3px 12px !important;
         }
 
-        /* Tombol Pilihan Menu Interaktif (Standar WA Quick Reply) */
+        /* Tombol Pilihan Menu Interaktif */
         .wa-action-btn {
             background-color: #ffffff !important;
-            color: #111b21 !important;
-            border: 1px solid #d1d7db !important;
-            box-shadow: 0 1px 2px rgba(11, 20, 26, 0.06) !important;
-            border-radius: 12px !important;
-            font-size: 12px !important;
+            color: #000000 !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+            border-radius: 20px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            transition: all 0.2s ease !important;
+        }
+            font-size: 13px !important;
             font-weight: 600 !important;
             transition: all 0.2s ease !important;
         }
         .wa-action-btn:hover {
-            background-color: #f0f2f5 !important;
+            background-color: #f2f2f7 !important;
         }
         .wa-action-btn.active {
             background-color: #e7fce3 !important;
             border-color: #25d366 !important;
             color: #0b704c !important;
+        }
+
+        /* Floating Emoji Reaction Bar (Seperti Popup WhatsApp iOS) */
+        .wa-reaction-bar {
+            background: rgba(255, 255, 255, 0.96) !important;
+            backdrop-filter: blur(16px) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.2) !important;
+            border-radius: 9999px !important;
+            padding: 4px 10px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            z-index: 30 !important;
+        }
+        .wa-reaction-btn {
+            font-size: 20px !important;
+            line-height: 1 !important;
+            transition: transform 0.15s ease !important;
+            cursor: pointer !important;
+        }
+        .wa-reaction-btn:hover, .wa-reaction-btn:active {
+            transform: scale(1.3) !important;
+        }
+        .wa-reaction-badge {
+            background: #ffffff !important;
+            border: 1px solid #e5e5ea !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+            border-radius: 9999px !important;
+            padding: 1px 6px !important;
+            font-size: 11px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 2px !important;
+            position: absolute !important;
+            bottom: -8px !important;
+            right: 12px !important;
+            z-index: 10 !important;
+        }
+
+        /* Gelembung Animasi Mengetik Resmi WhatsApp (Pill Bulat & 3 Titik Berkedip) */
+        .wa-typing-bubble {
+            background-color: #ffffff !important;
+            border-radius: 18px !important;
+            border-top-left-radius: 4px !important;
+            box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 10px 14px !important;
+            gap: 5px !important;
+            position: relative !important;
+        }
+        .wa-typing-bubble.has-tail::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -6px;
+            width: 8px;
+            height: 12px;
+            background-color: #ffffff;
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+        }
+        .wa-typing-dot {
+            display: inline-block !important;
+            width: 7px !important;
+            height: 7px !important;
+            background-color: #8696a0 !important;
+            border-radius: 50% !important;
+            animation: waDotBounce 1.4s infinite ease-in-out both !important;
+        }
+        .wa-typing-dot:nth-child(1) {
+            animation-delay: 0s !important;
+        }
+        .wa-typing-dot:nth-child(2) {
+            animation-delay: 0.2s !important;
+        }
+        .wa-typing-dot:nth-child(3) {
+            animation-delay: 0.4s !important;
+        }
+        @keyframes waDotBounce {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.35;
+            }
+            30% {
+                transform: translateY(-5px);
+                opacity: 1;
+            }
         }
 
         /* Pulse green status ring */
@@ -151,9 +342,36 @@
             pointer-events: none;
             z-index: 70;
         }
+
+        /* Ukuran Smartphone Standar Indonesia (360px - 412px) */
+        .phone-container {
+            width: 100% !important;
+            max-width: 412px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        #t5-chat-main {
+            scroll-behavior: smooth;
+        }
+        #t5-chat-main > * {
+            scroll-margin-top: 16px;
+            scroll-margin-bottom: 16px;
+        }
+
+        /* Hilangkan seluruh scrollbar bawaan browser agar seperti tampilan native smartphone */
+        html, body, #t5-chat-main, #t5-chat-wrapper, * {
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
+        }
+        ::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
     </style>
 </head>
-<body id="t5-body" class="bg-[#efeae2] text-[#111b21] font-sans antialiased overflow-x-hidden select-none">
+<body id="t5-body" class="bg-[#0c1317] text-[#111b21] font-sans antialiased overflow-x-hidden select-none min-h-screen">
 
 <!-- Audio Element Pernikahan -->
 <audio id="t5-audio" loop preload="auto">
@@ -163,7 +381,8 @@
 <!-- =================================================================== -->
 <!-- 1. LOCKSCREEN NOTIFIKASI SMARTPHONE (PROSES SMOOTH & ALAMI) -->
 <!-- =================================================================== -->
-<div id="t5-lockscreen" class="fixed inset-0 z-50 flex flex-col justify-between p-6 bg-cover bg-center transition-all duration-700 bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white">
+<div id="t5-lockscreen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#0c1317] transition-all duration-700">
+    <div class="phone-container h-full flex flex-col justify-between p-6 bg-cover bg-center bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white shadow-2xl relative border-x border-white/10 overflow-hidden">
     
     <!-- iPhone Dynamic Island & Status Bar -->
     <div class="w-full flex items-center justify-between text-xs font-semibold px-2 text-slate-300">
@@ -238,12 +457,14 @@
             <span>Ketuk notifikasi untuk masuk</span>
         </div>
     </div>
+    </div>
 </div>
 
 <!-- =================================================================== -->
 <!-- 2. WHATSAPP FULLSCREEN STATUS / STORY -->
 <!-- =================================================================== -->
-<div id="t5-story-modal" class="fixed inset-0 z-50 bg-black hidden flex-col justify-between text-white select-none">
+<div id="t5-story-modal" class="fixed inset-0 z-50 bg-[#0c1317] hidden items-center justify-center select-none">
+    <div class="phone-container h-full flex flex-col justify-between text-white bg-black relative shadow-2xl border-x border-white/10 overflow-hidden">
     <div class="p-3 pt-4 flex space-x-1.5 z-20">
         <div class="flex-1 h-1 bg-white/30 rounded-full overflow-hidden"><div id="sb-0" class="h-full bg-white w-0 transition-all duration-100 ease-linear"></div></div>
         <div class="flex-1 h-1 bg-white/30 rounded-full overflow-hidden"><div id="sb-1" class="h-full bg-white w-0 transition-all duration-100 ease-linear"></div></div>
@@ -296,12 +517,14 @@
             </button>
         </div>
     </div>
+    </div>
 </div>
 
 <!-- =================================================================== -->
 <!-- 3. SIMULASI PANGGILAN SUARA & VIDEO WHATSAPP -->
 <!-- =================================================================== -->
-<div id="t5-call-modal" class="fixed inset-0 z-50 bg-[#121b22]/95 text-white hidden flex-col items-center justify-between p-6 select-none">
+<div id="t5-call-modal" class="fixed inset-0 z-50 bg-[#0c1317] text-white hidden items-center justify-center select-none">
+    <div class="phone-container h-full flex flex-col items-center justify-between p-6 bg-gradient-to-b from-[#075E54] via-[#054c44] to-[#0b141a] text-white shadow-2xl relative border-x border-white/10 overflow-hidden">
     <div class="text-center pt-8">
         <span id="t5-call-badge" class="inline-block px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-emerald-400 mb-3 border border-white/10">
             Panggilan WhatsApp Masuk
@@ -349,143 +572,138 @@
             </button>
         </div>
     </div>
+    </div>
 </div>
 
 <!-- =================================================================== -->
 <!-- 4. RUANG OBROLAN WHATSAPP UTAMA (WARNA FONT STANDAR WA RESMI) -->
 <!-- =================================================================== -->
-<div id="t5-chat-wrapper" class="hidden min-h-screen flex flex-col justify-between max-w-2xl mx-auto shadow-2xl relative">
+<div id="t5-chat-wrapper" class="hidden h-screen max-h-screen flex flex-col phone-container shadow-2xl relative wa-bg-authentic border-x border-black/10 overflow-hidden">
     
-    <!-- HEADER WHATSAPP RESMI -->
-    <header class="sticky top-0 z-40 bg-[#075E54] text-white px-3.5 py-3 flex items-center justify-between shadow-md">
-        <div class="flex items-center space-x-3 min-w-0">
-            <!-- Back Arrow -->
-            <button onclick="backToLockscreen()" aria-label="Kembali ke Notifikasi" class="text-white hover:text-emerald-200 p-1">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+    <!-- HEADER WHATSAPP RESMI (iOS STYLE) -->
+    <header class="flex-shrink-0 z-40 bg-[#F6F6F6]/95 backdrop-blur-md text-[#000000] px-3 py-2 flex items-center justify-between border-b border-black/10 shadow-xs">
+        <div class="flex items-center space-x-2.5 min-w-0">
+            <!-- Back Arrow with unread count < 4 -->
+            <button onclick="backToLockscreen()" aria-label="Kembali ke Notifikasi" class="flex items-center text-[#007AFF] hover:opacity-80 py-1 transition-opacity">
+                <svg class="w-6 h-6 -mr-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+                <span class="text-[17px] font-normal leading-none">4</span>
             </button>
 
-            <!-- AVATAR MEMPELAI DENGAN LINGKARAN HIJAU STATUS STORY -->
+            <!-- AVATAR MEMPELAI DENGAN STATUS ONLINE -->
             <div onclick="openWAStory(0)" title="Ketuk untuk melihat Cerita Mempelai" class="relative cursor-pointer flex-shrink-0 group">
-                <div class="w-10 h-10 rounded-full p-0.5 bg-gradient-to-tr from-emerald-400 via-teal-300 to-green-300 ring-2 ring-emerald-400 ring-offset-2 ring-offset-[#075E54] status-ring-pulse">
+                <div class="w-9 h-9 rounded-full p-0.5 bg-gradient-to-tr from-emerald-400 to-teal-400 ring-1.5 ring-emerald-500 status-ring-pulse">
                     <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Mempelai" class="w-full h-full rounded-full object-cover">
                 </div>
-                <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-[#075E54] flex items-center justify-center text-[8px] font-bold text-white">
-                    +
-                </span>
+                <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white"></span>
             </div>
 
-            <!-- Nama & Status Kontak -->
+            <!-- Nama & Status Kontak (iOS Typography) -->
             <div class="min-w-0 flex-1 cursor-pointer" onclick="openWAStory(0)">
-                <div class="flex items-center space-x-1">
-                    <h2 class="text-sm font-bold truncate text-white">
-                        <%= fv(event?.groom_name, 'David') %> & <%= fv(event?.bride_name, 'Sarah') %>
-                    </h2>
-                    <svg class="w-3.5 h-3.5 text-emerald-300 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                </div>
-                <p id="t5-header-status" class="text-[11px] text-emerald-200 truncate font-sans">
-                    🟢 Ketuk avatar untuk lihat Status Foto
+                <h2 class="text-[15px] sm:text-[16px] font-semibold truncate text-[#000000] leading-snug">
+                    <%= fv(event?.groom_name, 'David') %> & <%= fv(event?.bride_name, 'Sarah') %>
+                </h2>
+                <p id="t5-header-status" class="text-[11px] text-[#8E8E93] truncate font-sans leading-none mt-0.5">
+                    online
                 </p>
             </div>
         </div>
 
-        <!-- Tombol Aksi Header -->
-        <div class="flex items-center space-x-3 text-white">
-            <button onclick="startWACall('video')" title="Video Call" class="hover:text-emerald-200 p-1">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
+        <!-- Tombol Aksi Header (iOS Blue Outline Icons) -->
+        <div class="flex items-center space-x-3 text-[#007AFF]">
+            <button onclick="startWACall('video')" title="Video Call" class="hover:opacity-75 p-1 transition-opacity">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z"/>
+                </svg>
             </button>
-            <button onclick="startWACall('voice')" title="Panggilan Suara" class="hover:text-emerald-200 p-1">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path></svg>
+            <button onclick="startWACall('voice')" title="Panggilan Suara" class="hover:opacity-75 p-1 transition-opacity">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
+                </svg>
             </button>
         </div>
     </header>
 
-    <!-- STREAM CHAT BUBBLES RESMI (WARNA FONT STANDAR HITAM WA, 100% SERAGAM) -->
-    <main class="wa-bg-authentic flex-1 p-3.5 sm:p-5 space-y-3 pb-28 overflow-y-auto">
+    <!-- STREAM CHAT BUBBLES RESMI (iOS WHATSAPP TYPOGRAPHY & SPACING) -->
+    <main id="t5-chat-main" class="flex-1 bg-transparent p-3 sm:p-4 space-y-2.5 pb-4 overflow-y-auto overscroll-contain">
         <!-- Date Badge Pin -->
-        <div class="text-center my-1">
+        <div id="t5-date-pin" class="text-center my-1">
             <span class="inline-block wa-date-chip px-3 py-1 shadow-sm">
                 Hari ini &bull; <%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %>
             </span>
         </div>
 
-        <!-- TYPING INDICATOR BUBBLE -->
-        <div id="t5-typing-bubble" class="flex items-start max-w-[80px]">
-            <div class="wa-bubble-in px-3.5 py-2 shadow-sm flex items-center space-x-1.5">
-                <span class="w-1.5 h-1.5 bg-[#8696a0] rounded-full animate-bounce" style="animation-delay: 0ms"></span>
-                <span class="w-1.5 h-1.5 bg-[#8696a0] rounded-full animate-bounce" style="animation-delay: 150ms"></span>
-                <span class="w-1.5 h-1.5 bg-[#8696a0] rounded-full animate-bounce" style="animation-delay: 300ms"></span>
+        <!-- TYPING INDICATOR BUBBLE (Ditempatkan dinamis DI BAWAH chat) -->
+        <div id="t5-typing-bubble" class="hidden flex items-start chat-pop">
+            <div class="wa-typing-bubble has-tail">
+                <span class="wa-typing-dot"></span>
+                <span class="wa-typing-dot"></span>
+                <span class="wa-typing-dot"></span>
             </div>
         </div>
 
         <!-- BUBBLE 1: SALAM PERSONAL & PEMBUKA -->
-        <div id="chat-step-1" class="hidden flex items-start max-w-[92%] sm:max-w-[82%] chat-pop">
-            <div class="wa-bubble-in p-3.5 shadow-sm space-y-2 w-full">
-                <p class="font-bold text-xs text-[#111b21]">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-                <p class="text-xs sm:text-sm font-bold leading-relaxed text-[#111b21]">
+        <div id="chat-step-1" onclick="toggleBubbleReaction('chat-step-1-bubble', event)" class="hidden flex items-start max-w-[90%] sm:max-w-[78%] chat-pop cursor-pointer group">
+            <div id="chat-step-1-bubble" class="wa-bubble-in has-tail px-3.5 py-2.5 shadow-xs w-fit transition-transform active:scale-[0.99]">
+                <p class="wa-arabic text-center py-0.5 text-base sm:text-lg mb-1 border-b border-black/[0.04]">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                <p class="text-[14.5px] font-medium leading-snug text-[#111b21] mb-1">
                     Assalamu’alaikum Warahmatullahi Wabarakatuh
                 </p>
-                <p class="text-xs sm:text-sm leading-relaxed text-[#111b21]">
-                    Halo <strong id="t5-chat-guest" class="text-[#111b21] font-bold">Tamu Undangan</strong>, gimana kabarnya? Semoga selalu diberikan kesehatan & kebahagiaan sekeluarga yaa... 🙏
+                <p class="wa-bubble-text">
+                    Halo <strong id="t5-chat-guest" class="text-[#111b21] font-medium">Tamu Undangan</strong>, gimana kabarnya? Semoga selalu diberikan kesehatan & kebahagiaan sekeluarga yaa... 🙏<span style="display:inline-block;width:38px;height:0;"></span><span class="wa-msg-meta"><span class="wa-time">09.41</span></span>
                 </p>
-                <div class="wa-time text-right font-mono">09:41</div>
             </div>
         </div>
 
         <!-- BUBBLE 2: KABAR BAHAGIA PERNIKAHAN -->
-        <div id="chat-step-2" class="hidden flex items-start max-w-[92%] sm:max-w-[84%] chat-pop">
-            <div class="wa-bubble-in p-3.5 shadow-sm space-y-2.5 w-full">
-                <p class="text-xs sm:text-sm leading-relaxed text-[#111b21]">
+        <div id="chat-step-2" onclick="toggleBubbleReaction('chat-step-2-bubble', event)" class="hidden flex items-start max-w-[92%] sm:max-w-[80%] chat-pop cursor-pointer group">
+            <div id="chat-step-2-bubble" class="wa-bubble-in has-tail px-3.5 py-2.5 shadow-xs w-fit transition-transform active:scale-[0.99]">
+                <p class="text-[14.5px] leading-relaxed text-[#111b21] mb-2">
                     Alhamdulillah, dengan penuh rasa syukur, kami ingin berbagi kabar bahagia. Insya Allah kami akan melangsungkan pernikahan pada:
                 </p>
-                <div class="wa-inner-card p-3 space-y-1">
-                    <p class="font-bold text-sm text-[#111b21]">🗓️ <%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></p>
-                    <p class="text-xs text-[#54656f]">📍 <%= fv(venueName, 'Grand Ballroom Hotel') %></p>
+                <div class="wa-inner-card px-3 py-2 space-y-1 mb-2 rounded-xl">
+                    <p class="font-medium text-[14px] text-[#111b21]">🗓️ <%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></p>
+                    <p class="text-[13px] text-[#54656f]">📍 <%= fv(venueName, 'Grand Ballroom Hotel') %></p>
                 </div>
-                <p class="text-xs text-[#111b21] leading-relaxed">
-                    Kehadiran serta doa restu Anda merupakan kehormatan dan kebahagiaan terbesar bagi kami sekeluarga. 💕
+                <p class="wa-bubble-text">
+                    Kehadiran serta doa restu Anda merupakan kehormatan dan kebahagiaan terbesar bagi kami sekeluarga. 💕<span style="display:inline-block;width:38px;height:0;"></span><span class="wa-msg-meta"><span class="wa-time">09.41</span></span>
                 </p>
-                <div class="wa-time text-right font-mono">09:41</div>
             </div>
         </div>
 
         <!-- BUBBLE 3: VOICE NOTE PESAN SINGKAT MEMPELAI -->
-        <div id="chat-step-3" class="hidden flex items-start max-w-[92%] sm:max-w-[82%] chat-pop">
-            <div class="wa-bubble-in p-3 shadow-sm space-y-2 w-full">
-                <div class="flex items-center space-x-3">
+        <div id="chat-step-3" class="hidden flex items-start max-w-[90%] sm:max-w-[78%] chat-pop">
+            <div class="wa-bubble-in has-tail px-3 py-2.5 shadow-xs w-fit">
+
+                <div class="flex items-center space-x-2.5">
                     <!-- Tombol Play VN -->
-                    <button id="t5-vn-btn" onclick="toggleVNAudio()" aria-label="Putar Musik" class="w-11 h-11 rounded-full bg-[#25D366] text-white flex items-center justify-center flex-shrink-0 shadow hover:bg-emerald-600 transition-colors">
-                        <svg id="t5-vn-play-icon" class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path></svg>
-                        <svg id="t5-vn-pause-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                    <button id="t5-vn-btn" onclick="toggleVNAudio()" aria-label="Putar Musik" class="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center flex-shrink-0 shadow-xs hover:bg-emerald-600 transition-colors">
+                        <svg id="t5-vn-play-icon" class="w-4.5 h-4.5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path></svg>
+                        <svg id="t5-vn-pause-icon" class="w-4.5 h-4.5 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
                     </button>
 
-                    <!-- Waveform Bars -->
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center space-x-1 h-6">
+                    <!-- Waveform Bars & Meta Info -->
+                    <div class="flex-1 min-w-[170px] sm:min-w-[210px]">
+                        <div class="flex items-center space-x-1 h-5">
                             <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-2"></span>
                             <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-4"></span>
                             <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-5"></span>
                             <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-3"></span>
-                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-6"></span>
+                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-5"></span>
                             <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-4"></span>
                             <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-2"></span>
                             <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-5"></span>
                             <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-3"></span>
-                            <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-6"></span>
                             <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-4"></span>
                             <span class="waveform-bar w-1 bg-emerald-500 rounded-full h-2"></span>
                         </div>
-                        <div class="flex items-center justify-between text-[11px] text-[#54656f] mt-1 font-mono">
+                        <div class="flex items-center justify-between text-[11px] text-[#8696a0] mt-1 font-sans">
                             <span id="t5-vn-time">00:00</span>
-                            <span class="font-medium text-[#54656f]">Pesan Audio Pengantin 🎙️</span>
+                            <span class="wa-msg-meta !mt-0 !mb-0 !bottom-0">
+                                <span class="wa-time">09.42</span>
+                            </span>
                         </div>
                     </div>
-
-                    <!-- Speed Multiplier Button (1x / 1.5x / 2x) -->
-                    <button id="t5-speed-btn" onclick="cycleAudioSpeed()" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-[#111b21] font-bold text-[11px] rounded-full border border-slate-300 transition-colors">
-                        1x
-                    </button>
                 </div>
-                <div class="wa-time text-right font-mono">09:42</div>
             </div>
         </div>
 
@@ -516,16 +734,16 @@
         </div>
 
         <!-- BUBBLE 4: KARTU KONTAK MEMPELAI (VCARD) -->
-        <div id="t5-couple-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[85%] chat-pop">
-            <div class="wa-bubble-in p-4 shadow-sm space-y-3.5 w-full">
-                <div class="text-xs font-bold text-[#54656f] uppercase tracking-wider flex items-center justify-between border-b border-slate-200 pb-2">
+        <div id="t5-couple-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[82%] chat-pop">
+            <div class="wa-bubble-in has-tail p-3.5 shadow-xs space-y-3 w-fit">
+                <div class="text-xs font-bold text-[#54656f] uppercase tracking-wider flex items-center justify-between border-b border-black/[0.06] pb-2">
                     <span>👤 Profil Mempelai</span>
                     <span class="font-bold text-[#111b21]">David & Sarah</span>
                 </div>
 
                 <div class="space-y-2.5">
                     <!-- Mempelai Pria -->
-                    <div class="wa-inner-card flex items-center space-x-3 p-2.5">
+                    <div class="wa-inner-card flex items-center space-x-3 p-2.5 rounded-xl">
                         <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200 flex-shrink-0">
                             <img src="<%= groomPhoto || '/images/demo/groom.svg' %>" alt="Pria" class="w-full h-full object-cover">
                         </div>
@@ -541,7 +759,7 @@
                     </div>
 
                     <!-- Mempelai Wanita -->
-                    <div class="wa-inner-card flex items-center space-x-3 p-2.5">
+                    <div class="wa-inner-card flex items-center space-x-3 p-2.5 rounded-xl">
                         <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200 flex-shrink-0">
                             <img src="<%= bridePhoto || '/images/demo/bride.svg' %>" alt="Wanita" class="w-full h-full object-cover">
                         </div>
@@ -557,26 +775,28 @@
                     </div>
                 </div>
 
-                <div class="wa-time text-right font-mono">09:42</div>
+                <div class="flex justify-end pt-1">
+                    <span class="wa-msg-meta !mt-0 !mb-0 !bottom-0"><span class="wa-time">09.42</span></span>
+                </div>
             </div>
         </div>
 
         <!-- BUBBLE 5: DETAIL WAKTU, TEMPAT & HITUNG MUNDUR -->
-        <div id="t5-event-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[85%] chat-pop">
-            <div class="wa-bubble-in p-4 shadow-sm space-y-3.5 w-full">
-                <div class="flex items-center space-x-2 text-xs font-bold text-[#111b21] border-b border-slate-200 pb-2">
+        <div id="t5-event-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[82%] chat-pop">
+            <div class="wa-bubble-in has-tail p-3.5 shadow-xs space-y-3 w-fit">
+                <div class="flex items-center space-x-2 text-xs font-bold text-[#111b21] border-b border-black/[0.06] pb-2">
                     <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     <span>Rangkaian Acara Pernikahan</span>
                 </div>
 
                 <div class="space-y-2 text-xs sm:text-sm">
-                    <div class="wa-inner-card p-3">
+                    <div class="wa-inner-card p-2.5 rounded-xl">
                         <h5 class="font-bold text-[#111b21] text-xs mb-1">💍 AKAD NIKAH</h5>
                         <p class="font-bold text-[#111b21]"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></p>
                         <p class="text-[11px] text-[#54656f] font-mono">Pukul 08.00 - 10.00 WIB</p>
                     </div>
 
-                    <div class="wa-inner-card p-3">
+                    <div class="wa-inner-card p-2.5 rounded-xl">
                         <h5 class="font-bold text-[#111b21] text-xs mb-1">🎉 RESEPSI PERNIKAHAN</h5>
                         <p class="font-bold text-[#111b21]"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></p>
                         <p class="text-[11px] text-[#54656f] font-mono"><%= fv(eventTimeRange, '11.00 WIB - Selesai') %></p>
@@ -589,36 +809,38 @@
                 </div>
 
                 <!-- Countdown Timer -->
-                <div class="p-3 bg-[#111b21] text-white rounded-xl text-center shadow-inner">
-                    <span class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold block mb-1.5">Hitung Mundur Acara</span>
+                <div class="wa-countdown-box p-3 bg-gradient-to-r from-[#075E54] to-[#128C7E] text-white rounded-xl text-center shadow-xs">
+                    <span class="wa-countdown-title text-[10.5px] uppercase tracking-widest text-emerald-200 font-bold block mb-1.5">Hitung Mundur Acara</span>
                     <div id="t5-countdown" class="grid grid-cols-4 gap-1 font-mono text-xs font-bold text-white">
-                        <div><span id="t5-d" class="text-white">00</span><span class="block text-[9px] text-slate-400 font-sans">Hari</span></div>
-                        <div><span id="t5-h" class="text-white">00</span><span class="block text-slate-400 text-[9px] font-sans">Jam</span></div>
-                        <div><span id="t5-m" class="text-white">00</span><span class="block text-slate-400 text-[9px] font-sans">Mnt</span></div>
-                        <div><span id="t5-s" class="text-white">00</span><span class="block text-slate-400 text-[9px] font-sans">Dtk</span></div>
+                        <div><span id="t5-d" class="text-base sm:text-lg font-bold text-white block">00</span><span class="wa-countdown-label block text-[9.5px] text-emerald-100 font-sans">Hari</span></div>
+                        <div><span id="t5-h" class="text-base sm:text-lg font-bold text-white block">00</span><span class="wa-countdown-label block text-emerald-100 text-[9.5px] font-sans">Jam</span></div>
+                        <div><span id="t5-m" class="text-base sm:text-lg font-bold text-white block">00</span><span class="wa-countdown-label block text-emerald-100 text-[9.5px] font-sans">Mnt</span></div>
+                        <div><span id="t5-s" class="text-base sm:text-lg font-bold text-white block">00</span><span class="wa-countdown-label block text-emerald-100 text-[9.5px] font-sans">Dtk</span></div>
                     </div>
                 </div>
 
                 <!-- Tombol Navigasi Peta -->
                 <div class="grid grid-cols-2 gap-2 pt-1">
                     <a href="https://maps.google.com/?q=<%= encodeURIComponent(venueAddress || venueName || 'Lokasi Acara') %>" target="_blank"
-                       class="text-center py-2.5 px-3 bg-[#075E54] text-white rounded-xl text-xs font-bold hover:bg-emerald-700 transition-colors flex items-center justify-center space-x-1 shadow">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
-                        <span>Petunjuk Maps</span>
+                       class="wa-btn-maps text-center py-2.5 px-3 bg-[#075E54] text-white rounded-xl text-xs font-bold hover:bg-emerald-700 transition-colors flex items-center justify-center space-x-1.5 shadow-xs">
+                        <svg class="w-3.5 h-3.5 text-white stroke-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                        <span class="text-white font-bold">Petunjuk Maps</span>
                     </a>
                     <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+<%= encodeURIComponent(fv(event?.groom_name, 'David') + '+%26+' + fv(event?.bride_name, 'Sarah')) %>&location=<%= encodeURIComponent(fv(venueName, '') + ', ' + fv(venueAddress, '')) %>" target="_blank"
                        class="text-center py-2.5 px-3 bg-white text-[#111b21] border border-slate-300 rounded-xl text-xs font-semibold hover:bg-slate-50 transition-colors flex items-center justify-center space-x-1 shadow-xs">
-                        <span>+ Simpan Kalender</span>
+                        <span class="text-[#111b21] font-semibold">+ Simpan Kalender</span>
                     </a>
                 </div>
 
-                <div class="wa-time text-right font-mono">09:43</div>
+                <div class="flex justify-end pt-1">
+                    <span class="wa-msg-meta !mt-0 !mb-0 !bottom-0"><span class="wa-time">09.43</span></span>
+                </div>
             </div>
         </div>
 
         <!-- BUBBLE 6: ALBUM MEDIA FOTO BERDUA -->
-        <div id="t5-gallery-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[85%] chat-pop">
-            <div class="wa-bubble-in p-3.5 shadow-sm space-y-2 w-full">
+        <div id="t5-gallery-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[82%] chat-pop">
+            <div class="wa-bubble-in has-tail p-3 shadow-xs space-y-2 w-fit">
                 <div class="text-xs font-bold text-[#54656f] mb-1 flex items-center justify-between">
                     <span>📷 Album Foto Mempelai</span>
                     <span class="text-[#008069] text-[11px] font-semibold cursor-pointer" onclick="openWAStory(0)">Lihat di Story ➔</span>
@@ -642,15 +864,15 @@
 
                 <div class="flex items-center justify-between pt-1 text-[11px] text-[#54656f]">
                     <span>Ketuk foto untuk putar Status Cerita</span>
-                    <span class="wa-time font-mono">09:43</span>
+                    <span class="wa-msg-meta !mt-0 !mb-0 !bottom-0"><span class="wa-time">09.43</span></span>
                 </div>
             </div>
         </div>
 
         <!-- BUBBLE 7: AMPLOP DIGITAL (TRANSFER BANK & QRIS) -->
-        <div id="t5-gift-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[85%] chat-pop">
-            <div class="wa-bubble-in p-4 shadow-sm space-y-3 w-full">
-                <div class="flex items-center justify-between text-xs font-bold text-[#54656f] border-b border-slate-200 pb-2">
+        <div id="t5-gift-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[82%] chat-pop">
+            <div class="wa-bubble-in has-tail p-3.5 shadow-xs space-y-3 w-fit">
+                <div class="flex items-center justify-between text-xs font-bold text-[#54656f] border-b border-black/[0.06] pb-2">
                     <span>🎁 Amplop Digital (Cashless Gift)</span>
                     <span class="text-[#008069] font-mono text-[11px]">Terverifikasi</span>
                 </div>
@@ -660,12 +882,12 @@
                 </p>
 
                 <!-- Rekening BCA -->
-                <div class="wa-inner-card p-3">
+                <div class="wa-inner-card p-2.5 rounded-xl">
                     <div class="flex items-center justify-between mb-1.5">
                         <span class="text-xs font-bold text-blue-800">BANK BCA</span>
                         <span class="text-[11px] text-[#54656f]">a.n <%= fv(event?.groom_name, 'David Anderson') %></span>
                     </div>
-                    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200">
+                    <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-lg border border-slate-200">
                         <span id="t5-bca-num" class="font-mono text-sm font-bold text-[#111b21]">1234567890</span>
                         <button onclick="copyT5('t5-bca-num', this)" class="px-2.5 py-1 bg-emerald-600 text-white text-[11px] font-bold rounded-lg hover:bg-emerald-700 transition-colors">
                             Salin
@@ -674,12 +896,12 @@
                 </div>
 
                 <!-- Rekening Mandiri -->
-                <div class="wa-inner-card p-3">
+                <div class="wa-inner-card p-2.5 rounded-xl">
                     <div class="flex items-center justify-between mb-1.5">
                         <span class="text-xs font-bold text-amber-800">BANK MANDIRI</span>
                         <span class="text-[11px] text-[#54656f]">a.n <%= fv(event?.bride_name, 'Sarah Johnson') %></span>
                     </div>
-                    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200">
+                    <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-lg border border-slate-200">
                         <span id="t5-mandiri-num" class="font-mono text-sm font-bold text-[#111b21]">0987654321</span>
                         <button onclick="copyT5('t5-mandiri-num', this)" class="px-2.5 py-1 bg-emerald-600 text-white text-[11px] font-bold rounded-lg hover:bg-emerald-700 transition-colors">
                             Salin
@@ -688,19 +910,21 @@
                 </div>
 
                 <!-- Tombol Buka Pop-Up QRIS -->
-                <button onclick="openQRISModal()" class="w-full py-2.5 px-3 bg-emerald-50 hover:bg-emerald-100 text-[#075E54] font-bold text-xs rounded-xl border border-emerald-300 flex items-center justify-center space-x-1.5 transition-colors">
+                <button onclick="openQRISModal()" class="w-full py-2 px-3 bg-emerald-50 hover:bg-emerald-100 text-[#075E54] font-bold text-xs rounded-xl border border-emerald-300 flex items-center justify-center space-x-1.5 transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
                     <span>Tampilkan Scan QRIS Amplop Digital</span>
                 </button>
 
-                <div class="wa-time text-right font-mono">09:44</div>
+                <div class="flex justify-end pt-1">
+                    <span class="wa-msg-meta !mt-0 !mb-0 !bottom-0"><span class="wa-time">09.44</span></span>
+                </div>
             </div>
         </div>
 
         <!-- BUBBLE 8: POLLING WHATSAPP (KONFIRMASI RSVP) -->
-        <div id="t5-rsvp-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[85%] chat-pop">
-            <div class="wa-bubble-in p-4 shadow-sm space-y-3 w-full">
-                <div class="flex items-center space-x-1.5 text-xs font-bold text-[#111b21] border-b border-slate-200 pb-2">
+        <div id="t5-rsvp-bubble" class="hidden flex items-start max-w-[92%] sm:max-w-[82%] chat-pop">
+            <div class="wa-bubble-in has-tail p-3.5 shadow-xs space-y-3 w-fit">
+                <div class="flex items-center space-x-1.5 text-xs font-bold text-[#111b21] border-b border-black/[0.06] pb-2">
                     <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
                     <span>Polling Kehadiran (RSVP)</span>
                 </div>
@@ -731,13 +955,10 @@
                     </div>
                 </div>
 
-                <div class="wa-time text-right font-mono">09:44</div>
+                <div class="flex justify-end pt-1">
+                    <span class="wa-msg-meta !mt-0 !mb-0 !bottom-0"><span class="wa-time">09.44</span></span>
+                </div>
             </div>
-        </div>
-
-        <!-- OUTGOING CHAT BUBBLES CONTAINER (BALASAN TAMU SETELAH RSVP / STIKER) -->
-        <div id="t5-outgoing-bubbles" class="space-y-3">
-            <!-- Dynamic outgoing messages will be placed here -->
         </div>
 
         <!-- BUBBLE 9: DINDING DOA BERSAMA / UCAPAN TAMU -->
@@ -762,7 +983,7 @@
                             <% if (wish.message) { %>
                             <p class="leading-relaxed text-[#111b21]"><%= wish.message %></p>
                             <% } %>
-                            <div class="wa-time text-right font-mono mt-1"><%= timeAgo(wish.created_at) %></div>
+                            <div class="wa-time text-right font-mono mt-1 text-[11px] text-[#8696a0]"><%= timeAgo(wish.created_at) %></div>
                         </div>
                     </div>
                     <% }); %>
@@ -773,10 +994,15 @@
                 <% } %>
             </div>
         </div>
+
+        <!-- OUTGOING CHAT BUBBLES CONTAINER (BALASAN TAMU SETELAH RSVP / STIKER / REAKSI DI PALING BAWAH) -->
+        <div id="t5-outgoing-bubbles" class="space-y-3 pt-1">
+            <!-- Dynamic outgoing messages will be placed here at the absolute bottom -->
+        </div>
     </main>
 
     <!-- STICKER PACK DRAWER -->
-    <div id="t5-sticker-drawer" class="hidden bg-[#f0f2f5] p-3 border-t border-slate-200 grid grid-cols-3 gap-2.5 z-40">
+    <div id="t5-sticker-drawer" class="hidden flex-shrink-0 bg-[#f0f2f5] p-3 border-t border-slate-200 grid grid-cols-3 gap-2.5 z-40">
         <button onclick="sendWASticker('💍 Happy Wedding! Semoga Sakinah Mawaddah Warahmah 💕')" class="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 hover:border-emerald-500 text-center text-xs active:scale-95 transition-all">
             <span class="text-2xl block mb-1">💍</span>
             <span class="font-bold text-[10px] text-[#111b21]">Happy Wedding</span>
@@ -803,24 +1029,35 @@
         </button>
     </div>
 
-    <!-- 5. BOTTOM BAR CHAT INPUT DENGAN BUTTON KIRIM MENGHADAP KE KANAN (➔) -->
-    <div class="fixed bottom-0 left-0 right-0 max-w-2xl mx-auto bg-[#f0f2f5] p-2.5 px-3.5 flex items-center space-x-2.5 z-40 border-t border-slate-200">
-        <!-- Sticker Drawer Toggle Button -->
-        <button type="button" onclick="toggleStickerDrawer()" aria-label="Buka Stiker" class="text-[#54656f] hover:text-emerald-600 p-1">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+    <!-- 5. BOTTOM BAR CHAT INPUT (iOS WHATSAPP STYLE - FLEX-SHRINK-0) -->
+    <footer id="t5-bottom-bar" class="flex-shrink-0 w-full bg-[#F6F6F6]/95 backdrop-blur-md p-2 px-3 flex items-center space-x-2 z-40 border-t border-black/10 shadow-xs">
+        <!-- Plus Button (+) iOS Blue -->
+        <button type="button" onclick="toggleStickerDrawer()" aria-label="Buka Lampiran" class="text-[#007AFF] hover:opacity-80 p-1 flex-shrink-0">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
         </button>
 
-        <!-- Input Field Tulis Ucapan -->
-        <input type="text" id="t5-quick-input" placeholder="Ketik ucapan doa restu..." 
-               class="flex-1 px-4 py-2 bg-white text-[#111b21] rounded-full text-xs sm:text-sm border-0 focus:outline-none focus:ring-1 focus:ring-emerald-500 placeholder-slate-400 shadow-xs">
+        <!-- Input Field (Pill Rounded Asli WA iOS) -->
+        <div class="flex-1 flex items-center bg-white rounded-full px-3.5 py-1.5 border border-gray-300/80 shadow-xs">
+            <input type="text" id="t5-quick-input" placeholder="Ketik pesan ucapan..." 
+                   class="flex-1 bg-transparent text-[#000000] text-[15px] border-0 focus:outline-none placeholder-gray-400">
+            <!-- Sticker Icon Inside Input -->
+            <button type="button" onclick="toggleStickerDrawer()" class="text-[#007AFF] hover:opacity-80 pl-1.5">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm6 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75z"></path></svg>
+            </button>
+        </div>
 
-        <!-- TOMBOL SEND HIJAU DENGAN PANAH MENGHADAP KE KANAN (➔) -->
-        <button type="button" onclick="sendQuickWish()" aria-label="Kirim Pesan" class="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center flex-shrink-0 shadow hover:bg-emerald-600 active:scale-95 transition-all">
-            <svg class="w-5 h-5 ml-0.5 text-white" fill="currentColor" viewBox="0 0 24 24">
+        <!-- Camera Button -->
+        <button type="button" onclick="openWAStory(0)" title="Kamera Story" class="text-[#007AFF] hover:opacity-80 p-1 flex-shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"></path></svg>
+        </button>
+
+        <!-- Send Button -->
+        <button type="button" id="t5-send-btn" onclick="sendQuickWish()" aria-label="Kirim Pesan" class="w-8 h-8 rounded-full bg-[#007AFF] text-white flex items-center justify-center flex-shrink-0 shadow hover:bg-blue-600 active:scale-95 transition-all">
+            <svg class="w-4 h-4 ml-0.5 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
             </svg>
         </button>
-    </div>
+    </footer>
 </div>
 
 <!-- =================================================================== -->
@@ -1061,57 +1298,129 @@ function openWAChatWithProcess(cardEl) {
             setTimeout(() => {
                 lock.style.display = 'none';
                 if (chat) chat.classList.remove('hidden');
+                const chatMain = document.getElementById('t5-chat-main');
+                if (chatMain) chatMain.scrollTop = 0;
+                window.scrollTo({ top: 0, behavior: 'instant' });
                 startStaggeredChatStream();
             }, 600);
         }
     }, 450);
 }
 
+function positionTypingBelow(el) {
+    const typingBubble = document.getElementById('t5-typing-bubble');
+    if (!typingBubble) return;
+    if (el && el.parentNode) {
+        el.after(typingBubble);
+    }
+    typingBubble.classList.remove('hidden');
+
+    const chatMain = document.getElementById('t5-chat-main');
+    if (chatMain) {
+        const bottomOffset = typingBubble.offsetTop + typingBubble.offsetHeight;
+        if (bottomOffset > chatMain.scrollTop + chatMain.clientHeight) {
+            chatMain.scrollTo({ top: bottomOffset - chatMain.clientHeight + 16, behavior: 'smooth' });
+        }
+    }
+}
+
+// Posisikan indikator mengetik selalu di PALING BAWAH seluruh bubble yang terlihat + auto scroll ke bawah
+function positionTypingAtBottom() {
+    const typingBubble = document.getElementById('t5-typing-bubble');
+    const chatMain = document.getElementById('t5-chat-main');
+    if (!typingBubble || !chatMain) return;
+
+    const outBox = document.getElementById('t5-outgoing-bubbles');
+    if (outBox && outBox.parentNode === chatMain) {
+        outBox.before(typingBubble);
+    } else {
+        const children = Array.from(chatMain.children);
+        let lastVisibleChild = null;
+
+        for (const child of children) {
+            if (child === typingBubble || child === outBox) continue;
+            if (!child.classList.contains('hidden') && child.style.display !== 'none') {
+                lastVisibleChild = child;
+            }
+        }
+
+        if (lastVisibleChild) {
+            lastVisibleChild.after(typingBubble);
+        } else {
+            chatMain.appendChild(typingBubble);
+        }
+    }
+
+    typingBubble.classList.remove('hidden');
+
+    // Auto scroll ke paling bawah menuju indikator mengetik di container chatMain
+    setTimeout(() => {
+        chatMain.scrollTo({ top: chatMain.scrollHeight, behavior: 'smooth' });
+    }, 40);
+}
+
 function startStaggeredChatStream() {
+    const chatMain = document.getElementById('t5-chat-main');
+    if (chatMain) chatMain.scrollTop = 0;
+
     const hStatus = document.getElementById('t5-header-status');
     const typingBubble = document.getElementById('t5-typing-bubble');
+    const datePin = document.getElementById('t5-date-pin');
     const step1 = document.getElementById('chat-step-1');
     const step2 = document.getElementById('chat-step-2');
     const step3 = document.getElementById('chat-step-3');
     const actionsHub = document.getElementById('chat-actions-hub');
 
-    // Sedang mengetik...
-    if (hStatus) hStatus.textContent = '✍️ sedang mengetik...';
-    if (typingBubble) typingBubble.classList.remove('hidden');
+    // 1. Sedang mengetik pesan pertama (Salam Pembuka)
+    if (hStatus) hStatus.textContent = 'sedang mengetik...';
+    positionTypingBelow(datePin);
 
-    // Pesan 1 Muncul
+    // Pesan 1 Muncul setelah delay mengetik alami
     setTimeout(() => {
         playIncomingSound();
+        if (typingBubble) typingBubble.classList.add('hidden');
+        if (hStatus) hStatus.textContent = 'online';
         if (step1) step1.classList.remove('hidden');
-        step1.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (chatMain) chatMain.scrollTop = 0;
 
-        // Lanjut ngetik pesan 2
+        // Jeda membaca pesan 1 (~1.2 detik), lalu mulai mengetik pesan 2
         setTimeout(() => {
-            if (hStatus) hStatus.textContent = '✍️ sedang mengetik...';
-            if (typingBubble) typingBubble.classList.remove('hidden');
+            if (hStatus) hStatus.textContent = 'sedang mengetik...';
+            positionTypingBelow(step1);
 
-            // Pesan 2 Muncul
+            // Pesan 2 Muncul setelah mengetik kabar bahagia (~2.4 detik)
             setTimeout(() => {
                 playIncomingSound();
+                if (typingBubble) typingBubble.classList.add('hidden');
+                if (hStatus) hStatus.textContent = 'online';
                 if (step2) step2.classList.remove('hidden');
-                step2.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-                // Lanjut pesan VN
+                // Jeda membaca pesan 2 (~1.2 detik), lalu status berganti merekam audio VN
                 setTimeout(() => {
-                    playIncomingSound();
-                    if (step3) step3.classList.remove('hidden');
-                    if (actionsHub) actionsHub.classList.remove('hidden');
-                    if (typingBubble) typingBubble.classList.add('hidden');
-                    if (hStatus) hStatus.textContent = '🟢 Online';
-                    toggleAudio(true);
-                    step3.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    if (hStatus) hStatus.textContent = 'merekam audio...';
+                    positionTypingBelow(step2);
+
+                    // Pesan 3 (Voice Note & Menu Navigasi) Muncul (~2.0 detik)
+                    setTimeout(() => {
+                        playIncomingSound();
+                        if (step3) step3.classList.remove('hidden');
+                        if (actionsHub) actionsHub.classList.remove('hidden');
+                        if (typingBubble) typingBubble.classList.add('hidden');
+                        if (hStatus) hStatus.textContent = 'online';
+                        toggleAudio(true);
+
+                        // Pastikan posisi obrolan tetap di bagian atas (tanggal & salam pembuka tidak terpotong)
+                        if (chatMain) {
+                            chatMain.scrollTop = 0;
+                        }
+                    }, 2000);
                 }, 1200);
-            }, 1000);
-        }, 750);
-    }, 850);
+            }, 2400);
+        }, 1200);
+    }, 1800);
 }
 
-// Buka rincian satu persatu secara smooth
+// Buka rincian satu persatu secara smooth (loading dan bubble baru selalu DI PALING BAWAH chat)
 function revealSectionSmooth(sectionId, btnEl, labelText) {
     const targetEl = document.getElementById(sectionId);
     if (!targetEl) return;
@@ -1123,52 +1432,229 @@ function revealSectionSmooth(sectionId, btnEl, labelText) {
 
     const hStatus = document.getElementById('t5-header-status');
     const typingBubble = document.getElementById('t5-typing-bubble');
-    if (hStatus) hStatus.textContent = '✍️ sedang mengetik...';
-    if (typingBubble) typingBubble.classList.remove('hidden');
+    if (hStatus) hStatus.textContent = 'sedang mengetik...';
+
+    // Posisikan indikator mengetik selalu di PALING BAWAH seluruh bubble yang terlihat + auto scroll
+    positionTypingAtBottom();
 
     setTimeout(() => {
         playIncomingSound();
+
+        // Pindahkan targetEl tepat sebelum typingBubble
+        if (typingBubble && typingBubble.parentNode) {
+            typingBubble.before(targetEl);
+        }
+
         targetEl.classList.remove('hidden');
-        if (hStatus) hStatus.textContent = '🟢 Online';
+        if (hStatus) hStatus.textContent = 'online';
         if (typingBubble) typingBubble.classList.add('hidden');
         if (btnEl) btnEl.innerHTML = `<span>✓ ${labelText}</span>`;
-        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 550);
+
+        // Pastikan outBox (reaksi / balasan) SELALU TETAP DI PALING BAWAH
+        const chatMain = document.getElementById('t5-chat-main');
+        const outBox = document.getElementById('t5-outgoing-bubbles');
+        if (chatMain && outBox) {
+            chatMain.appendChild(outBox);
+        }
+
+        // Auto scroll ke bawah menuju bubble rincian yang baru saja muncul di container chatMain
+        setTimeout(() => {
+            if (chatMain) {
+                chatMain.scrollTo({ top: chatMain.scrollHeight, behavior: 'smooth' });
+            }
+        }, 60);
+    }, 700);
 }
 
-// Buka semua bagian langsung secara smooth
+// Buka semua bagian langsung secara smooth (loading dan semua rincian DI PALING BAWAH chat)
 function revealAllSectionsSmooth(btnEl) {
     if (btnEl) {
         btnEl.innerHTML = '<span class="inline-block w-2.5 h-2.5 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin"></span> <span>Memuat seluruh rincian...</span>';
     }
+
+    const hStatus = document.getElementById('t5-header-status');
+    const typingBubble = document.getElementById('t5-typing-bubble');
+    if (hStatus) hStatus.textContent = 'sedang mengetik...';
+
+    // Posisikan indikator mengetik di PALING BAWAH chat dan auto scroll
+    positionTypingAtBottom();
 
     const ids = ['chat-step-1', 'chat-step-2', 'chat-step-3', 'chat-actions-hub', 't5-couple-bubble', 't5-event-bubble', 't5-gallery-bubble', 't5-gift-bubble', 't5-rsvp-bubble', 't5-wishes-section'];
     
     setTimeout(() => {
         ids.forEach(id => {
             const el = document.getElementById(id);
-            if (el) el.classList.remove('hidden');
+            if (el) {
+                if (typingBubble && typingBubble.parentNode) {
+                    typingBubble.before(el);
+                }
+                el.classList.remove('hidden');
+            }
         });
-        const typingBubble = document.getElementById('t5-typing-bubble');
         if (typingBubble) typingBubble.classList.add('hidden');
-        const hStatus = document.getElementById('t5-header-status');
-        if (hStatus) hStatus.textContent = '🟢 Online';
+        if (hStatus) hStatus.textContent = 'online';
         if (btnEl) btnEl.innerHTML = '<span>✓ Seluruh Rincian Terbuka</span>';
         playIncomingSound();
         toggleAudio(true);
-    }, 450);
+
+        // Pastikan outBox (reaksi / balasan) SELALU TETAP DI PALING BAWAH setelah seluruh rincian dibuka
+        const chatMain = document.getElementById('t5-chat-main');
+        const outBox = document.getElementById('t5-outgoing-bubbles');
+        if (chatMain && outBox) {
+            chatMain.appendChild(outBox);
+        }
+
+        setTimeout(() => {
+            const firstRevealed = document.getElementById('t5-couple-bubble') || document.getElementById('t5-event-bubble');
+            if (firstRevealed) {
+                firstRevealed.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 80);
+    }, 700);
 }
 
-function backToLockscreen() {
+// Emoji Reaction Popup (Sesuai Screenshot WhatsApp iOS)
+function toggleBubbleReaction(bubbleId, event) {
+    if (event) event.stopPropagation();
+    const existing = document.getElementById('wa-active-reaction-bar');
+    if (existing) {
+        existing.remove();
+        if (existing.dataset.targetId === bubbleId) return;
+    }
+
+    const bubble = document.getElementById(bubbleId);
+    if (!bubble) return;
+
+    const bar = document.createElement('div');
+    bar.id = 'wa-active-reaction-bar';
+    bar.dataset.targetId = bubbleId;
+    bar.className = 'wa-reaction-bar chat-pop absolute -top-10 left-3 shadow-xl';
+    bar.innerHTML = `
+        <button type="button" onclick="reactToBubble('${bubbleId}', '👍', event)" class="wa-reaction-btn">👍</button>
+        <button type="button" onclick="reactToBubble('${bubbleId}', '❤️', event)" class="wa-reaction-btn">❤️</button>
+        <button type="button" onclick="reactToBubble('${bubbleId}', '😂', event)" class="wa-reaction-btn">😂</button>
+        <button type="button" onclick="reactToBubble('${bubbleId}', '😮', event)" class="wa-reaction-btn">😮</button>
+        <button type="button" onclick="reactToBubble('${bubbleId}', '😢', event)" class="wa-reaction-btn">😢</button>
+        <button type="button" onclick="reactToBubble('${bubbleId}', '🙏', event)" class="wa-reaction-btn">🙏</button>
+        <button type="button" onclick="reactToBubble('${bubbleId}', '✨', event)" class="wa-reaction-btn text-base font-bold text-gray-500">+</button>
+    `;
+    bubble.style.position = 'relative';
+    bubble.appendChild(bar);
+}
+
+function reactToBubble(bubbleId, emoji, event) {
+    if (event) event.stopPropagation();
+    const bar = document.getElementById('wa-active-reaction-bar');
+    if (bar) bar.remove();
+
+    const bubble = document.getElementById(bubbleId);
+    if (!bubble) return;
+
+    let badge = bubble.querySelector('.wa-reaction-badge');
+    if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'wa-reaction-badge';
+        bubble.appendChild(badge);
+    }
+    badge.innerHTML = `${emoji} <span class="font-bold text-[10px] text-gray-700">1</span>`;
+
+    // Floating reaction animation
+    const span = document.createElement('span');
+    span.className = 'floating-emoji text-3xl';
+    span.textContent = emoji;
+    span.style.left = (event ? event.clientX - 15 : window.innerWidth / 2) + 'px';
+    span.style.top = (event ? event.clientY - 20 : window.innerHeight / 2) + 'px';
+    document.body.appendChild(span);
+    setTimeout(() => span.remove(), 2100);
+
+    playSentSound();
+    appendOutgoingBubble(`Bereaksi ${emoji} pada pesan`);
+}
+
+document.addEventListener('click', function(e) {
+    const bar = document.getElementById('wa-active-reaction-bar');
+    if (bar && !bar.contains(e.target)) {
+        bar.remove();
+    }
+});
+
+function resetToBeginning() {
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     const lock = document.getElementById('t5-lockscreen');
     const chat = document.getElementById('t5-chat-wrapper');
-    if (lock && chat) {
+    const actionText = document.getElementById('t5-notif-action-text');
+    const arrow = document.getElementById('t5-notif-arrow');
+    const audio = document.getElementById('t5-audio');
+
+    // 1. Tampilkan kembali lockscreen di posisi teratas
+    if (lock) {
         lock.style.display = 'flex';
-        setTimeout(() => {
-            lock.classList.remove('-translate-y-full', 'opacity-0');
-            chat.classList.add('hidden');
-        }, 50);
+        lock.classList.remove('-translate-y-full', 'opacity-0');
     }
+
+    // 2. Sembunyikan chat wrapper
+    if (chat) {
+        chat.classList.add('hidden');
+    }
+
+    // 3. Reset teks notifikasi
+    if (actionText) {
+        actionText.innerHTML = '<span>Ketuk untuk Buka Undangan</span>';
+    }
+    if (arrow) {
+        arrow.classList.remove('translate-x-2');
+    }
+
+    // 4. Sembunyikan semua bubble chat agar aliran pesan mengulang dari awal
+    const chatIds = [
+        'chat-step-1', 'chat-step-2', 'chat-step-3', 'chat-actions-hub',
+        't5-couple-bubble', 't5-event-bubble', 't5-gallery-bubble',
+        't5-gift-bubble', 't5-rsvp-bubble', 't5-wishes-section'
+    ];
+    chatIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+    });
+
+    const typingBubble = document.getElementById('t5-typing-bubble');
+    if (typingBubble) typingBubble.classList.add('hidden');
+
+    const hStatus = document.getElementById('t5-header-status');
+    if (hStatus) hStatus.textContent = 'online';
+
+    // Kembalikan typing bubble ke bawah pin tanggal
+    const datePin = document.getElementById('t5-date-pin');
+    if (datePin && typingBubble) {
+        datePin.after(typingBubble);
+    }
+
+    // 5. Matikan musik / VN
+    if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+        isAudioPlaying = false;
+    }
+    stopMelodySynth();
+    const playIcon = document.getElementById('t5-vn-play-icon');
+    const pauseIcon = document.getElementById('t5-vn-pause-icon');
+    if (playIcon) playIcon.classList.remove('hidden');
+    if (pauseIcon) pauseIcon.classList.add('hidden');
+    const waveBars = document.querySelectorAll('.waveform-bar');
+    waveBars.forEach(b => b.classList.remove('playing'));
+}
+
+// Reset otomatis setiap kali halaman dibuka atau kembali dari navigasi browser
+resetToBeginning();
+window.addEventListener('pageshow', function() {
+    resetToBeginning();
+});
+
+function backToLockscreen() {
+    resetToBeginning();
 }
 
 // WhatsApp Story Functions
@@ -1188,6 +1674,12 @@ function closeWAStory() {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
         if (storyTimer) clearTimeout(storyTimer);
+    }
+    const chatMain = document.getElementById('t5-chat-main');
+    if (chatMain) {
+        setTimeout(() => {
+            chatMain.scrollTo({ top: chatMain.scrollHeight, behavior: 'smooth' });
+        }, 100);
     }
 }
 
@@ -1404,38 +1896,68 @@ function showToast(msg) {
     }
 }
 
-// Outgoing Chat Bubbles Builder
+// Outgoing Chat Bubbles Builder (Selalu lanjut di PALING BAWAH seluruh chat)
 function appendOutgoingBubble(msg, isSticker = false) {
-    const outBox = document.getElementById('t5-outgoing-bubbles');
-    if (!outBox) return;
+    const chatMain = document.getElementById('t5-chat-main');
+    if (!chatMain) return;
+
+    let outBox = document.getElementById('t5-outgoing-bubbles');
+    if (!outBox) {
+        outBox = document.createElement('div');
+        outBox.id = 't5-outgoing-bubbles';
+        outBox.className = 'space-y-3 pt-1';
+    }
+    // Pastikan kontainer outBox selalu berada di PALING BAWAH seluruh elemen chat
+    chatMain.appendChild(outBox);
 
     const outBubble = document.createElement('div');
-    outBubble.className = 'flex justify-end max-w-[90%] sm:max-w-[80%] ml-auto chat-pop';
+    outBubble.className = 'flex justify-end max-w-[88%] sm:max-w-[78%] ml-auto chat-pop';
     
+    const now = new Date();
+    const timeStr = String(now.getHours()).padStart(2, '0') + '.' + String(now.getMinutes()).padStart(2, '0');
+
     if (isSticker) {
         outBubble.innerHTML = `
-            <div class="bg-white p-3 rounded-2xl shadow-sm text-center space-y-1 border border-slate-200">
-                <p class="text-sm font-bold text-[#111b21]">${msg}</p>
-                <div class="flex items-center justify-end space-x-1 text-[10px] text-slate-500 font-mono pt-0.5">
-                    <span>Baru saja</span>
-                    <span class="text-blue-500 font-bold">✓✓</span>
+            <div class="bg-white p-3 rounded-2xl shadow-xs text-center space-y-1 border border-black/5">
+                <p class="text-base font-bold text-[#111b21]">${msg}</p>
+                <div class="flex items-center justify-end space-x-1 text-[11px] text-[#8696a0] pt-0.5">
+                    <span>${timeStr}</span>
+                    <span class="text-[#53bdeb] font-medium tracking-tighter">✓✓</span>
                 </div>
             </div>
         `;
     } else {
         outBubble.innerHTML = `
-            <div class="wa-bubble-out p-3 shadow-sm text-xs space-y-1">
-                <p class="leading-relaxed font-medium text-[#111b21]">${msg}</p>
-                <div class="flex items-center justify-end space-x-1 text-[10px] text-slate-600 font-mono pt-0.5">
-                    <span>Baru saja</span>
-                    <span class="text-blue-500 font-bold">✓✓</span>
-                </div>
+            <div class="wa-bubble-out has-tail px-3.5 py-2 shadow-xs text-[14.5px] w-fit">
+                <p class="wa-bubble-text">${msg}<span style="display:inline-block;width:48px;height:0;"></span><span class="wa-msg-meta !text-[#667781]"><span class="wa-time">${timeStr}</span><span class="text-[#53bdeb] text-[12px] font-medium tracking-tighter">✓✓</span></span></p>
             </div>
         `;
     }
 
     outBox.appendChild(outBubble);
-    outBubble.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    chatMain.scrollTo({ top: chatMain.scrollHeight, behavior: 'smooth' });
+
+    // Loading balasan otomatis DI BAWAH bubble yang baru saja dikirim
+    const hStatus = document.getElementById('t5-header-status');
+    if (hStatus) hStatus.textContent = 'sedang mengetik...';
+    positionTypingBelow(outBubble);
+    chatMain.scrollTo({ top: chatMain.scrollHeight, behavior: 'smooth' });
+
+    setTimeout(() => {
+        const replyBubble = document.createElement('div');
+        replyBubble.className = 'flex items-start max-w-[88%] sm:max-w-[78%] chat-pop mt-2';
+        replyBubble.innerHTML = `
+            <div class="wa-bubble-in has-tail px-3.5 py-2 shadow-xs text-[14.5px] w-fit">
+                <p class="wa-bubble-text">Terima kasih banyak atas ucapan & doa restunya! Sangat berarti bagi kami berdua 🙏💕<span style="display:inline-block;width:38px;height:0;"></span><span class="wa-msg-meta"><span class="wa-time">${timeStr}</span></span></p>
+            </div>
+        `;
+        outBox.appendChild(replyBubble);
+        const typingBubble = document.getElementById('t5-typing-bubble');
+        if (typingBubble) typingBubble.classList.add('hidden');
+        if (hStatus) hStatus.textContent = 'online';
+        playIncomingSound();
+        chatMain.scrollTo({ top: chatMain.scrollHeight, behavior: 'smooth' });
+    }, 1800);
 }
 
 // Inisialisasi DOM
@@ -1528,7 +2050,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     playSentSound();
 
                     // Bubble Chat Keluar (Hijau dengan Double Checkmarks)
-                    if (outBox) {
+                    const chatMain = document.getElementById('t5-chat-main');
+                    if (outBox && chatMain) {
+                        chatMain.appendChild(outBox);
                         const outBubble = document.createElement('div');
                         outBubble.className = 'flex justify-end max-w-[90%] sm:max-w-[80%] ml-auto chat-pop';
                         outBubble.innerHTML = `
@@ -1542,6 +2066,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         `;
                         outBox.appendChild(outBubble);
+                        chatMain.scrollTo({ top: chatMain.scrollHeight, behavior: 'smooth' });
 
                         // Balasan otomatis dari Mempelai setelah 1.2 detik
                         setTimeout(() => {
@@ -1558,7 +2083,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             `;
                             outBox.appendChild(replyBubble);
-                            replyBubble.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            chatMain.scrollTo({ top: chatMain.scrollHeight, behavior: 'smooth' });
                         }, 1200);
                     }
 
@@ -1599,21 +2124,45 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Dukungan tekan Enter untuk kirim pesan cepat
+    const quickInp = document.getElementById('t5-quick-input');
+    if (quickInp) {
+        quickInp.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendQuickWish();
+            }
+        });
+    }
 });
 
-// Quick Wish Send dari Bottom Bar
+// Quick Wish Send dari Bottom Bar (Langsung kirim pesan ke obrolan di paling bawah)
 function sendQuickWish() {
     const input = document.getElementById('t5-quick-input');
     if (!input || !input.value.trim()) return;
     const msg = input.value.trim();
-    const guestName = document.getElementById('t5-chat-guest')?.textContent || 'Tamu Undangan';
-
-    openRSVPDialog('hadir');
-    const fMsg = document.getElementById('t5-form-msg');
-    const fName = document.getElementById('t5-form-name');
-    if (fMsg) fMsg.value = msg;
-    if (fName && !fName.value) fName.value = guestName;
     input.value = '';
+    playSentSound();
+    appendOutgoingBubble(msg);
+
+    // Sinkronisasi ucapan ke backend RSVP di background
+    const guestName = document.getElementById('t5-chat-guest')?.textContent || 'Tamu Undangan';
+    const safeName = guestName.toLowerCase().replace(/[^a-z0-9]/g, '') || 'tamu';
+    fetch('<%= rsvpPath %>', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+        },
+        body: JSON.stringify({
+            name: guestName,
+            email: `${safeName}_${Date.now()}@undangan.local`,
+            attendance: 'hadir',
+            number_of_guests: 1,
+            message: msg
+        })
+    }).catch(() => {});
 }
 </script>
 </body>

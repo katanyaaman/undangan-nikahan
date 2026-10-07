@@ -8,9 +8,18 @@
     <title><%= title || 'Undangan Pernikahan' %></title>
 
     <link rel="stylesheet" href="/css/app.css">
+    <style>
+        .phone-container {
+            width: 100% !important;
+            max-width: 412px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+    </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-gold-400 selection:text-slate-950">
-
-    <%- body %>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-gold-400 selection:text-slate-950 min-h-screen">
+    <div class="phone-container min-h-screen bg-slate-950 shadow-2xl relative border-x border-gold-400/20">
+        <%- body %>
+    </div>
 </body>
 </html>

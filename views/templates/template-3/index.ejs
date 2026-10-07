@@ -9,9 +9,17 @@
     <style>
         .font-serif { font-family: 'Lora', 'Playfair Display', Georgia, serif; }
         .font-script { font-family: 'Allura', 'Dancing Script', cursive; }
+        .phone-container {
+            width: 100% !important;
+            max-width: 412px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
     </style>
 </head>
-<body class="bg-cream-50 text-stone-800 font-sans antialiased overflow-x-hidden selection:bg-nature-200 selection:text-nature-900">
+<body class="bg-stone-900 text-stone-800 font-sans antialiased overflow-x-hidden selection:bg-nature-200 selection:text-nature-900 min-h-screen">
+
+<div class="phone-container min-h-screen bg-cream-50 shadow-2xl relative border-x border-stone-200">
 
 <!-- Audio Element -->
 <audio id="t3-audio" loop preload="auto">
@@ -20,7 +28,7 @@
 
 <!-- Opening Cover / Envelope -->
 <div id="t3-opening-cover" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-stone-200/90 via-cream-100 to-stone-200/90 transition-all duration-1000 px-4">
-    <div class="relative z-10 text-center max-w-lg mx-auto py-12 px-6 rounded-3xl bg-white/95 border border-stone-300 shadow-2xl backdrop-blur-xl">
+    <div class="relative z-10 text-center max-w-[360px] w-full mx-auto py-10 px-5 rounded-3xl bg-white/95 border border-stone-300 shadow-2xl backdrop-blur-xl">
         <!-- Laurel Wreath Monogram -->
         <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-nature-50 border-2 border-nature-600/60 flex items-center justify-center shadow-md">
             <span class="font-script text-3xl font-bold text-nature-800">
@@ -185,14 +193,51 @@ document.addEventListener('DOMContentLoaded', function() {
         toggle.addEventListener('click', function() { toggleAudio(); });
     }
 
-    // 3. Open Button Action
+    // 3. Open Button Action & Reset State
     const openBtn = document.getElementById('t3-open-btn');
     const cover = document.getElementById('t3-opening-cover');
     const main = document.getElementById('t3-main-content');
     const nav = document.getElementById('t3-bottom-nav');
 
+    function resetToBeginning() {
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
+        if (cover) {
+            cover.style.display = 'flex';
+            cover.classList.remove('opacity-0', '-translate-y-8');
+        }
+        if (main) {
+            main.classList.add('opacity-0', 'pointer-events-none');
+            main.classList.remove('opacity-100');
+        }
+        if (nav) {
+            nav.classList.add('translate-y-24', 'opacity-0');
+            nav.classList.remove('translate-y-0', 'opacity-100');
+        }
+        if (toggle) {
+            toggle.classList.add('opacity-0', 'pointer-events-none');
+            toggle.classList.remove('opacity-100');
+        }
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+            isPlaying = false;
+        }
+        stopNatureSynth();
+        if (disc) disc.classList.remove('animate-spin-slow');
+    }
+
+    resetToBeginning();
+    window.addEventListener('pageshow', function() {
+        resetToBeginning();
+    });
+
     if (openBtn) {
         openBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'instant' });
             toggleAudio(true);
             cover.classList.add('opacity-0', '-translate-y-8');
             setTimeout(function() {
@@ -267,5 +312,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+</div>
 </body>
 </html>
