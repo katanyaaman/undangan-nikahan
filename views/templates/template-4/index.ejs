@@ -4,931 +4,700 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<%= csrfToken %>">
-    <title><%= title || 'The Wedding of ' + fv(event?.groom_name, 'Pria') + ' & ' + fv(event?.bride_name, 'Wanita') %></title>
+    <title><%= title || 'The Wedding of ' + fv(event?.groom_name, 'David') + ' & ' + fv(event?.bride_name, 'Sarah') %></title>
     <link rel="stylesheet" href="/css/app.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Italianno&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .font-script { font-family: 'Italianno', cursive; }
-        .font-serif { font-family: 'Cormorant Garamond', Georgia, serif; }
         .font-royal { font-family: 'Cinzel', serif; }
+        .font-serif-luxury { font-family: 'Cormorant Garamond', Georgia, serif; }
+        
+        .phone-container {
+            width: 100% !important;
+            max-width: 440px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
 
-        /* Walasoji / Sulapa Eppa subtle background lattice */
-        .bg-walasoji {
-            background-color: #033a2a;
+        .gold-metallic-text {
+            background: linear-gradient(135deg, #fef08a 0%, #dfc573 50%, #b78a3a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .emerald-grain {
+            background-color: #022319;
             background-image: 
-                linear-gradient(45deg, rgba(212, 175, 55, 0.05) 25%, transparent 25%, transparent 75%, rgba(212, 175, 55, 0.05) 75%),
-                linear-gradient(45deg, rgba(212, 175, 55, 0.05) 25%, transparent 25%, transparent 75%, rgba(212, 175, 55, 0.05) 75%);
+                linear-gradient(45deg, rgba(223, 197, 115, 0.04) 25%, transparent 25%, transparent 75%, rgba(223, 197, 115, 0.04) 75%),
+                linear-gradient(45deg, rgba(223, 197, 115, 0.04) 25%, transparent 25%, transparent 75%, rgba(223, 197, 115, 0.04) 75%);
             background-size: 32px 32px;
             background-position: 0 0, 16px 16px;
         }
 
-        .gold-border-corner {
+        .corner-gold-filigree {
             position: relative;
         }
-        .gold-border-corner::before {
+        .corner-gold-filigree::before {
             content: '';
             position: absolute;
             top: 0; left: 0;
-            width: 20px; height: 20px;
-            border-top: 2px solid #d4af37;
-            border-left: 2px solid #d4af37;
+            width: 16px; height: 16px;
+            border-top: 2px solid #dfc573;
+            border-left: 2px solid #dfc573;
         }
-        .gold-border-corner::after {
+        .corner-gold-filigree::after {
             content: '';
             position: absolute;
             bottom: 0; right: 0;
-            width: 20px; height: 20px;
-            border-bottom: 2px solid #d4af37;
-            border-right: 2px solid #d4af37;
+            width: 16px; height: 16px;
+            border-bottom: 2px solid #dfc573;
+            border-right: 2px solid #dfc573;
         }
 
-        .phone-container {
-            width: 100% !important;
-            max-width: 412px !important;
-            margin-left: auto !important;
-            margin-right: auto !important;
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 10s linear infinite;
         }
     </style>
 </head>
-<body class="bg-slate-950 text-amber-50 font-sans antialiased overflow-x-hidden selection:bg-amber-400 selection:text-emerald-950 min-h-screen">
+<body class="bg-[#011710] text-[#e8f3ee] font-sans antialiased overflow-x-hidden selection:bg-[#dfc573] selection:text-[#022319] min-h-screen">
 
-<div class="phone-container min-h-screen bg-[#022c20] shadow-2xl relative border-x border-amber-400/30">
+<!-- Ambient Desktop Background -->
+<div class="fixed inset-0 pointer-events-none opacity-40 z-0 emerald-grain"></div>
 
-<!-- Audio Element -->
-<audio id="t4-audio" loop preload="auto">
-    <source src="/music/wedding-song.mp3" type="audio/mpeg">
-</audio>
+<!-- Outer Frame Container -->
+<div class="phone-container min-h-screen bg-[#022b1e] shadow-2xl relative border-x border-[#dfc573]/30 z-10">
 
-<!-- Opening Cover / Amplop Digital Adat Bugis -->
-<div id="t4-opening-cover" class="fixed inset-0 z-50 flex items-center justify-center bg-walasoji transition-all duration-1000 px-4">
-    <div class="relative z-10 text-center max-w-[360px] w-full mx-auto py-10 px-5 sm:px-6 rounded-3xl bg-[#044432]/95 border-2 border-amber-400/50 shadow-2xl backdrop-blur-xl gold-border-corner">
-        <!-- Sulapa Eppa Diamond Crest -->
-        <div class="w-20 h-20 mx-auto mb-6 flex items-center justify-center rotate-45 border-2 border-amber-400 bg-emerald-950/80 shadow-lg shadow-amber-500/10">
-            <span class="-rotate-45 font-royal text-xl font-bold text-amber-300 tracking-wider">
-                <%= (fv(event?.groom_name, 'D')[0]) %>&<%= (fv(event?.bride_name, 'S')[0]) %>
-            </span>
-        </div>
+    <!-- Audio Element -->
+    <audio id="t4-audio" loop preload="auto">
+        <source src="<%= event?.background_music || '/music/wedding-song.mp3' %>" type="audio/mpeg">
+    </audio>
 
-        <p class="font-serif text-lg text-amber-300 mb-1">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-        <p class="text-[11px] uppercase tracking-[0.3em] text-amber-400/90 font-bold mb-3">Undangan Pernikahan Adat Bugis</p>
+    <!-- 1. OPENING COVER / AMPLOP EMERALD ROYAL SULAPA EPPA -->
+    <div id="t4-opening-cover" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#011c14] via-[#022b1e] to-[#011c14] px-4 transition-all duration-1000">
+        <!-- Floating Royal Gold Glow -->
+        <div class="absolute w-72 h-72 rounded-full bg-[#dfc573]/15 blur-3xl pointer-events-none"></div>
 
-        <h1 class="font-script text-6xl sm:text-7xl text-amber-200 mb-4 leading-tight drop-shadow-md">
-            <span data-demo="groom_name"><%= fv(event?.groom_name, 'David') %></span>
-            <span class="text-amber-400 font-serif text-3xl mx-2">&</span>
-            <span data-demo="bride_name"><%= fv(event?.bride_name, 'Sarah') %></span>
-        </h1>
+        <div class="relative z-10 text-center max-w-[380px] w-full mx-auto py-12 px-6 rounded-3xl bg-[#043b2a]/95 border-2 border-[#dfc573]/50 shadow-2xl backdrop-blur-xl corner-gold-filigree">
+            <!-- Sulapa Eppa Diamond Emblem -->
+            <div class="w-20 h-20 mx-auto mb-6 flex items-center justify-center rotate-45 border-2 border-[#dfc573] bg-[#022319] shadow-lg shadow-[#dfc573]/15">
+                <span class="-rotate-45 font-royal text-2xl font-black gold-metallic-text tracking-widest">
+                    <%= (fv(event?.groom_name, 'D')[0]) %>&<%= (fv(event?.bride_name, 'S')[0]) %>
+                </span>
+            </div>
 
-        <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto mb-6"></div>
+            <p class="font-serif-luxury text-base text-[#dfc573] mb-1">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+            <p class="text-[11px] uppercase tracking-[0.35em] text-[#dfc573] font-royal font-bold mb-3">
+                Undangan Perhelatan Agung Adat
+            </p>
 
-        <p class="text-xs text-emerald-200/90 uppercase tracking-widest mb-1 font-medium">Kepada Yth. Bapak/Ibu/Saudara/i</p>
-        <p id="t4-recipient-name" class="text-base sm:text-lg font-serif font-bold text-amber-200 mb-8 px-5 py-2.5 bg-[#022c20]/90 rounded-xl border border-amber-400/40 inline-block shadow-inner">
-            Tamu Undangan
-        </p>
-
-        <div>
-            <button id="t4-open-btn" class="inline-flex items-center justify-center px-8 py-3.5 text-sm sm:text-base font-bold text-emerald-950 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 hover:from-amber-300 hover:to-amber-500 rounded-full shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 transition-all duration-300 transform hover:scale-105 active:scale-95">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"></path>
-                </svg>
-                <span>Buka Undangan</span>
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- Main Content -->
-<div id="t4-main-content" class="opacity-0 pointer-events-none transition-opacity duration-1000 bg-walasoji min-h-screen">
-    <!-- Hero Section -->
-    <section id="opening" class="min-h-[92vh] flex items-center justify-center text-center px-4 relative overflow-hidden py-16">
-        <div class="relative z-10 max-w-3xl mx-auto">
-            <p class="font-serif text-2xl sm:text-3xl text-amber-300 mb-2">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-            <p class="text-xs uppercase tracking-[0.3em] text-amber-400 font-bold mb-4">Mappabotting (Pernikahan Adat Bugis)</p>
-
-            <h1 class="font-script text-6xl sm:text-7xl md:text-8xl text-amber-100 mb-4 leading-tight">
+            <h1 class="font-royal text-3xl sm:text-4xl text-white mb-2 leading-tight tracking-wider font-extrabold">
                 <span data-demo="groom_name"><%= fv(event?.groom_name, 'David') %></span>
-                <span class="block text-2xl sm:text-3xl font-serif text-amber-400 my-2">&</span>
+                <span class="text-[#dfc573] font-serif-luxury text-2xl mx-1.5">&</span>
                 <span data-demo="bride_name"><%= fv(event?.bride_name, 'Sarah') %></span>
             </h1>
 
-            <div class="w-20 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto my-5"></div>
-
-            <p class="text-sm sm:text-base text-emerald-100 font-serif tracking-widest">
-                <span data-demo="event_date" data-fmt="long" data-raw="<%= event?.event_date || '' %>"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></span>
-            </p>
-            <p class="text-xs text-amber-300 font-mono tracking-wider mt-1">
-                <%= fv(eventTimeStart, 'Pukul 09.00 WITA') %>
+            <p class="text-xs text-[#a2cebe] font-serif-luxury tracking-widest mb-6">
+                <%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %>
             </p>
 
-            <div class="mt-10 animate-bounce">
-                <a href="#salam" class="inline-flex items-center text-amber-400 hover:text-amber-300 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-[#dfc573] to-transparent mx-auto mb-6"></div>
+
+            <p class="text-[11px] text-[#a2cebe] uppercase tracking-widest mb-1.5 font-medium">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+            <p id="t4-recipient-name" class="text-base font-serif-luxury font-bold text-[#dfc573] mb-8 px-5 py-2.5 bg-[#011c14]/90 rounded-xl border border-[#dfc573]/40 inline-block shadow-inner max-w-full truncate">
+                Tamu Undangan
+            </p>
+
+            <div>
+                <button id="t4-open-btn" class="w-full inline-flex items-center justify-center gap-2.5 px-8 py-3.5 text-sm font-bold text-[#022319] bg-gradient-to-r from-[#fef08a] via-[#dfc573] to-[#b78a3a] hover:brightness-110 rounded-full shadow-lg shadow-[#dfc573]/25 transition-all duration-300 transform hover:scale-[1.02] active:scale-95">
+                    <svg class="w-4 h-4 text-[#022319]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"></path>
                     </svg>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Salam & Pasangan Section -->
-    <section id="salam" class="py-20 bg-[#02281d] relative">
-        <div class="container mx-auto px-4 max-w-4xl text-center">
-            <div class="mb-14">
-                <h2 class="text-2xl sm:text-3xl font-serif text-amber-300 mb-3">
-                    Assalamu'alaikum Warahmatullahi Wabarakatuh
-                </h2>
-                <div class="w-16 h-0.5 bg-amber-400/50 mx-auto mb-6"></div>
-                <p class="text-xs sm:text-sm text-emerald-100/90 leading-relaxed max-w-2xl mx-auto italic font-serif">
-                    "Sipakatau, Sipakalebbi, Sipakainge" &mdash; Saling menghargai, saling memuliakan, dan saling mengingatkan dalam bingkai ibadah suci pernikahan.
-                </p>
-            </div>
-
-            <!-- Couple Cards -->
-            <div class="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-                <!-- Groom Card -->
-                <div class="bg-[#fcfbf7] text-slate-850 rounded-3xl p-8 border-2 border-amber-400/40 shadow-xl text-center">
-                    <div class="w-36 h-36 mx-auto mb-6 rounded-full p-1.5 bg-gradient-to-tr from-emerald-800 to-amber-500 shadow-md">
-                        <div class="w-full h-full rounded-full overflow-hidden bg-emerald-900">
-                            <img src="<%= groomPhoto || '/images/demo/groom.svg' %>" alt="Mempelai Pria" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <h3 class="font-script text-4xl text-[#043b2c] mb-1 font-bold">
-                        <span data-demo="groom_name"><%= fv(event?.groom_name, 'Nama Lengkap Pria') %></span>
-                    </h3>
-                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-2 font-semibold">Putra Tercinta Dari</p>
-                    <p class="text-sm font-bold text-slate-800 mb-4 leading-snug">
-                        <span data-demo="groom_father"><%= fv(event?.groom_father, 'Bapak [Nama]') %></span> & <span data-demo="groom_mother"><%= fv(event?.groom_mother, 'Ibu [Nama]') %></span>
-                    </p>
-                    <% if (event?.instagram_groom) { %>
-                    <a href="https://instagram.com/<%= (event.instagram_groom).replace('@', '') %>" target="_blank"
-                       class="inline-flex items-center px-4 py-1.5 bg-emerald-50 text-emerald-900 rounded-full text-xs font-bold border border-emerald-200 hover:bg-emerald-100 transition-colors">
-                        <span>@<%= (event.instagram_groom).replace('@', '') %></span>
-                    </a>
-                    <% } %>
-                </div>
-
-                <!-- Bride Card -->
-                <div class="bg-[#fcfbf7] text-slate-850 rounded-3xl p-8 border-2 border-amber-400/40 shadow-xl text-center">
-                    <div class="w-36 h-36 mx-auto mb-6 rounded-full p-1.5 bg-gradient-to-tr from-emerald-800 to-amber-500 shadow-md">
-                        <div class="w-full h-full rounded-full overflow-hidden bg-emerald-900">
-                            <img src="<%= bridePhoto || '/images/demo/bride.svg' %>" alt="Mempelai Wanita" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <h3 class="font-script text-4xl text-[#043b2c] mb-1 font-bold">
-                        <span data-demo="bride_name"><%= fv(event?.bride_name, 'Nama Lengkap Wanita') %></span>
-                    </h3>
-                    <p class="text-xs text-slate-500 uppercase tracking-wider mb-2 font-semibold">Putri Tercinta Dari</p>
-                    <p class="text-sm font-bold text-slate-800 mb-4 leading-snug">
-                        <span data-demo="bride_father"><%= fv(event?.bride_father, 'Bapak [Nama]') %></span> & <span data-demo="bride_mother"><%= fv(event?.bride_mother, 'Ibu [Nama]') %></span>
-                    </p>
-                    <% if (event?.instagram_bride) { %>
-                    <a href="https://instagram.com/<%= (event.instagram_bride).replace('@', '') %>" target="_blank"
-                       class="inline-flex items-center px-4 py-1.5 bg-emerald-50 text-emerald-900 rounded-full text-xs font-bold border border-emerald-200 hover:bg-emerald-100 transition-colors">
-                        <span>@<%= (event.instagram_bride).replace('@', '') %></span>
-                    </a>
-                    <% } %>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Event & Countdown Section -->
-    <section id="event" class="py-20 bg-walasoji relative">
-        <div class="container mx-auto px-4 max-w-5xl">
-            <div class="text-center mb-14">
-                <span class="inline-block text-xs uppercase tracking-[0.25em] text-amber-400 font-bold mb-2">Waktu & Tempat</span>
-                <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-amber-200 mb-4">
-                    Rangkaian Acara
-                </h2>
-                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto mb-6"></div>
-            </div>
-
-            <!-- Countdown Timer Card -->
-            <div class="max-w-xl mx-auto mb-14 bg-[#044432] rounded-3xl p-6 sm:p-8 border border-amber-400/40 text-center shadow-xl">
-                <h3 class="text-xs uppercase tracking-widest text-amber-300 mb-6 font-bold">Hitung Mundur Hari Bahagia</h3>
-                <div id="t4-countdown" class="grid grid-cols-4 gap-3 sm:gap-4">
-                    <div class="bg-[#022c20] rounded-2xl p-3 sm:p-4 border border-amber-400/30">
-                        <div id="t4-days" class="text-2xl sm:text-4xl font-mono font-bold text-amber-200">00</div>
-                        <div class="text-[11px] text-emerald-200 uppercase tracking-wider mt-1">Hari</div>
-                    </div>
-                    <div class="bg-[#022c20] rounded-2xl p-3 sm:p-4 border border-amber-400/30">
-                        <div id="t4-hours" class="text-2xl sm:text-4xl font-mono font-bold text-amber-200">00</div>
-                        <div class="text-[11px] text-emerald-200 uppercase tracking-wider mt-1">Jam</div>
-                    </div>
-                    <div class="bg-[#022c20] rounded-2xl p-3 sm:p-4 border border-amber-400/30">
-                        <div id="t4-minutes" class="text-2xl sm:text-4xl font-mono font-bold text-amber-200">00</div>
-                        <div class="text-[11px] text-emerald-200 uppercase tracking-wider mt-1">Menit</div>
-                    </div>
-                    <div class="bg-[#022c20] rounded-2xl p-3 sm:p-4 border border-amber-400/30">
-                        <div id="t4-seconds" class="text-2xl sm:text-4xl font-mono font-bold text-amber-200">00</div>
-                        <div class="text-[11px] text-emerald-200 uppercase tracking-wider mt-1">Detik</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Akad & Resepsi Cards -->
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Card 1: Akad Nikah -->
-                <div class="bg-[#fcfbf7] text-slate-850 rounded-3xl p-8 border-2 border-amber-400/40 shadow-xl text-center">
-                    <div class="w-12 h-12 rounded-full bg-emerald-900 text-amber-300 font-serif font-bold text-lg mx-auto mb-4 flex items-center justify-center">
-                        I
-                    </div>
-                    <h3 class="text-2xl font-serif font-bold text-[#043b2c] mb-2">Akad Nikah</h3>
-                    <div class="space-y-2 text-sm text-slate-700 mb-6">
-                        <p class="font-bold text-amber-700">
-                            <span data-demo="event_date" data-fmt="long" data-raw="<%= event?.event_date || '' %>"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></span>
-                        </p>
-                        <p class="font-mono text-xs text-slate-600">Pukul 09.00 - 11.00 WITA</p>
-                        <p class="font-bold text-slate-900 pt-2"><span data-demo="venue_name"><%= fv(venueName, 'Grand Ballroom Hotel') %></span></p>
-                        <p class="text-xs text-slate-600 leading-relaxed"><span data-demo="venue_address"><%= fv(venueAddress, 'Jl. Sudirman No. 123, Makassar') %></span></p>
-                    </div>
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
-                        <a href="https://maps.google.com/?q=<%= encodeURIComponent(venueAddress || venueName || 'Lokasi Acara') %>" target="_blank"
-                           class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[#043b2c] text-amber-200 text-xs font-bold hover:bg-[#032a1f] transition-colors shadow">
-                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Google Maps
-                        </a>
-                        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Akad+Nikah+<%= encodeURIComponent(fv(event?.groom_name, 'Pria') + '+%26+' + fv(event?.bride_name, 'Wanita')) %>&location=<%= encodeURIComponent(fv(venueName, '') + ', ' + fv(venueAddress, '')) %>" target="_blank"
-                           class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold hover:bg-amber-200 transition-colors">
-                            + Kalender
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 2: Resepsi Pernikahan -->
-                <div class="bg-[#fcfbf7] text-slate-850 rounded-3xl p-8 border-2 border-amber-400/40 shadow-xl text-center">
-                    <div class="w-12 h-12 rounded-full bg-emerald-900 text-amber-300 font-serif font-bold text-lg mx-auto mb-4 flex items-center justify-center">
-                        II
-                    </div>
-                    <h3 class="text-2xl font-serif font-bold text-[#043b2c] mb-2">Resepsi Adat Bugis</h3>
-                    <div class="space-y-2 text-sm text-slate-700 mb-6">
-                        <p class="font-bold text-amber-700">
-                            <span data-demo="event_date" data-fmt="long" data-raw="<%= event?.event_date || '' %>"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></span>
-                        </p>
-                        <p class="font-mono text-xs text-slate-600"><%= fv(eventTimeRange, '19.00 WITA - Selesai') %></p>
-                        <p class="font-bold text-slate-900 pt-2"><span data-demo="venue_name"><%= fv(venueName, 'Grand Ballroom Hotel') %></span></p>
-                        <p class="text-xs text-slate-600 leading-relaxed"><span data-demo="venue_address"><%= fv(venueAddress, 'Jl. Sudirman No. 123, Makassar') %></span></p>
-                    </div>
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
-                        <a href="https://maps.google.com/?q=<%= encodeURIComponent(venueAddress || venueName || 'Lokasi Acara') %>" target="_blank"
-                           class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-[#043b2c] text-amber-200 text-xs font-bold hover:bg-[#032a1f] transition-colors shadow">
-                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            Google Maps
-                        </a>
-                        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Resepsi+Pernikahan+<%= encodeURIComponent(fv(event?.groom_name, 'Pria') + '+%26+' + fv(event?.bride_name, 'Wanita')) %>&location=<%= encodeURIComponent(fv(venueName, '') + ', ' + fv(venueAddress, '')) %>" target="_blank"
-                           class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold hover:bg-amber-200 transition-colors">
-                            + Kalender
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section id="gallery" class="py-20 bg-[#02281d] relative">
-        <div class="container mx-auto px-4 max-w-6xl">
-            <div class="text-center mb-16">
-                <span class="inline-block text-xs uppercase tracking-[0.25em] text-amber-400 font-bold mb-2">Galeri Momen</span>
-                <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-amber-200 mb-4">
-                    Dokumentasi Kebahagiaan
-                </h2>
-                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto mb-4"></div>
-            </div>
-
-            <% const _t4DemoTiles = ['/images/demo/g-mosque.svg', '/images/demo/g-rings.svg', '/images/demo/g-couple.svg', '/images/demo/g-lantern.svg', '/images/demo/g-bouquet.svg', '/images/demo/g-pattern.svg']; %>
-            <% const _t4Tiles = (galleryPhotos && galleryPhotos.length) ? galleryPhotos : _t4DemoTiles; %>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5">
-                <% _t4Tiles.forEach(function(_tile, _idx) { %>
-                <div class="group relative overflow-hidden rounded-2xl bg-[#044432] p-1.5 shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer aspect-square border border-amber-400/40"
-                     onclick="openT4Lightbox(<%= _idx %>)">
-                    <div class="w-full h-full overflow-hidden rounded-xl bg-emerald-950 relative">
-                        <img src="<%= _tile %>" alt="Foto Galeri <%= _idx + 1 %>" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" loading="lazy">
-                        <div class="absolute inset-0 bg-emerald-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <div class="w-10 h-10 rounded-full bg-amber-400 text-emerald-950 flex items-center justify-center shadow">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <% }); %>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gift Section -->
-    <section id="gift" class="py-20 bg-walasoji relative">
-        <div class="container mx-auto px-4 max-w-4xl">
-            <div class="text-center mb-16">
-                <span class="inline-block text-xs uppercase tracking-[0.25em] text-amber-400 font-bold mb-2">Tanda Kasih</span>
-                <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-amber-200 mb-4">
-                    Amplop Digital
-                </h2>
-                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto mb-4"></div>
-                <p class="text-emerald-100/90 max-w-xl mx-auto text-sm leading-relaxed">
-                    Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Bagi yang berkenan memberikan tanda kasih secara cashless:
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-10">
-                <!-- Account BCA -->
-                <div class="rounded-3xl bg-[#fcfbf7] text-slate-850 p-6 sm:p-7 border-2 border-amber-400/50 shadow-xl">
-                    <div class="flex items-center justify-between mb-5">
-                        <span class="text-xs font-bold uppercase tracking-wider text-[#043b2c]">Bank Transfer</span>
-                        <span class="text-xl font-black text-[#043b2c] tracking-wider">BCA</span>
-                    </div>
-                    <div class="mb-4">
-                        <span class="text-xs text-slate-500 uppercase tracking-wide block mb-1">Nomor Rekening</span>
-                        <div class="flex items-center justify-between bg-emerald-50 rounded-xl px-4 py-3 border border-emerald-200 shadow-sm">
-                            <span id="t4-bca-acc" class="font-mono text-lg font-bold text-slate-900">1234567890</span>
-                            <button type="button" onclick="copyT4Text('t4-bca-acc', this)" class="px-3 py-1.5 rounded-lg bg-[#043b2c] text-amber-200 text-xs font-bold hover:bg-[#032a1f] active:scale-95 transition-all">
-                                Salin
-                            </button>
-                        </div>
-                    </div>
-                    <div class="pt-2 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600">
-                        <span>Atas Nama:</span>
-                        <span class="font-bold text-slate-900"><%= fv(event?.groom_name, 'Nama Mempelai Pria') %></span>
-                    </div>
-                </div>
-
-                <!-- Account Mandiri -->
-                <div class="rounded-3xl bg-[#fcfbf7] text-slate-850 p-6 sm:p-7 border-2 border-amber-400/50 shadow-xl">
-                    <div class="flex items-center justify-between mb-5">
-                        <span class="text-xs font-bold uppercase tracking-wider text-[#043b2c]">Bank Transfer</span>
-                        <span class="text-xl font-black text-[#043b2c] tracking-wider">MANDIRI</span>
-                    </div>
-                    <div class="mb-4">
-                        <span class="text-xs text-slate-500 uppercase tracking-wide block mb-1">Nomor Rekening</span>
-                        <div class="flex items-center justify-between bg-emerald-50 rounded-xl px-4 py-3 border border-emerald-200 shadow-sm">
-                            <span id="t4-mandiri-acc" class="font-mono text-lg font-bold text-slate-900">0987654321</span>
-                            <button type="button" onclick="copyT4Text('t4-mandiri-acc', this)" class="px-3 py-1.5 rounded-lg bg-[#043b2c] text-amber-200 text-xs font-bold hover:bg-[#032a1f] active:scale-95 transition-all">
-                                Salin
-                            </button>
-                        </div>
-                    </div>
-                    <div class="pt-2 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600">
-                        <span>Atas Nama:</span>
-                        <span class="font-bold text-slate-900"><%= fv(event?.bride_name, 'Nama Mempelai Wanita') %></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Physical Gift Address -->
-            <div class="rounded-2xl bg-[#044432] border border-amber-400/30 p-6 text-center max-w-xl mx-auto shadow-xl">
-                <h3 class="text-sm font-bold text-amber-300 mb-1">Kirim Kado Fisik</h3>
-                <p id="t4-gift-address" class="text-xs sm:text-sm text-emerald-100 mb-3 leading-relaxed">
-                    <%= fv(venueAddress, 'Jl. Sudirman No. 123, Makassar') %>
-                </p>
-                <button type="button" onclick="copyT4Text('t4-gift-address', this)" class="inline-flex items-center px-4 py-2 rounded-xl bg-[#022c20] text-amber-300 text-xs font-semibold border border-amber-400/40 hover:bg-[#033a2a] transition-colors">
-                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                    </svg>
-                    <span>Salin Alamat Kirim</span>
+                    <span>Buka Undangan</span>
                 </button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- RSVP & Wishes Section -->
-    <section id="rsvp" class="py-20 bg-[#02281d] relative">
-        <div class="container mx-auto px-4 max-w-3xl">
-            <div class="text-center mb-14">
-                <span class="inline-block text-xs uppercase tracking-[0.25em] text-amber-400 font-bold mb-2">Konfirmasi & Doa</span>
-                <h2 class="text-3xl sm:text-4xl md:text-5xl font-serif text-amber-200 mb-4">
-                    Reservasi & Buku Tamu
+    <!-- MAIN CONTENT WRAPPER -->
+    <div id="t4-main-content" class="opacity-0 pointer-events-none transition-opacity duration-1000">
+
+        <!-- 2. HERO SECTION / ROYAL CANOPY -->
+        <section id="hero" class="relative min-h-[92vh] flex items-center justify-center text-center px-4 py-20 overflow-hidden bg-gradient-to-b from-[#011c14] via-[#022b1e] to-[#033626]">
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-80 h-80 bg-[#dfc573]/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-sm mx-auto">
+                <span class="inline-block text-[10px] uppercase tracking-[0.35em] text-[#dfc573] font-royal font-bold mb-4 px-3.5 py-1 rounded-full border border-[#dfc573]/40 bg-[#043b2a]/90 shadow-sm">
+                    Walimatul 'Ursy
+                </span>
+
+                <h2 class="font-royal text-3xl sm:text-4xl text-white mb-3 leading-tight tracking-wider font-extrabold drop-shadow-md">
+                    <span data-demo="groom_name"><%= fv(event?.groom_name, 'David') %></span>
+                    <span class="block text-xl font-serif-luxury gold-metallic-text my-1">&</span>
+                    <span data-demo="bride_name"><%= fv(event?.bride_name, 'Sarah') %></span>
                 </h2>
-                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto mb-4"></div>
-                <p class="text-emerald-100/90 max-w-xl mx-auto text-sm leading-relaxed">
-                    Kehadiran Bapak/Ibu/Saudara/i merupakan berkah dan kebahagiaan terindah bagi kami.
+
+                <p class="text-xs text-[#c0decb] font-royal tracking-widest mt-4">
+                    <span data-demo="event_date"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></span>
                 </p>
-            </div>
+                <p class="text-xs text-[#dfc573] font-mono tracking-wider mt-1">
+                    <%= fv(eventTimeStart, 'Pukul 09.00 WITA') %>
+                </p>
 
-            <!-- Form Card -->
-            <div class="bg-[#fcfbf7] text-slate-850 rounded-3xl p-6 sm:p-8 border-2 border-amber-400/40 shadow-2xl mb-12">
-                <div id="t4-alert-container"></div>
-
-                <form id="t4-rsvp-form" class="space-y-4">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
-                    <div>
-                        <label for="t4-name" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nama Lengkap *</label>
-                        <input type="text" id="t4-name" name="name" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#043b2c] text-sm" placeholder="Nama Anda">
+                <!-- Countdown Timer 4 Royal Medallions -->
+                <div id="t4-countdown" class="grid grid-cols-4 gap-2.5 mt-10" data-date="<%= eventDate || '2026-12-31T09:00:00' %>">
+                    <div class="bg-[#011c14]/80 border border-[#dfc573]/40 rounded-2xl p-2.5 shadow-md">
+                        <span id="t4-cd-days" class="block font-royal font-bold text-lg text-[#dfc573]">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-[#a2cebe]">Hari</span>
                     </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <label for="t4-email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Email / Kontak</label>
-                            <input type="text" id="t4-email" name="email" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#043b2c] text-sm" placeholder="email@contoh.com">
-                        </div>
-                        <div>
-                            <label for="t4-attendance" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Konfirmasi Kehadiran *</label>
-                            <select id="t4-attendance" name="attendance" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#043b2c] text-sm bg-white">
-                                <option value="">Pilih Kehadiran</option>
-                                <option value="hadir">Hadir</option>
-                                <option value="tidak_hadir">Berhalangan Hadir</option>
-                            </select>
-                        </div>
+                    <div class="bg-[#011c14]/80 border border-[#dfc573]/40 rounded-2xl p-2.5 shadow-md">
+                        <span id="t4-cd-hours" class="block font-royal font-bold text-lg text-[#dfc573]">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-[#a2cebe]">Jam</span>
                     </div>
-
-                    <div id="t4-guests-field" class="hidden">
-                        <label for="t4-number_of_guests" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Jumlah Tamu Hadir</label>
-                        <input type="number" id="t4-number_of_guests" name="number_of_guests" min="1" max="5" value="1" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#043b2c] text-sm">
+                    <div class="bg-[#011c14]/80 border border-[#dfc573]/40 rounded-2xl p-2.5 shadow-md">
+                        <span id="t4-cd-minutes" class="block font-royal font-bold text-lg text-[#dfc573]">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-[#a2cebe]">Menit</span>
                     </div>
-
-                    <div>
-                        <label for="t4-message" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Doa & Ucapan Restu</label>
-                        <textarea id="t4-message" name="message" rows="3" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#043b2c] text-sm resize-none" placeholder="Tuliskan ucapan dan doa restu..."></textarea>
-                    </div>
-
-                    <button type="submit" id="t4-submit-btn" class="w-full py-3.5 px-6 rounded-xl bg-[#043b2c] text-amber-200 font-bold text-sm tracking-wide shadow-md hover:bg-[#032c21] transition-all active:scale-95">
-                        Kirim Konfirmasi & Doa
-                    </button>
-                </form>
-
-                <!-- Stats -->
-                <div class="grid grid-cols-3 gap-3 pt-6 mt-6 border-t border-slate-200 text-center">
-                    <div class="p-3 bg-emerald-50 rounded-xl">
-                        <div id="t4-confirmed-count" class="text-xl font-bold text-[#043b2c]"><%= confirmedGuests ?? 0 %></div>
-                        <div class="text-[11px] text-slate-600 mt-0.5 font-medium">Terkonfirmasi</div>
-                    </div>
-                    <div class="p-3 bg-emerald-50 rounded-xl">
-                        <div class="text-xl font-bold text-emerald-700"><%= attendingCount ?? 0 %></div>
-                        <div class="text-[11px] text-slate-600 mt-0.5 font-medium">Hadir</div>
-                    </div>
-                    <div class="p-3 bg-emerald-50 rounded-xl">
-                        <div class="text-xl font-bold text-slate-600"><%= notAttendingCount ?? 0 %></div>
-                        <div class="text-[11px] text-slate-600 mt-0.5 font-medium">Berhalangan</div>
+                    <div class="bg-[#011c14]/80 border border-[#dfc573]/40 rounded-2xl p-2.5 shadow-md">
+                        <span id="t4-cd-seconds" class="block font-royal font-bold text-lg text-[#dfc573]">00</span>
+                        <span class="text-[9px] uppercase tracking-wider text-[#a2cebe]">Detik</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Live Wishes Wall -->
-            <div>
-                <h3 class="text-lg font-serif font-bold text-amber-200 text-center mb-6">Doa Restu Para Tamu</h3>
-                <div id="t4-wishes-list" class="space-y-4 max-h-[460px] overflow-y-auto pr-1">
-                    <% if ((wishes ?? []).length) { %>
-                        <% (wishes ?? []).forEach(function(wish) { %>
-                        <div class="bg-[#fcfbf7] text-slate-850 rounded-2xl p-5 border border-amber-400/40 shadow-sm">
-                            <div class="flex items-start space-x-3.5">
-                                <div class="w-9 h-9 rounded-full bg-[#043b2c] text-amber-200 font-bold flex items-center justify-center text-xs flex-shrink-0">
-                                    <%= (wish.name || 'G').substring(0, 1).toUpperCase() %>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex items-center justify-between gap-1 mb-1">
-                                        <h4 class="text-sm font-bold text-slate-900 truncate"><%= wish.name %></h4>
-                                        <span class="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold <%= wish.attendance === 'hadir' ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-slate-100 text-slate-600' %>">
-                                            <%= wish.attendance === 'hadir' ? 'Hadir' : 'Berhalangan' %>
-                                        </span>
-                                    </div>
-                                    <% if (wish.message) { %>
-                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed"><%= wish.message %></p>
-                                    <% } %>
-                                    <div class="mt-1.5 text-[10px] text-slate-400 font-mono"><%= timeAgo(wish.created_at) %></div>
-                                </div>
-                            </div>
+                <div class="mt-10 animate-bounce">
+                    <a href="#pasangan" class="inline-flex items-center text-[#dfc573] hover:text-white transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. PETUAH ADAT & PASANGAN (THE ROYAL COUPLE) -->
+        <section id="pasangan" class="py-16 px-4 bg-[#022b1e] border-t border-[#dfc573]/20">
+            <div class="max-w-sm mx-auto text-center">
+                <!-- Petuah Luhur Adat Bugis / Nusantara -->
+                <div class="mb-12 p-6 rounded-3xl bg-[#043b2a] border border-[#dfc573]/40 shadow-lg corner-gold-filigree">
+                    <p class="font-serif-luxury italic text-base text-[#dfc573] mb-3 leading-relaxed">
+                        "Taro Ada Taro Gau. Naiyya siri’e, sunge’ taranrena. Dua hati yang dipersatukan dalam ikrar suci, memegang teguh marwah, kehormatan, dan cinta sejati."
+                    </p>
+                    <span class="text-[10px] uppercase tracking-widest text-[#a2cebe] font-royal font-semibold">
+                        — Falsafah Keteguhan Janji & Marwah
+                    </span>
+                </div>
+
+                <span class="text-[10px] uppercase tracking-[0.35em] text-[#dfc573] block mb-1">Mempelai Mulia</span>
+                <h3 class="font-royal text-2xl text-white tracking-widest uppercase mb-2">Kedua Mempelai</h3>
+                <div class="w-12 h-0.5 bg-[#dfc573] mx-auto mb-8"></div>
+
+                <!-- Groom -->
+                <div class="mb-10 p-6 rounded-3xl bg-[#043b2a] border border-[#dfc573]/40 shadow-xl relative overflow-hidden group">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full p-1 bg-gradient-to-tr from-[#dfc573] via-[#b78a3a] to-[#fef08a] shadow-lg">
+                        <div class="w-full h-full rounded-full overflow-hidden bg-[#011c14]">
+                            <img src="<%= groomPhoto || '/images/demo/groom.svg' %>" alt="Mempelai Pria" class="w-full h-full object-cover">
                         </div>
-                        <% }); %>
-                    <% } else { %>
-                        <div id="t4-empty-wishes" class="text-center py-8 text-xs text-emerald-200/60 bg-[#044432] rounded-2xl border border-amber-400/20">
-                            Belum ada doa tertulis. Jadilah yang pertama memberikan doa restu!
+                    </div>
+                    <h4 class="font-royal text-xl font-bold text-white mb-1 tracking-wider">
+                        <span data-demo="groom_name"><%= fv(event?.groom_name, 'David Anderson') %></span>
+                    </h4>
+                    <p class="text-xs text-[#dfc573] font-royal uppercase tracking-wider mb-3">Mempelai Pria</p>
+                    <p class="text-xs text-[#d2eae0] leading-relaxed">
+                        Putra tercinta dari<br>
+                        <span class="font-semibold text-white"><%= fv(event?.groom_father, 'Bpk. Michael Anderson') %></span> &<br>
+                        <span class="font-semibold text-white"><%= fv(event?.groom_mother, 'Ibu Emily Anderson') %></span>
+                    </p>
+                    <% if (event?.instagram_groom) { %>
+                    <div class="mt-4">
+                        <a href="https://instagram.com/<%= event.instagram_groom.replace('@', '') %>" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-[#dfc573] hover:underline">
+                            <span>@<%= event.instagram_groom.replace('@', '') %></span>
+                        </a>
+                    </div>
+                    <% } %>
+                </div>
+
+                <!-- Royal Gold Ampersand -->
+                <div class="my-6">
+                    <span class="font-serif-luxury text-4xl gold-metallic-text">&</span>
+                </div>
+
+                <!-- Bride -->
+                <div class="p-6 rounded-3xl bg-[#043b2a] border border-[#dfc573]/40 shadow-xl relative overflow-hidden group">
+                    <div class="w-32 h-32 mx-auto mb-4 rounded-full p-1 bg-gradient-to-tr from-[#dfc573] via-[#b78a3a] to-[#fef08a] shadow-lg">
+                        <div class="w-full h-full rounded-full overflow-hidden bg-[#011c14]">
+                            <img src="<%= bridePhoto || '/images/demo/bride.svg' %>" alt="Mempelai Wanita" class="w-full h-full object-cover">
                         </div>
+                    </div>
+                    <h4 class="font-royal text-xl font-bold text-white mb-1 tracking-wider">
+                        <span data-demo="bride_name"><%= fv(event?.bride_name, 'Sarah Johnson') %></span>
+                    </h4>
+                    <p class="text-xs text-[#dfc573] font-royal uppercase tracking-wider mb-3">Mempelai Wanita</p>
+                    <p class="text-xs text-[#d2eae0] leading-relaxed">
+                        Putri tercinta dari<br>
+                        <span class="font-semibold text-white"><%= fv(event?.bride_father, 'Bpk. Robert Johnson') %></span> &<br>
+                        <span class="font-semibold text-white"><%= fv(event?.bride_mother, 'Ibu Linda Johnson') %></span>
+                    </p>
+                    <% if (event?.instagram_bride) { %>
+                    <div class="mt-4">
+                        <a href="https://instagram.com/<%= event.instagram_bride.replace('@', '') %>" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-[#dfc573] hover:underline">
+                            <span>@<%= event.instagram_bride.replace('@', '') %></span>
+                        </a>
+                    </div>
                     <% } %>
                 </div>
             </div>
+        </section>
+
+        <!-- 4. RANGKAIAN PERHELATAN (EVENT AGENDA) -->
+        <section id="acara" class="py-16 px-4 bg-[#011c14] border-t border-[#dfc573]/20">
+            <div class="max-w-sm mx-auto text-center">
+                <span class="text-[10px] uppercase tracking-[0.35em] text-[#dfc573] font-royal block mb-1">Perhelatan Sakral</span>
+                <h3 class="font-royal text-2xl text-white tracking-wider mb-2">Rangkaian Acara</h3>
+                <div class="w-12 h-0.5 bg-[#dfc573] mx-auto mb-8"></div>
+
+                <!-- Akad Nikah Card -->
+                <div class="p-6 rounded-3xl bg-[#043b2a] border border-[#dfc573]/40 shadow-xl mb-6 text-left">
+                    <div class="flex items-center justify-between mb-4 border-b border-[#dfc573]/25 pb-3">
+                        <h4 class="font-royal font-bold text-base text-white">Akad Nikah / Ijab Qabul</h4>
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#dfc573]/20 text-[#dfc573] border border-[#dfc573]/40">Sakral</span>
+                    </div>
+                    <div class="space-y-2.5 text-xs text-[#d2eae0]">
+                        <div class="flex items-center gap-2.5">
+                            <svg class="w-4 h-4 text-[#dfc573]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span data-demo="event_date"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <svg class="w-4 h-4 text-[#dfc573]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span><%= fv(eventTimeStart, '08.00 - 10.00 WITA') %></span>
+                        </div>
+                        <div class="flex items-start gap-2.5">
+                            <svg class="w-4 h-4 text-[#dfc573] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            <div>
+                                <strong class="text-white block" data-demo="venue_name"><%= fv(event?.venue_name, 'Istana Datu Luwu / Ballroom') %></strong>
+                                <span class="text-[#a2cebe]" data-demo="venue_address"><%= fv(event?.venue_address, 'Jl. Sultan Hasanuddin No. 7, Makassar') %></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resepsi Card -->
+                <div class="p-6 rounded-3xl bg-[#043b2a] border border-[#dfc573]/40 shadow-xl mb-6 text-left">
+                    <div class="flex items-center justify-between mb-4 border-b border-[#dfc573]/25 pb-3">
+                        <h4 class="font-royal font-bold text-base text-white">Resepsi & Jamuan Adat</h4>
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#dfc573]/20 text-[#dfc573] border border-[#dfc573]/40">Perayaan</span>
+                    </div>
+                    <div class="space-y-2.5 text-xs text-[#d2eae0]">
+                        <div class="flex items-center gap-2.5">
+                            <svg class="w-4 h-4 text-[#dfc573]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span data-demo="event_date"><%= fv(eventDateLong, 'Minggu, 31 Desember 2025') %></span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <svg class="w-4 h-4 text-[#dfc573]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span><%= fv(eventTimeRange, '11.00 WITA - Selesai') %></span>
+                        </div>
+                        <div class="flex items-start gap-2.5">
+                            <svg class="w-4 h-4 text-[#dfc573] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            <div>
+                                <strong class="text-white block" data-demo="venue_name"><%= fv(event?.venue_name, 'Istana Datu Luwu / Ballroom') %></strong>
+                                <span class="text-[#a2cebe]" data-demo="venue_address"><%= fv(event?.venue_address, 'Jl. Sultan Hasanuddin No. 7, Makassar') %></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Maps Link Button -->
+                <a href="<%= event?.venue_maps_url || 'https://maps.google.com' %>" target="_blank" class="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-[#dfc573] to-[#b78a3a] text-[#022319] font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span>Petunjuk Lokasi Google Maps</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- 5. KISAH CINTA (ROYAL MILESTONES) -->
+        <section id="cerita" class="py-16 px-4 bg-[#022b1e] border-t border-[#dfc573]/20">
+            <div class="max-w-sm mx-auto">
+                <div class="text-center mb-10">
+                    <span class="text-[10px] uppercase tracking-[0.35em] text-[#dfc573] font-royal block mb-1">Untaian Hikayat</span>
+                    <h3 class="font-royal text-2xl text-white tracking-wider mb-2">Kisah Perjalanan</h3>
+                    <div class="w-12 h-0.5 bg-[#dfc573] mx-auto"></div>
+                </div>
+
+                <div class="relative border-l-2 border-[#dfc573]/50 ml-4 space-y-8 pl-6">
+                    <!-- Chapter 1 -->
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-[#022b1e] border-2 border-[#dfc573]"></div>
+                        <span class="text-[10px] font-mono text-[#dfc573] uppercase tracking-wider">Awal Bertemu &bull; 2021</span>
+                        <h4 class="font-serif-luxury text-base font-bold text-white mt-0.5">Pertemuan yang Diridhoi</h4>
+                        <p class="text-xs text-[#d2eae0] mt-1 leading-relaxed">
+                            Dipertemukan melalui silaturahmi keluarga yang mulia, niat tulus saling mengenal mulai terjalin dengan penuh adab.
+                        </p>
+                    </div>
+
+                    <!-- Chapter 2 -->
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-[#022b1e] border-2 border-[#dfc573]"></div>
+                        <span class="text-[10px] font-mono text-[#dfc573] uppercase tracking-wider">Mappatabe' &bull; 2023</span>
+                        <h4 class="font-serif-luxury text-base font-bold text-white mt-0.5">Merapatkan Hati & Niat</h4>
+                        <p class="text-xs text-[#d2eae0] mt-1 leading-relaxed">
+                            Membangun keselarasan budi pekerti dan saling menguatkan dalam memegang teguh amanah leluhur untuk bersatu.
+                        </p>
+                    </div>
+
+                    <!-- Chapter 3 -->
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-[#dfc573] shadow-[0_0_8px_#dfc573]"></div>
+                        <span class="text-[10px] font-mono text-[#dfc573] uppercase tracking-wider">Mappenre Dui &bull; 2025</span>
+                        <h4 class="font-serif-luxury text-base font-bold text-white mt-0.5">Ikatan Lamaran & Hari Mulia</h4>
+                        <p class="text-xs text-[#d2eae0] mt-1 leading-relaxed">
+                            Prosesi adat lamaran terlaksana khidmat, mengantarkan kami menuju gerbang mahligai rumah tangga yang sakinah.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. GALERI FOTO PUSAKA ADAT -->
+        <section id="galeri" class="py-16 px-4 bg-[#011c14] border-t border-[#dfc573]/20">
+            <div class="max-w-sm mx-auto text-center">
+                <span class="text-[10px] uppercase tracking-[0.35em] text-[#dfc573] font-royal block mb-1">Momen Agung</span>
+                <h3 class="font-royal text-2xl text-white tracking-wider mb-2">Galeri Kenangan</h3>
+                <div class="w-12 h-0.5 bg-[#dfc573] mx-auto mb-8"></div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <% const g4Photos = (galleryPhotos && galleryPhotos.length) ? galleryPhotos : ['/images/templates/template-4.jpg', '/images/templates/template-1.jpg', '/images/templates/template-2.jpg', '/images/templates/template-3.jpg']; %>
+                    <% g4Photos.forEach(function(imgUrl, idx) { %>
+                    <div class="rounded-2xl overflow-hidden border border-[#dfc573]/40 shadow-md aspect-[3/4] bg-[#022b1e] group">
+                        <img src="<%= imgUrl %>" alt="Momen <%= idx + 1 %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TANDA KASIH (SOMPA & AMPLOP EMERALD) -->
+        <section id="hadiah" class="py-16 px-4 bg-[#022b1e] border-t border-[#dfc573]/20">
+            <div class="max-w-sm mx-auto text-center">
+                <span class="text-[10px] uppercase tracking-[0.35em] text-[#dfc573] font-royal block mb-1">Tanda Kasih & Sompa</span>
+                <h3 class="font-royal text-2xl text-white tracking-wider mb-2">Amplop Digital</h3>
+                <div class="w-12 h-0.5 bg-[#dfc573] mx-auto mb-6"></div>
+                
+                <p class="text-xs text-[#d2eae0] leading-relaxed mb-8">
+                    Kehadiran dan doa restu para tetua serta kerabat adalah kemuliaan bagi kami. Bagi yang berkenan memberikan tanda kasih secara digital:
+                </p>
+
+                <!-- Emerald Card BCA -->
+                <div class="p-6 rounded-3xl bg-gradient-to-br from-[#043b2a] via-[#022b1e] to-[#011c14] border border-[#dfc573]/40 shadow-xl mb-5 text-left relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="font-royal font-bold tracking-widest text-[#dfc573] text-sm">BANK BCA</span>
+                        <span class="text-[10px] uppercase font-mono text-[#a2cebe]">Royal Platinum</span>
+                    </div>
+                    <p class="text-[11px] text-[#a2cebe] uppercase tracking-widest mb-1">Nomor Rekening</p>
+                    <p id="t4-bca-acc" class="font-mono text-xl font-bold text-white tracking-wider mb-2">1234567890</p>
+                    <p class="text-xs text-[#d2eae0] mb-4">a.n. <%= fv(event?.groom_name, 'David Anderson') %></p>
+                    <button type="button" onclick="copyT4('t4-bca-acc', this)" class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#dfc573]/20 hover:bg-[#dfc573]/30 border border-[#dfc573]/50 text-[#dfc573] rounded-xl text-xs font-semibold active:scale-95 transition-all">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <span>Salin Nomor Rekening</span>
+                    </button>
+                </div>
+
+                <!-- Emerald Card Mandiri -->
+                <div class="p-6 rounded-3xl bg-gradient-to-br from-[#043b2a] via-[#022b1e] to-[#011c14] border border-[#dfc573]/40 shadow-xl mb-6 text-left relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="font-royal font-bold tracking-widest text-[#dfc573] text-sm">BANK MANDIRI</span>
+                        <span class="text-[10px] uppercase font-mono text-[#a2cebe]">Royal Platinum</span>
+                    </div>
+                    <p class="text-[11px] text-[#a2cebe] uppercase tracking-widest mb-1">Nomor Rekening</p>
+                    <p id="t4-mandiri-acc" class="font-mono text-xl font-bold text-white tracking-wider mb-2">9876543210</p>
+                    <p class="text-xs text-[#d2eae0] mb-4">a.n. <%= fv(event?.bride_name, 'Sarah Johnson') %></p>
+                    <button type="button" onclick="copyT4('t4-mandiri-acc', this)" class="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-[#dfc573]/20 hover:bg-[#dfc573]/30 border border-[#dfc573]/50 text-[#dfc573] rounded-xl text-xs font-semibold active:scale-95 transition-all">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <span>Salin Nomor Rekening</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. RSVP & BUKU DOA EMERALD -->
+        <section id="doa" class="py-16 px-4 bg-[#011c14] border-t border-[#dfc573]/20">
+            <div class="max-w-sm mx-auto">
+                <div class="text-center mb-8">
+                    <span class="text-[10px] uppercase tracking-[0.35em] text-[#dfc573] font-royal block mb-1">Konfirmasi & Restu</span>
+                    <h3 class="font-royal text-2xl text-white tracking-wider mb-2">RSVP & Doa Mulia</h3>
+                    <div class="w-12 h-0.5 bg-[#dfc573] mx-auto mb-4"></div>
+                    <p class="text-xs text-[#d2eae0]">Konfirmasi kehadiran Bapak/Ibu/Saudara/i sangat kami harapkan.</p>
+                </div>
+
+                <!-- RSVP Form -->
+                <form id="t4-rsvp-form" class="p-6 rounded-3xl bg-[#043b2a] border border-[#dfc573]/40 shadow-xl mb-8 space-y-4">
+                    <div>
+                        <label class="block text-[11px] font-royal uppercase tracking-wider text-[#dfc573] mb-1.5">Nama Tamu Kehormatan</label>
+                        <input type="text" id="t4-rsvp-name" required placeholder="Contoh: Daeng Marzuki & Keluarga" class="w-full px-4 py-2.5 rounded-xl bg-[#011c14]/80 border border-[#dfc573]/40 text-white text-xs placeholder:text-neutral-500 focus:outline-none focus:border-[#dfc573]">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-royal uppercase tracking-wider text-[#dfc573] mb-1.5">Konfirmasi Kehadiran</label>
+                        <select id="t4-rsvp-attendance" class="w-full px-4 py-2.5 rounded-xl bg-[#011c14]/80 border border-[#dfc573]/40 text-white text-xs focus:outline-none focus:border-[#dfc573]">
+                            <option value="hadir">Insya Allah Hadir</option>
+                            <option value="ragu">Masih Ragu</option>
+                            <option value="tidak_hadir">Berhalangan Hadir</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-royal uppercase tracking-wider text-[#dfc573] mb-1.5">Jumlah Tamu</label>
+                        <select id="t4-rsvp-count" class="w-full px-4 py-2.5 rounded-xl bg-[#011c14]/80 border border-[#dfc573]/40 text-white text-xs focus:outline-none focus:border-[#dfc573]">
+                            <option value="1">1 Orang</option>
+                            <option value="2">2 Orang</option>
+                            <option value="3">3 Orang</option>
+                            <option value="4">4 Orang</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-royal uppercase tracking-wider text-[#dfc573] mb-1.5">Untaian Doa & Harapan Barakah</label>
+                        <textarea id="t4-rsvp-message" rows="3" required placeholder="Tuliskan doa kebaikan untuk kedua mempelai..." class="w-full px-4 py-2.5 rounded-xl bg-[#011c14]/80 border border-[#dfc573]/40 text-white text-xs placeholder:text-neutral-500 focus:outline-none focus:border-[#dfc573]"></textarea>
+                    </div>
+
+                    <button type="submit" id="t4-submit-btn" class="w-full py-3 bg-gradient-to-r from-[#dfc573] to-[#b78a3a] text-[#022319] font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition-all">
+                        Kirim Konfirmasi & Doa
+                    </button>
+                    <p id="t4-rsvp-alert" class="text-xs text-center hidden font-semibold"></p>
+                </form>
+
+                <!-- List of Wishes -->
+                <div class="space-y-3">
+                    <h4 class="font-royal text-sm text-[#dfc573] tracking-wider uppercase mb-2">Buku Doa (<span id="t4-wishes-count"><%= totalWishes %></span>)</h4>
+                    <div id="t4-wishes-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                        <% if (wishes && wishes.length) { %>
+                            <% wishes.forEach(function(w) { %>
+                            <div class="p-4 rounded-2xl bg-[#043b2a] border border-[#dfc573]/25 text-left">
+                                <div class="flex items-center justify-between mb-1">
+                                    <strong class="font-royal text-xs text-white"><%= w.name %></strong>
+                                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-[#dfc573]/20 text-[#dfc573] uppercase font-mono font-bold"><%= w.attendance %></span>
+                                </div>
+                                <p class="text-xs text-[#d2eae0] leading-relaxed"><%= w.message %></p>
+                            </div>
+                            <% }); %>
+                        <% } else { %>
+                            <p class="text-xs text-[#a2cebe] text-center py-4 bg-[#043b2a] rounded-2xl border border-white/5">Jadilah yang pertama mengirimkan untaian doa restu.</p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FOOTER -->
+        <footer class="py-14 px-4 bg-[#01140e] text-center pb-28 text-white border-t border-[#dfc573]/25">
+            <div class="max-w-sm mx-auto">
+                <span class="font-royal text-2xl gold-metallic-text font-bold block mb-2 tracking-wider">
+                    <%= fv(event?.groom_name, 'David') %> & <%= fv(event?.bride_name, 'Sarah') %>
+                </span>
+                <p class="text-xs text-[#a2cebe] font-serif-luxury mb-4">Terima kasih atas doa, restu, dan kehadiran mulia Anda.</p>
+                <div class="w-8 h-px bg-[#dfc573]/50 mx-auto mb-4"></div>
+                <p class="text-[10px] text-emerald-300/60 font-sans tracking-wide">
+                    Dibuat dengan cinta via <a href="/" class="text-[#dfc573] hover:underline font-semibold">KalaBahagia.com</a>
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- FLOATING MUSIC TOGGLE -->
+    <button id="t4-music-toggle" aria-label="Toggle Musik" class="fixed bottom-24 right-4 z-40 w-11 h-11 rounded-full bg-[#043b2a]/95 border-2 border-[#dfc573] shadow-xl flex items-center justify-center text-[#dfc573] transition-all opacity-0 pointer-events-none hover:scale-105 active:scale-95">
+        <svg id="t4-disc-icon" class="w-5 h-5 animate-spin-slow" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
+        </svg>
+    </button>
+
+    <!-- BOTTOM DOCK NAVIGATION -->
+    <nav id="t4-bottom-dock" class="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-sm rounded-2xl bg-[#043b2a]/90 border border-[#dfc573]/40 backdrop-blur-xl shadow-2xl py-2 px-3 transition-all duration-500 translate-y-24 opacity-0">
+        <div class="flex items-center justify-around text-[10px] font-semibold text-[#a2cebe]">
+            <a href="#hero" class="flex flex-col items-center py-1 px-1.5 hover:text-[#dfc573] transition-colors">
+                <svg class="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span>Home</span>
+            </a>
+            <a href="#pasangan" class="flex flex-col items-center py-1 px-1.5 hover:text-[#dfc573] transition-colors">
+                <svg class="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                <span>Mempelai</span>
+            </a>
+            <a href="#acara" class="flex flex-col items-center py-1 px-1.5 hover:text-[#dfc573] transition-colors">
+                <svg class="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>Acara</span>
+            </a>
+            <a href="#galeri" class="flex flex-col items-center py-1 px-1.5 hover:text-[#dfc573] transition-colors">
+                <svg class="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>Galeri</span>
+            </a>
+            <a href="#hadiah" class="flex flex-col items-center py-1 px-1.5 hover:text-[#dfc573] transition-colors">
+                <svg class="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 00-2 2v6a2 2 0 002 2h14a2 2 0 002-2v-6a2 2 0 00-2-2H5z"/></svg>
+                <span>Kado</span>
+            </a>
+            <a href="#doa" class="flex flex-col items-center py-1 px-1.5 hover:text-[#dfc573] transition-colors">
+                <svg class="w-4 h-4 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                <span>RSVP</span>
+            </a>
         </div>
-    </section>
+    </nav>
 
-    <!-- Footer -->
-    <footer class="py-12 bg-[#011a13] text-center text-emerald-300/80 text-xs pb-28 border-t border-amber-400/20">
-        <p class="font-script text-4xl text-amber-300 mb-2">Kurru Sumange</p>
-        <p class="text-emerald-100/80 max-w-md mx-auto px-4">Merupakan kehormatan dan kebahagiaan bagi kami atas kehadiran dan doa restu Bapak/Ibu/Saudara/i.</p>
-        <p class="mt-4 text-emerald-400/60">&copy; <%= new Date().getFullYear() %> Wedding Invitation &bull; Bugis Emerald</p>
-    </footer>
 </div>
 
-<!-- Floating Music Button -->
-<button id="t4-music-toggle" aria-label="Toggle Musik" class="fixed bottom-20 right-4 z-40 w-12 h-12 rounded-full bg-[#044432] border-2 border-amber-400 shadow-xl flex items-center justify-center text-amber-300 transition-all duration-300 opacity-0 pointer-events-none hover:scale-105 active:scale-95">
-    <div id="t4-music-disc" class="w-7 h-7 rounded-full border-2 border-amber-400 flex items-center justify-center">
-        <div class="w-2 h-2 rounded-full bg-amber-400"></div>
-    </div>
-</button>
-
-<!-- Bottom Navigation Dock -->
-<nav id="t4-bottom-nav" class="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 w-[92%] max-w-[380px] rounded-2xl bg-[#033a2a]/95 border border-amber-400/40 backdrop-blur-lg shadow-2xl py-2 px-3 transition-all duration-500 translate-y-24 opacity-0">
-    <div class="flex items-center justify-around text-[10px] sm:text-xs font-semibold text-emerald-200">
-        <a href="#opening" class="t4-nav-link flex flex-col items-center py-1 px-2 hover:text-amber-300 transition-colors">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-            <span>Home</span>
-        </a>
-        <a href="#salam" class="t4-nav-link flex flex-col items-center py-1 px-2 hover:text-amber-300 transition-colors">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
-            <span>Mempelai</span>
-        </a>
-        <a href="#event" class="t4-nav-link flex flex-col items-center py-1 px-2 hover:text-amber-300 transition-colors">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            <span>Acara</span>
-        </a>
-        <a href="#gallery" class="t4-nav-link flex flex-col items-center py-1 px-2 hover:text-amber-300 transition-colors">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            <span>Galeri</span>
-        </a>
-        <a href="#gift" class="t4-nav-link flex flex-col items-center py-1 px-2 hover:text-amber-300 transition-colors">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
-            <span>Hadiah</span>
-        </a>
-        <a href="#rsvp" class="t4-nav-link flex flex-col items-center py-1 px-2 hover:text-amber-300 transition-colors">
-            <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-            <span>RSVP</span>
-        </a>
-    </div>
-</nav>
-
-<!-- Lightbox Modal -->
-<div id="t4-lightbox" class="fixed inset-0 z-50 bg-[#021f17]/95 backdrop-blur-md hidden items-center justify-center p-4">
-    <button onclick="closeT4Lightbox()" aria-label="Tutup" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/10 text-white hover:bg-amber-400 hover:text-emerald-950 transition-colors flex items-center justify-center z-50">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-    </button>
-    <button onclick="prevT4Img()" aria-label="Sebelumnya" class="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 text-white hover:bg-amber-400 hover:text-emerald-950 transition-colors flex items-center justify-center z-50">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-        </svg>
-    </button>
-    <button onclick="nextT4Img()" aria-label="Berikutnya" class="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/10 text-white hover:bg-amber-400 hover:text-emerald-950 transition-colors flex items-center justify-center z-50">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-        </svg>
-    </button>
-    <div class="max-w-4xl max-h-[85vh] flex flex-col items-center justify-center">
-        <img id="t4-lightbox-img" src="" alt="Detail Foto" class="max-h-[75vh] max-w-full rounded-2xl object-contain shadow-2xl border-2 border-amber-400/40">
-        <p id="t4-lightbox-cap" class="text-amber-200 text-xs mt-3 font-medium"></p>
-    </div>
-</div>
-
-<!-- Toast -->
-<div id="t4-toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-full bg-amber-400 text-emerald-950 font-bold text-xs shadow-2xl transition-all duration-300 opacity-0 pointer-events-none -translate-y-4">
-    Tersalin ke clipboard!
-</div>
-
+<!-- SCRIPT LOGIC INTERAKTIF -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // 1. Recipient Query
+(function() {
+    // 1. Ambil nama tamu dari URL param (?to= atau ?tamu=)
     const params = new URLSearchParams(window.location.search);
-    const to = params.get('to');
-    if (to) {
+    const guestParam = params.get('to') || params.get('tamu') || params.get('u');
+    if (guestParam) {
         const el = document.getElementById('t4-recipient-name');
-        if (el) el.textContent = to;
+        if (el) el.textContent = guestParam;
+        const nameInput = document.getElementById('t4-rsvp-name');
+        if (nameInput) nameInput.value = guestParam;
     }
 
-    // 2. Audio Control with Web Audio Synth Fallback
+    // 2. Audio & Buka Undangan
     const audio = document.getElementById('t4-audio');
-    const toggle = document.getElementById('t4-music-toggle');
-    const disc = document.getElementById('t4-music-disc');
-    let isPlaying = false;
-    let synthCtx = null;
-    let synthInterval = null;
-
-    function playBugisSynth() {
-        try {
-            const AC = window.AudioContext || window.webkitAudioContext;
-            if (!AC) return;
-            if (!synthCtx) synthCtx = new AC();
-            if (synthCtx.state === 'suspended') synthCtx.resume();
-
-            const notes = [293.66, 329.63, 392.00, 440.00, 523.25, 440.00, 392.00, 329.63];
-            let nIdx = 0;
-            if (synthInterval) clearInterval(synthInterval);
-
-            synthInterval = setInterval(function() {
-                if (!isPlaying || !synthCtx) return;
-                const osc = synthCtx.createOscillator();
-                const gain = synthCtx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(notes[nIdx % notes.length], synthCtx.currentTime);
-                gain.gain.setValueAtTime(0.04, synthCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.0001, synthCtx.currentTime + 1.4);
-                osc.connect(gain);
-                gain.connect(synthCtx.destination);
-                osc.start();
-                osc.stop(synthCtx.currentTime + 1.4);
-                nIdx++;
-            }, 650);
-        } catch(e) {}
-    }
-
-    function stopBugisSynth() {
-        if (synthInterval) clearInterval(synthInterval);
-        if (synthCtx && synthCtx.state === 'running') synthCtx.suspend();
-    }
-
-    function toggleAudio(start) {
-        if (start === undefined) start = !isPlaying;
-        isPlaying = start;
-        if (isPlaying) {
-            if (audio) {
-                audio.play().catch(function() { playBugisSynth(); });
-            } else {
-                playBugisSynth();
-            }
-            if (disc) disc.classList.add('animate-spin-slow');
-        } else {
-            if (audio) audio.pause();
-            stopBugisSynth();
-            if (disc) disc.classList.remove('animate-spin-slow');
-        }
-    }
-
-    if (toggle) {
-        toggle.addEventListener('click', function() { toggleAudio(); });
-    }
-
-    // 3. Open Button & Reset State
     const openBtn = document.getElementById('t4-open-btn');
     const cover = document.getElementById('t4-opening-cover');
-    const main = document.getElementById('t4-main-content');
-    const nav = document.getElementById('t4-bottom-nav');
+    const mainContent = document.getElementById('t4-main-content');
+    const musicToggle = document.getElementById('t4-music-toggle');
+    const bottomDock = document.getElementById('t4-bottom-dock');
+    const discIcon = document.getElementById('t4-disc-icon');
 
-    function resetToBeginning() {
-        if ('scrollRestoration' in history) {
-            history.scrollRestoration = 'manual';
-        }
-        window.scrollTo(0, 0);
+    let isPlaying = false;
 
-        if (cover) {
-            cover.style.display = 'flex';
-            cover.classList.remove('opacity-0', '-translate-y-8');
-        }
-        if (main) {
-            main.classList.add('opacity-0', 'pointer-events-none');
-            main.classList.remove('opacity-100');
-        }
-        if (nav) {
-            nav.classList.add('translate-y-24', 'opacity-0');
-            nav.classList.remove('translate-y-0', 'opacity-100');
-        }
-        if (toggle) {
-            toggle.classList.add('opacity-0', 'pointer-events-none');
-            toggle.classList.remove('opacity-100');
-        }
-        if (audio) {
-            audio.pause();
-            audio.currentTime = 0;
-            isPlaying = false;
-        }
-        stopRoyalSynth();
-        if (disc) disc.classList.remove('animate-spin-slow');
+    function playAudioSafe() {
+        if (!audio) return;
+        audio.play().then(() => {
+            isPlaying = true;
+            if (discIcon) discIcon.classList.add('animate-spin-slow');
+        }).catch(err => {
+            console.warn('Audio auto-play prevented:', err);
+        });
     }
-
-    resetToBeginning();
-    window.addEventListener('pageshow', function() {
-        resetToBeginning();
-    });
 
     if (openBtn) {
         openBtn.addEventListener('click', function() {
-            window.scrollTo({ top: 0, behavior: 'instant' });
-            toggleAudio(true);
-            cover.classList.add('opacity-0', '-translate-y-8');
-            setTimeout(function() {
-                cover.style.display = 'none';
-                main.classList.remove('opacity-0', 'pointer-events-none');
-                main.classList.add('opacity-100');
-                if (nav) {
-                    nav.classList.remove('translate-y-24', 'opacity-0');
-                    nav.classList.add('translate-y-0', 'opacity-100');
-                }
-                if (toggle) {
-                    toggle.classList.remove('opacity-0', 'pointer-events-none');
-                    toggle.classList.add('opacity-100');
-                }
-            }, 800);
+            playAudioSafe();
+            if (cover) {
+                cover.style.transform = 'translateY(-100%)';
+                cover.style.opacity = '0';
+                setTimeout(() => cover.style.display = 'none', 1000);
+            }
+            if (mainContent) {
+                mainContent.classList.remove('opacity-0', 'pointer-events-none');
+            }
+            if (musicToggle) {
+                musicToggle.classList.remove('opacity-0', 'pointer-events-none');
+            }
+            if (bottomDock) {
+                bottomDock.classList.remove('translate-y-24', 'opacity-0');
+            }
         });
     }
 
-    // 4. Countdown Timer
-    const evtDateStr = "<%= event?.event_date || eventDate || '2025-12-31 19:00:00' %>";
-    const target = new Date(evtDateStr).getTime();
-
-    function updateT4Countdown() {
-        const now = new Date().getTime();
-        const diff = target - now;
-        const dEl = document.getElementById('t4-days');
-        const hEl = document.getElementById('t4-hours');
-        const mEl = document.getElementById('t4-minutes');
-        const sEl = document.getElementById('t4-seconds');
-
-        if (diff <= 0) {
-            if (dEl) dEl.textContent = '00';
-            if (hEl) hEl.textContent = '00';
-            if (mEl) mEl.textContent = '00';
-            if (sEl) sEl.textContent = '00';
-            return;
-        }
-
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        if (dEl) dEl.textContent = String(days).padStart(2, '0');
-        if (hEl) hEl.textContent = String(hours).padStart(2, '0');
-        if (mEl) mEl.textContent = String(minutes).padStart(2, '0');
-        if (sEl) sEl.textContent = String(seconds).padStart(2, '0');
-    }
-    setInterval(updateT4Countdown, 1000);
-    updateT4Countdown();
-
-    // 5. RSVP & Wishes
-    const attSelect = document.getElementById('t4-attendance');
-    const gField = document.getElementById('t4-guests-field');
-    const rsvpForm = document.getElementById('t4-rsvp-form');
-    const submitBtn = document.getElementById('t4-submit-btn');
-    const alertBox = document.getElementById('t4-alert-container');
-    const wishesList = document.getElementById('t4-wishes-list');
-
-    if (attSelect && gField) {
-        attSelect.addEventListener('change', function() {
-            if (this.value === 'hadir') {
-                gField.classList.remove('hidden');
+    if (musicToggle) {
+        musicToggle.addEventListener('click', function() {
+            if (!audio) return;
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                if (discIcon) discIcon.classList.remove('animate-spin-slow');
             } else {
-                gField.classList.add('hidden');
+                audio.play();
+                isPlaying = true;
+                if (discIcon) discIcon.classList.add('animate-spin-slow');
             }
         });
     }
 
-    if (rsvpForm) {
-        rsvpForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Mengirimkan...';
-            }
+    // 3. Countdown Timer
+    const cdWrap = document.getElementById('t4-countdown');
+    if (cdWrap) {
+        const targetDate = new Date(cdWrap.dataset.date || '2026-12-31T09:00:00').getTime();
+        function updateCd() {
+            const now = Date.now();
+            const diff = targetDate - now;
+            if (diff <= 0) return;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('t4-cd-days').textContent = String(d).padStart(2, '0');
+            document.getElementById('t4-cd-hours').textContent = String(h).padStart(2, '0');
+            document.getElementById('t4-cd-minutes').textContent = String(m).padStart(2, '0');
+            document.getElementById('t4-cd-seconds').textContent = String(s).padStart(2, '0');
+        }
+        updateCd();
+        setInterval(updateCd, 1000);
+    }
 
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
+    // 4. Salin Rekening
+    window.copyT4 = function(id, btn) {
+        const text = document.getElementById(id).textContent.trim();
+        navigator.clipboard.writeText(text).then(() => {
+            const original = btn.innerHTML;
+            btn.innerHTML = '<span>Tersalin ✓</span>';
+            btn.classList.add('bg-[#dfc573]', 'text-[#022319]');
+            setTimeout(() => {
+                btn.innerHTML = original;
+                btn.classList.remove('bg-[#dfc573]', 'text-[#022319]');
+            }, 2000);
+        });
+    };
+
+    // 5. RSVP AJAX Submit
+    const form = document.getElementById('t4-rsvp-form');
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('t4-submit-btn');
+            const alert = document.getElementById('t4-rsvp-alert');
+            const name = document.getElementById('t4-rsvp-name').value;
+            const attendance = document.getElementById('t4-rsvp-attendance').value;
+            const count = parseInt(document.getElementById('t4-rsvp-count').value, 10);
+            const message = document.getElementById('t4-rsvp-message').value;
+
+            btn.disabled = true;
+            btn.textContent = 'Mengirimkan...';
 
             try {
                 const res = await fetch('<%= rsvpPath %>', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                        'X-CSRF-Token': '<%= csrfToken %>'
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify({ name, attendance, number_of_guests: count, message })
                 });
-                const result = await res.json();
+                const data = await res.json();
+                alert.classList.remove('hidden', 'text-red-400');
+                alert.classList.add('text-[#dfc573]');
+                alert.textContent = 'Terima kasih, konfirmasi & doa Anda telah tersimpan!';
 
-                if (res.ok) {
-                    if (alertBox) {
-                        alertBox.innerHTML = '<div class="p-3.5 rounded-xl bg-emerald-100 border border-emerald-400 text-emerald-950 text-xs font-bold mb-3">✓ ' + (result.message || 'Konfirmasi kehadiran berhasil dikirim.') + '</div>';
-                    }
-                    if (data.message && wishesList) {
-                        const emptyN = document.getElementById('t4-empty-wishes');
-                        if (emptyN) emptyN.remove();
+                // Append new wish
+                const list = document.getElementById('t4-wishes-list');
+                const card = document.createElement('div');
+                card.className = 'p-4 rounded-2xl bg-[#043b2a] border border-[#dfc573]/25 text-left';
+                card.innerHTML = `<div class="flex items-center justify-between mb-1"><strong class="font-royal text-xs text-white">${name}</strong><span class="text-[9px] px-2 py-0.5 rounded-full bg-[#dfc573]/20 text-[#dfc573] uppercase font-mono font-bold">${attendance}</span></div><p class="text-xs text-[#d2eae0] leading-relaxed">${message}</p>`;
+                if (list) list.prepend(card);
 
-                        const card = document.createElement('div');
-                        card.className = 'bg-[#fcfbf7] text-slate-850 rounded-2xl p-5 border border-amber-400/40 shadow-sm animate-fade-in-up';
-                        card.innerHTML = `
-                            <div class="flex items-start space-x-3.5">
-                                <div class="w-9 h-9 rounded-full bg-[#043b2c] text-amber-200 font-bold flex items-center justify-center text-xs flex-shrink-0">
-                                    ${(data.name || 'G').substring(0, 1).toUpperCase()}
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <div class="flex items-center justify-between gap-1 mb-1">
-                                        <h4 class="text-sm font-bold text-slate-900 truncate">${data.name}</h4>
-                                        <span class="inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold ${data.attendance === 'hadir' ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' : 'bg-slate-100 text-slate-600'}">
-                                            ${data.attendance === 'hadir' ? 'Hadir' : 'Berhalangan'}
-                                        </span>
-                                    </div>
-                                    <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">${data.message}</p>
-                                    <div class="mt-1.5 text-[10px] text-slate-400 font-mono">Baru saja</div>
-                                </div>
-                            </div>
-                        `;
-                        wishesList.prepend(card);
-                    }
-                    rsvpForm.reset();
-                    if (gField) gField.classList.add('hidden');
-                } else {
-                    const err = result.errors ? Object.values(result.errors).flat().join('<br>') : (result.message || 'Gagal mengirim.');
-                    if (alertBox) {
-                        alertBox.innerHTML = '<div class="p-3.5 rounded-xl bg-red-100 border border-red-300 text-red-950 text-xs font-bold mb-3">✕ ' + err + '</div>';
-                    }
-                }
-            } catch(e) {
-                if (alertBox) {
-                    alertBox.innerHTML = '<div class="p-3.5 rounded-xl bg-red-100 border border-red-300 text-red-950 text-xs font-bold mb-3">✕ Terjadi masalah jaringan.</div>';
-                }
+                form.reset();
+            } catch (err) {
+                alert.classList.remove('hidden', 'text-[#dfc573]');
+                alert.classList.add('text-red-400');
+                alert.textContent = 'Gagal mengirimkan konfirmasi. Silakan coba lagi.';
             } finally {
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Kirim Konfirmasi & Doa';
-                }
+                btn.disabled = false;
+                btn.textContent = 'Kirim Konfirmasi & Doa';
             }
         });
     }
-
-    // 6. Scroll spy for nav
-    const sections = document.querySelectorAll('section');
-    const links = document.querySelectorAll('.t4-nav-link');
-
-    window.addEventListener('scroll', function() {
-        let cur = '';
-        sections.forEach(function(s) {
-            const top = s.offsetTop - 120;
-            if (window.pageYOffset >= top) {
-                cur = s.getAttribute('id');
-            }
-        });
-        links.forEach(function(l) {
-            l.classList.remove('text-amber-300');
-            l.classList.add('text-emerald-200');
-            if (l.getAttribute('href') === '#' + cur) {
-                l.classList.add('text-amber-300');
-                l.classList.remove('text-emerald-200');
-            }
-        });
-    });
-});
-
-// Copy Text
-function copyT4Text(elId, btn) {
-    const el = document.getElementById(elId);
-    if (!el) return;
-    const text = el.textContent.trim();
-    navigator.clipboard.writeText(text).then(function() {
-        const toast = document.getElementById('t4-toast');
-        if (toast) {
-            toast.textContent = 'Berhasil disalin: ' + text;
-            toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
-            toast.classList.add('opacity-100', 'translate-y-0');
-            setTimeout(function() {
-                toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
-                toast.classList.remove('opacity-100', 'translate-y-0');
-            }, 2500);
-        }
-        if (btn) {
-            const original = btn.innerHTML;
-            btn.innerHTML = '✓ Tersalin';
-            setTimeout(function() { btn.innerHTML = original; }, 2000);
-        }
-    });
-}
-
-// Lightbox
-const t4Images = <%- JSON.stringify(_t4Tiles) %>;
-let t4Idx = 0;
-
-function openT4Lightbox(i) {
-    t4Idx = i;
-    const box = document.getElementById('t4-lightbox');
-    const img = document.getElementById('t4-lightbox-img');
-    const cap = document.getElementById('t4-lightbox-cap');
-    if (box && img) {
-        img.src = t4Images[t4Idx];
-        if (cap) cap.textContent = (t4Idx + 1) + ' / ' + t4Images.length;
-        box.classList.remove('hidden');
-        box.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-function closeT4Lightbox() {
-    const box = document.getElementById('t4-lightbox');
-    if (box) {
-        box.classList.add('hidden');
-        box.classList.remove('flex');
-        document.body.style.overflow = '';
-    }
-}
-
-function prevT4Img() {
-    t4Idx = (t4Idx - 1 + t4Images.length) % t4Images.length;
-    const img = document.getElementById('t4-lightbox-img');
-    const cap = document.getElementById('t4-lightbox-cap');
-    if (img) img.src = t4Images[t4Idx];
-    if (cap) cap.textContent = (t4Idx + 1) + ' / ' + t4Images.length;
-}
-
-function nextT4Img() {
-    t4Idx = (t4Idx + 1) % t4Images.length;
-    const img = document.getElementById('t4-lightbox-img');
-    const cap = document.getElementById('t4-lightbox-cap');
-    if (img) img.src = t4Images[t4Idx];
-    if (cap) cap.textContent = (t4Idx + 1) + ' / ' + t4Images.length;
-}
+})();
 </script>
-</div>
+
 </body>
 </html>

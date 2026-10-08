@@ -10,7 +10,7 @@ import { buildPagination } from '../lib/pagination';
 import type { EventRow, PaymentRow, TemplateRow, UserRow } from '../db/types';
 import { ACTIVE_DEFAULT_DAYS } from '../lib/events';
 import { demoPhotoDir } from '../lib/upload';
-import { PREVIEWS } from '../templates/registry';
+import { PREVIEWS, TEMPLATE_THEMES } from '../templates/registry';
 
 interface StatusCount {
   status: string;
@@ -201,6 +201,7 @@ export async function templateList(req: Request, res: Response): Promise<void> {
     activeNav: 'templates',
     templates: rows,
     previews: PREVIEWS,
+    templateThemes: TEMPLATE_THEMES,
   }));
 }
 
@@ -253,7 +254,7 @@ export async function templatePreview(req: Request, res: Response): Promise<void
   await renderView(res, 'owner/templates/preview', sharedData(req, {
     title: `Edit Demo ${row.name}`,
     template: row,
-    demoSrc: `/template-${row.slug.replace('template-', '')}`,
+    demoSrc: `/${row.slug}`,
   }));
 }
 

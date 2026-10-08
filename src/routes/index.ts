@@ -12,7 +12,7 @@ import { limiters } from '../middleware/rateLimit';
 import { getDb } from '../db/database';
 import type { EventRow } from '../db/types';
 import type { TemplateRow } from '../db/types';
-import { getTemplate, PREVIEWS, templates } from '../templates/registry';
+import { getTemplate, PREVIEWS, TEMPLATE_THEMES, templates } from '../templates/registry';
 
 const router = Router();
 
@@ -21,9 +21,10 @@ router.get('/', ah(async (req: Request, res: Response) => {
     .prepare('SELECT * FROM templates WHERE active = 1 ORDER BY sort_order ASC, id ASC')
     .all() as TemplateRow[];
   await renderView(res, 'home', sharedData(req, {
-    title: 'Katalog Undangan Digital - Wedding Invitation',
+    title: 'KalaBahagia.com — Undangan Pernikahan Digital Sinematik & Elegan',
     templates: rows,
     previews: PREVIEWS,
+    templateThemes: TEMPLATE_THEMES,
   }));
 }));
 
@@ -32,11 +33,9 @@ router.get('/invitation', (_req: Request, res: Response) => {
   res.redirect('/template-1');
 });
 
-// Dibuat otomatis dari registry. Tambah template cukup edit registry.ts..
-// template-1 & invitation dibungkus layouts/app (dulu @extends);
-// template-2/3/4 halaman penuh sendiri (standalone seperti di Blade).
+// Dibuat otomatis dari registry. Tambah template cukup edit registry.ts.
+// Semua template 1-4 mandiri (standalone) dengan kontrol penuh atas tampilan, audio, dan navigasi.
 for (const t of templates) {
-  const standalone = t.slug !== 'template-1';
   router.get(`/${t.slug}`, ah(async (req: Request, res: Response) => {
     const tpl = getTemplate(t.slug);
     if (!tpl) {
@@ -88,11 +87,7 @@ for (const t of templates) {
       bridePhoto: staged?.demo_bride_photo ?? null,
       groomPhoto: staged?.demo_groom_photo ?? null,
     });
-    if (standalone) {
-      await renderView(res, tpl.view, data);
-    } else {
-      await renderPage(res, 'layouts/app', tpl.view, data);
-    }
+    await renderView(res, tpl.view, data);
   }));
   router.post(`/${t.slug}/rsvp`, limiters.rsvpLimiter, storeRsvp);
 }
@@ -127,11 +122,7 @@ router.get('/u/:slug', ah(async (req: Request, res: Response) => {
   const trial = event.status === 'trial' && event.expired_at
     ? { expiresText: formatDate(event.expired_at, 'd M Y') }
     : null;
-  if (tpl.slug === 'template-1') {
-    await renderInvitation(res, 'layouts/app', tpl.view, data, trial);
-  } else {
-    await renderInvitation(res, null, tpl.view, data, trial);
-  }
+  await renderInvitation(res, null, tpl.view, data, trial);
 }));
 
 // RSVP per event. Event tutup (expired/suspend) ditolak.

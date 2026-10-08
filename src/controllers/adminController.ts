@@ -9,7 +9,7 @@ import path from 'node:path';
 import { getDb, nowDb } from '../db/database';
 import { getUser, setFlash } from '../middleware/auth';
 import { allowedTemplates } from './ownerController';
-import { PREVIEWS } from '../templates/registry';
+import { PREVIEWS, TEMPLATE_THEMES } from '../templates/registry';
 import { GALLERY_ACTIVE_MAX, GALLERY_TRIAL_MAX, photosDir } from '../lib/upload';
 import { renderPage, sharedData } from '../lib/render';
 import { buildPagination } from '../lib/pagination';
@@ -274,6 +274,7 @@ export async function editTemplate(req: Request, res: Response): Promise<void> {
     event,
     allowed,
     previews: PREVIEWS,
+    templateThemes: TEMPLATE_THEMES,
   }));
 }
 

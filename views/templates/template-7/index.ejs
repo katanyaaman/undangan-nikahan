@@ -201,6 +201,8 @@
             padding: 1px 5px;
             border-radius: 4px;
             margin-left: 4px;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
         }
 
         /* Timestamp Metadata */
@@ -279,10 +281,13 @@
             color: #111b21 !important;
             border: 1px solid rgba(0, 0, 0, 0.08) !important;
             border-radius: 18px !important;
-            min-height: 42px !important;
+            min-height: 44px !important;
             padding: 8px 14px !important;
             font-size: 13.5px !important;
             font-weight: 500 !important;
+            line-height: 1.3 !important;
+            text-align: center !important;
+            overflow-wrap: anywhere !important;
             box-shadow: 0 1px 2px rgba(0,0,0,0.06) !important;
             display: flex !important;
             align-items: center !important;
@@ -290,6 +295,11 @@
             gap: 6px !important;
             transition: all 0.15s ease !important;
             cursor: pointer !important;
+        }
+        .wa-action-btn > span {
+            min-width: 0 !important;
+            text-align: center !important;
+            line-height: 1.3 !important;
         }
         .wa-action-btn:hover {
             background-color: #f7f7f8 !important;
@@ -311,6 +321,15 @@
             50% { transform: scale(1.05); }
         }
 
+        /* Waveform Animation */
+        @keyframes waveAnim {
+            0%, 100% { height: 6px; }
+            50% { height: 22px; }
+        }
+        .waveform-bar.playing {
+            animation: waveAnim 0.9s ease-in-out infinite;
+        }
+
         /* Hilangkan seluruh scrollbar bawaan browser agar seperti tampilan native smartphone */
         html, body, #t7-chat-main, #t7-chat-wrapper, * {
             -ms-overflow-style: none !important;
@@ -328,6 +347,7 @@
 <!-- Audio Element Pernikahan -->
 <audio id="t7-audio" loop preload="auto">
     <source src="/music/wedding-song.mp3" type="audio/mpeg">
+    <source src="/music/wedding-song.wav" type="audio/wav">
 </audio>
 
 <!-- =================================================================== -->
@@ -654,7 +674,6 @@
                     <span class="wa-sender-bride"><%= fv(event?.bride_name, 'Sarah') %> 💕</span>
                     <span class="wa-sender-badge">Admin</span>
                 </div>
-                <p class="wa-arabic text-center py-0.5 text-base sm:text-lg mb-1 border-b border-black/[0.04]">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
                 <p class="text-[14.5px] leading-relaxed text-[#111b21]">
                     Halooo <strong class="t7-guest-name text-[#111b21] font-bold"><%= (typeof to !== 'undefined' && to) ? to : (locals.to || 'Tamu Undangan') %></strong>!! Akhirnyaa... Maaf yaa mendadak di-invite ke grup rahasia ini 🙈 Kita berdua mau bagi kabar bahagia banget, <strong>KITA MAU NIKAH!</strong> 💍🎉
                     <span class="wa-msg-meta"><span class="wa-time">09.42</span></span>
@@ -681,27 +700,27 @@
         <div id="chat-step-vn" class="hidden flex items-start space-x-2 max-w-[90%] sm:max-w-[80%] chat-pop">
             <img src="<%= bridePhoto || '/images/demo/bride.svg' %>" alt="Mempelai" class="w-7 h-7 rounded-full object-cover shrink-0 mt-1 aspect-square bg-slate-200">
             <div class="wa-bubble-group has-tail px-3 py-2.5 shadow-xs w-fit">
-                <div class="flex items-center space-x-1 mb-1">
-                    <span class="wa-sender-bride"><%= fv(event?.bride_name, 'Sarah') %> & <%= fv(event?.groom_name, 'David') %></span>
-                    <span class="wa-sender-badge">Voice Note</span>
+                <div class="flex items-center space-x-1 mb-1 min-w-0">
+                    <span class="wa-sender-bride min-w-0 flex-1 truncate"><%= fv(event?.bride_name, 'Sarah') %> & <%= fv(event?.groom_name, 'David') %></span>
+                    <span class="wa-sender-badge shrink-0 whitespace-nowrap">Voice Note</span>
                 </div>
-                <div class="flex items-center space-x-2.5">
-                    <button id="t7-vn-btn" onclick="toggleVNAudio()" aria-label="Putar Musik" class="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-xs hover:bg-emerald-600 transition-colors">
-                        <svg id="t7-vn-play-icon" class="w-4.5 h-4.5 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path></svg>
-                        <svg id="t7-vn-pause-icon" class="w-4.5 h-4.5 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                <div class="flex items-center space-x-2.5 min-w-0">
+                    <button id="t7-vn-btn" onclick="toggleVNAudio()" aria-label="Putar voice note" class="w-10 h-10 rounded-full bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-xs hover:bg-emerald-600 transition-colors">
+                        <svg id="t7-vn-play-icon" class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path></svg>
+                        <svg id="t7-vn-pause-icon" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
                     </button>
-                    <div class="flex-1 min-w-[170px]">
-                        <div class="flex items-center space-x-1 h-5">
-                            <span class="w-1 bg-emerald-500 rounded-full h-2"></span>
-                            <span class="w-1 bg-emerald-500 rounded-full h-4"></span>
-                            <span class="w-1 bg-emerald-500 rounded-full h-5"></span>
-                            <span class="w-1 bg-emerald-500 rounded-full h-3"></span>
-                            <span class="w-1 bg-emerald-500 rounded-full h-5"></span>
-                            <span class="w-1 bg-emerald-500 rounded-full h-4"></span>
-                            <span class="w-1 bg-emerald-500 rounded-full h-2"></span>
-                            <span class="w-1 bg-emerald-500 rounded-full h-5"></span>
-                            <span class="w-1 bg-emerald-500 rounded-full h-3"></span>
-                            <span class="w-1 bg-emerald-500 rounded-full h-4"></span>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center space-x-1 h-5 overflow-hidden">
+                            <span class="waveform-bar w-1 shrink-0 bg-emerald-500 rounded-full h-2"></span>
+                            <span class="waveform-bar w-1 shrink-0 bg-emerald-500 rounded-full h-4"></span>
+                            <span class="waveform-bar w-1 shrink-0 bg-emerald-500 rounded-full h-5"></span>
+                            <span class="waveform-bar w-1 shrink-0 bg-emerald-500 rounded-full h-3"></span>
+                            <span class="waveform-bar w-1 shrink-0 bg-emerald-500 rounded-full h-5"></span>
+                            <span class="waveform-bar w-1 shrink-0 bg-emerald-500 rounded-full h-4"></span>
+                            <span class="waveform-bar w-1 shrink-0 bg-emerald-500 rounded-full h-2"></span>
+                            <span class="waveform-bar w-1 shrink-0 bg-emerald-500 rounded-full h-5"></span>
+                            <span class="waveform-bar w-1 shrink-0 bg-emerald-500 rounded-full h-3"></span>
+                            <span class="waveform-bar w-1 shrink-0 bg-emerald-500 rounded-full h-4"></span>
                         </div>
                         <div class="flex items-center justify-between text-[11px] text-[#8696a0] mt-1 font-sans">
                             <span id="t7-vn-time">00:00</span>
@@ -717,22 +736,22 @@
             <p class="text-[11px] text-center text-[#54656f] font-medium">
                 Pilih informasi yang ingin kamu lihat terlebih dahulu:
             </p>
-            <div class="grid grid-cols-2 gap-2 max-w-md mx-auto">
-                <button id="btn-choice-event" onclick="revealSectionSmooth('t7-event-bubble', this, '💍 Waktu & Lokasi')" class="wa-action-btn p-2.5 active:scale-95">
+            <div class="grid grid-cols-1 min-[380px]:grid-cols-2 gap-2 max-w-md mx-auto items-stretch">
+                <button id="btn-choice-event" onclick="revealSectionSmooth('t7-event-bubble', this, '💍 Waktu & Lokasi')" class="wa-action-btn w-full p-2.5 active:scale-95">
                     <span>💍 Waktu & Lokasi</span>
                 </button>
-                <button id="btn-choice-gallery" onclick="revealSectionSmooth('t7-gallery-bubble', this, '📷 Album Foto')" class="wa-action-btn p-2.5 active:scale-95">
+                <button id="btn-choice-gallery" onclick="revealSectionSmooth('t7-gallery-bubble', this, '📷 Album Foto')" class="wa-action-btn w-full p-2.5 active:scale-95">
                     <span>📷 Album Foto</span>
                 </button>
-                <button id="btn-choice-rsvp" onclick="revealSectionSmooth('t7-rsvp-bubble', this, '💌 Polling RSVP')" class="wa-action-btn p-2.5 active:scale-95">
+                <button id="btn-choice-rsvp" onclick="revealSectionSmooth('t7-rsvp-bubble', this, '💌 Polling RSVP')" class="wa-action-btn w-full p-2.5 active:scale-95">
                     <span>💌 Polling RSVP</span>
                 </button>
-                <button id="btn-choice-gift" onclick="revealSectionSmooth('t7-gift-bubble', this, '🎁 Amplop Digital')" class="wa-action-btn p-2.5 active:scale-95">
+                <button id="btn-choice-gift" onclick="revealSectionSmooth('t7-gift-bubble', this, '🎁 Amplop Digital')" class="wa-action-btn w-full p-2.5 active:scale-95">
                     <span>🎁 Amplop Digital</span>
                 </button>
             </div>
             <div class="text-center pt-1">
-                <button id="btn-choice-all" onclick="revealAllSectionsSmooth(this)" class="wa-action-btn px-4 py-1.5 active:scale-95">
+                <button id="btn-choice-all" onclick="revealAllSectionsSmooth(this)" class="wa-action-btn mx-auto w-fit max-w-full px-4 py-1.5 active:scale-95">
                     ⚡ Tampilkan Seluruh Rincian Acara Lengkap
                 </button>
             </div>
@@ -1082,7 +1101,7 @@
 
         <!-- Send Button -->
         <button type="button" id="t7-send-btn" onclick="sendQuickWish()" aria-label="Kirim Pesan" class="w-9 h-9 rounded-full bg-[#007AFF] text-white flex items-center justify-center flex-shrink-0 shadow hover:bg-blue-600 active:scale-95 transition-all">
-            <svg class="w-4.5 h-4.5 ml-0.5 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 ml-0.5 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
             </svg>
         </button>
@@ -1236,7 +1255,7 @@ function startFallbackSynthMusic() {
     try {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         synthAudioCtx = new AudioContext();
-        const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23, 392.00, 329.63];
+        const notes = [440.00, 466.16, 440.00, 392.00, 369.99, 311.13, 369.99, 293.66];
         let noteIdx = 0;
         synthIntervalId = setInterval(() => {
             if (!isAudioPlaying || !synthAudioCtx) return;
@@ -1736,38 +1755,94 @@ function sendStoryReply() {
     appendGuestOutgoingBubble(txt);
 }
 
-// Voice Note Simulasi
+// Voice Note: ucapan pengantin bersuara Indonesia
 let vnAudioTimer = null;
 let vnPlaying = false;
-function toggleVNAudio() {
+let vnElapsedSec = 0;
+function fmtVNTime(sec) {
+    const m = String(Math.floor(sec / 60)).padStart(2, '0');
+    const s = String(Math.floor(sec % 60)).padStart(2, '0');
+    return `${m}:${s}`;
+}
+function setVNPlayingUI(playing) {
     const playIcon = document.getElementById('t7-vn-play-icon');
     const pauseIcon = document.getElementById('t7-vn-pause-icon');
+    const bars = document.querySelectorAll('#chat-step-vn .waveform-bar');
+    if (playIcon) playIcon.classList.toggle('hidden', playing);
+    if (pauseIcon) pauseIcon.classList.toggle('hidden', !playing);
+    bars.forEach((b, i) => {
+        b.classList.toggle('playing', playing);
+        b.style.animationDelay = playing ? `${(i % 5) * 0.12}s` : '';
+    });
+}
+function pickIDVoice() {
+    try {
+        const vs = window.speechSynthesis.getVoices() || [];
+        return vs.find((v) => /^id([-_]|$)/i.test(v.lang || '')) || null;
+    } catch (e) { return null; }
+}
+function vnGreetingText() {
+    const gEl = document.querySelector('.t7-guest-name');
+    const guest = ((gEl ? gEl.textContent : '') || 'Tamu Undangan').trim().replace(/["<>]/g, '') || 'Tamu Undangan';
+    const bride = "<%= fv(event?.bride_name, 'Sarah') %>".replace(/["<>]/g, '');
+    const groom = "<%= fv(event?.groom_name, 'David') %>".replace(/["<>]/g, '');
+    return `Halo ${guest}! Aku ${bride}, dan aku ${groom}. Makasih banyak sudah gabung ke grup rahasia kita. Kita punya kabar bahagia banget: kita, mau nikah! Simak sampai habis ya, cek tanggal dan lokasinya, terus konfirmasi kehadiran kamu. Sampai ketemu di hari bahagia!`;
+}
+function startVNTick() {
     const timeEl = document.getElementById('t7-vn-time');
-    
-    toggleAudio();
-
+    if (vnAudioTimer) clearInterval(vnAudioTimer);
+    vnAudioTimer = setInterval(() => {
+        vnElapsedSec += 0.5;
+        if (timeEl) timeEl.textContent = fmtVNTime(vnElapsedSec);
+    }, 500);
+}
+function stopVNTick() {
+    if (vnAudioTimer) clearInterval(vnAudioTimer);
+    vnAudioTimer = null;
+}
+function stopVNSpeech() {
+    try { window.speechSynthesis.cancel(); } catch (e) {}
+}
+function toggleVNAudio() {
+    if (!('speechSynthesis' in window)) {
+        if (!vnPlaying) {
+            vnPlaying = true;
+            vnElapsedSec = 0;
+            setVNPlayingUI(true);
+            toggleAudio(true);
+            startVNTick();
+        } else {
+            vnPlaying = false;
+            setVNPlayingUI(false);
+            toggleAudio(false);
+            stopVNTick();
+        }
+        return;
+    }
+    try { window.speechSynthesis.getVoices(); } catch (e) {}
     if (!vnPlaying) {
+        if (typeof isAudioPlaying !== 'undefined' && isAudioPlaying) toggleAudio(false);
+        stopVNSpeech();
+        const u = new SpeechSynthesisUtterance(vnGreetingText());
+        u.lang = 'id-ID';
+        u.rate = 0.98;
+        u.pitch = 1;
+        const voice = pickIDVoice();
+        if (voice) u.voice = voice;
         vnPlaying = true;
-        if (playIcon) playIcon.classList.add('hidden');
-        if (pauseIcon) pauseIcon.classList.remove('hidden');
-        let sec = 0;
-        vnAudioTimer = setInterval(() => {
-            sec++;
-            const m = String(Math.floor(sec / 60)).padStart(2, '0');
-            const s = String(sec % 60).padStart(2, '0');
-            if (timeEl) timeEl.textContent = `${m}:${s}`;
-            if (sec >= 45) {
-                clearInterval(vnAudioTimer);
-                vnPlaying = false;
-                if (playIcon) playIcon.classList.remove('hidden');
-                if (pauseIcon) pauseIcon.classList.add('hidden');
-            }
-        }, 1000);
+        vnElapsedSec = 0;
+        setVNPlayingUI(true);
+        const timeEl = document.getElementById('t7-vn-time');
+        if (timeEl) timeEl.textContent = '00:00';
+        startVNTick();
+        u.onend = () => { vnPlaying = false; setVNPlayingUI(false); stopVNTick(); };
+        u.onerror = () => { vnPlaying = false; setVNPlayingUI(false); stopVNTick(); };
+        window.speechSynthesis.speak(u);
     } else {
+        stopVNSpeech();
         vnPlaying = false;
-        if (vnAudioTimer) clearInterval(vnAudioTimer);
-        if (playIcon) playIcon.classList.remove('hidden');
-        if (pauseIcon) pauseIcon.classList.add('hidden');
+        setVNPlayingUI(false);
+        stopVNTick();
     }
 }
 
