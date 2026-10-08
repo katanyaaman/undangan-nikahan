@@ -33,28 +33,30 @@
             color: #111b21 !important;
         }
 
-        /* Wallpaper Resmi WhatsApp (Doodle Asli Ringan WebP) - Full Terus Tanpa Terpotong */
+        /* Wallpaper Resmi WhatsApp (Doodle Asli Ringan WebP) - Tiled Alami Proporsional */
         .wa-bg-authentic {
             background-color: #efeae2 !important;
             background-image: url('/images/wa-background.webp') !important;
-            background-repeat: no-repeat !important;
-            background-size: 100% 100% !important;
-            background-position: center center !important;
+            background-repeat: repeat !important;
+            background-size: 380px auto !important;
+            background-position: top center !important;
             background-blend-mode: multiply !important;
+            background-attachment: scroll !important;
         }
 
-        /* Gelembung Pesan Masuk Resmi WhatsApp (Putih Bersih & Lengkungan Khas WA) */
+        /* Gelembung Pesan Masuk Resmi WhatsApp (Putih Bersih & iOS Standar 16px Radius) */
         .wa-bubble-in {
             background-color: #ffffff !important;
             color: #111b21 !important;
-            box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13) !important;
-            border-radius: 8px !important;
-            border-top-left-radius: 2px !important;
+            box-shadow: 0 1px 1px rgba(11, 20, 26, 0.08) !important;
+            border-radius: 16px !important;
+            border-top-left-radius: 4px !important;
             position: relative !important;
-            font-size: 14.5px !important;
+            font-size: 15px !important;
             line-height: 1.38 !important;
             letter-spacing: -0.01em !important;
             display: flow-root !important;
+            max-width: 85% !important;
         }
         .wa-bubble-in.has-tail::before {
             content: "";
@@ -77,7 +79,7 @@
         }
         .wa-bubble-in strong {
             color: #111b21 !important;
-            font-weight: 500 !important;
+            font-weight: 600 !important;
         }
 
         /* Countdown Timer & Tombol Berwarna Gelap: Wajib Teks Putih Terang & Kontras Tinggi */
@@ -100,18 +102,19 @@
             stroke: #ffffff !important;
         }
 
-        /* Gelembung Pesan Keluar Resmi WhatsApp (Hijau Lembut Khas WA) */
+        /* Gelembung Pesan Keluar Resmi WhatsApp (Hijau Lembut Khas WA - iOS Standar 16px Radius) */
         .wa-bubble-out {
             background-color: #DCF8C6 !important;
             color: #111b21 !important;
-            box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13) !important;
-            border-radius: 8px !important;
-            border-top-right-radius: 2px !important;
+            box-shadow: 0 1px 1px rgba(11, 20, 26, 0.08) !important;
+            border-radius: 16px !important;
+            border-top-right-radius: 4px !important;
             position: relative !important;
-            font-size: 14.5px !important;
+            font-size: 15px !important;
             line-height: 1.38 !important;
             letter-spacing: -0.01em !important;
             display: flow-root !important;
+            max-width: 85% !important;
         }
         .wa-bubble-out.has-tail::after {
             content: "";
@@ -129,13 +132,13 @@
         }
         .wa-bubble-out strong {
             color: #111b21 !important;
-            font-weight: 500 !important;
+            font-weight: 600 !important;
         }
 
         /* Format Posisi Teks & Jam Resmi WhatsApp (Inline Float Right di Akhir Kalimat) */
         .wa-bubble-text {
             display: inline;
-            font-size: 14.5px;
+            font-size: 15px;
             line-height: 1.38;
             color: #111b21;
             word-break: break-word;
@@ -148,7 +151,7 @@
             margin-bottom: -2px;
             font-size: 11px;
             line-height: 15px;
-            color: #667781;
+            color: #8696a0;
             white-space: nowrap;
             display: inline-flex;
             align-items: center;
@@ -158,7 +161,7 @@
         .wa-time {
             font-size: 11px !important;
             font-weight: 400 !important;
-            color: #667781 !important;
+            color: #8696a0 !important;
             letter-spacing: 0.02em !important;
             font-variant-numeric: tabular-nums;
             line-height: 15px;
@@ -181,38 +184,43 @@
 
         /* Chip Tanggal di Atas Obrolan */
         .wa-date-chip {
-            background-color: rgba(255, 255, 255, 0.82) !important;
+            background-color: rgba(255, 255, 255, 0.88) !important;
             backdrop-filter: blur(10px) !important;
-            color: #667781 !important;
-            box-shadow: 0 1px 1.5px rgba(0, 0, 0, 0.06) !important;
+            color: #54656f !important;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06) !important;
             border-radius: 8px !important;
-            font-size: 11px !important;
+            font-size: 11.5px !important;
             font-weight: 500 !important;
             padding: 3px 12px !important;
         }
 
-        /* Tombol Pilihan Menu Interaktif */
+        /* Tombol Pilihan Menu Interaktif (Quick Reply Chips) */
         .wa-action-btn {
             background-color: #ffffff !important;
-            color: #000000 !important;
+            color: #111b21 !important;
             border: 1px solid rgba(0, 0, 0, 0.08) !important;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
-            border-radius: 20px !important;
-            font-size: 13px !important;
-            font-weight: 600 !important;
-            transition: all 0.2s ease !important;
-        }
-            font-size: 13px !important;
-            font-weight: 600 !important;
-            transition: all 0.2s ease !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+            border-radius: 18px !important;
+            min-height: 42px !important;
+            padding: 8px 14px !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            transition: all 0.15s ease !important;
+            cursor: pointer !important;
         }
         .wa-action-btn:hover {
-            background-color: #f2f2f7 !important;
+            background-color: #f7f7f8 !important;
+            border-color: rgba(0, 0, 0, 0.12) !important;
         }
-        .wa-action-btn.active {
+        .wa-action-btn:active, .wa-action-btn.active {
             background-color: #e7fce3 !important;
             border-color: #25d366 !important;
             color: #0b704c !important;
+            font-weight: 600 !important;
         }
 
         /* Floating Emoji Reaction Bar (Seperti Popup WhatsApp iOS) */
@@ -343,7 +351,7 @@
             z-index: 70;
         }
 
-        /* Ukuran Smartphone Standar Indonesia (360px - 412px) */
+        /* Ukuran Smartphone Standar */
         .phone-container {
             width: 100% !important;
             max-width: 412px !important;
@@ -351,12 +359,67 @@
             margin-right: auto !important;
         }
 
+        body {
+            background-color: #0c1317 !important;
+            color: #111b21 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden !important;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                background-color: #efeae2 !important;
+            }
+            .phone-container {
+                max-width: 100% !important;
+                border-left-width: 0 !important;
+                border-right-width: 0 !important;
+                box-shadow: none !important;
+            }
+        }
+
+        /* Container Obrolan: Kunci 100vh penuh agar bagian ketikan selalu full di paling bawah */
+        #t5-chat-wrapper {
+            height: 100vh !important;
+            height: 100dvh !important;
+            min-height: 100vh !important;
+            min-height: 100dvh !important;
+            max-height: 100vh !important;
+            max-height: 100dvh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            overflow: hidden !important;
+            position: relative !important;
+        }
+
+        /* Area stream pesan mengisi seluruh sisa ruang tengah */
         #t5-chat-main {
-            scroll-behavior: smooth;
+            flex: 1 1 0% !important;
+            min-height: 0 !important;
+            height: auto !important;
+            overflow-y: auto !important;
+            overscroll-behavior: contain !important;
+            scroll-behavior: smooth !important;
         }
         #t5-chat-main > * {
             scroll-margin-top: 16px;
             scroll-margin-bottom: 16px;
+        }
+
+        /* Bagian ketikan selalu full di bagian paling bawah */
+        #t5-bottom-bar {
+            flex-shrink: 0 !important;
+            margin-top: auto !important;
+            width: 100% !important;
+            position: relative !important;
+            z-index: 40 !important;
+        }
+
+        #t5-sticker-drawer {
+            flex-shrink: 0 !important;
+            width: 100% !important;
         }
 
         /* Hilangkan seluruh scrollbar bawaan browser agar seperti tampilan native smartphone */
@@ -382,7 +445,7 @@
 <!-- 1. LOCKSCREEN NOTIFIKASI SMARTPHONE (PROSES SMOOTH & ALAMI) -->
 <!-- =================================================================== -->
 <div id="t5-lockscreen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#0c1317] transition-all duration-700">
-    <div class="phone-container h-full flex flex-col justify-between p-6 bg-cover bg-center bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white shadow-2xl relative border-x border-white/10 overflow-hidden">
+    <div class="phone-container h-full min-h-[100dvh] max-h-[100dvh] flex flex-col justify-between p-4 sm:p-6 bg-cover bg-center bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white shadow-2xl relative border-x border-white/10 overflow-y-auto">
     
     <!-- iPhone Dynamic Island & Status Bar -->
     <div class="w-full flex items-center justify-between text-xs font-semibold px-2 text-slate-300">
@@ -408,18 +471,18 @@
     </div>
 
     <!-- Jam Besar Lockscreen -->
-    <div class="text-center my-auto">
-        <h1 id="t5-lockscreen-time" class="text-7xl sm:text-8xl font-extralight tracking-tight text-white/95">09:41</h1>
+    <div class="text-center my-auto py-2">
+        <h1 id="t5-lockscreen-time" class="text-6xl sm:text-7xl md:text-8xl font-extralight tracking-tight text-white/95">09:41</h1>
         <p id="t5-lockscreen-date" class="text-sm font-medium text-slate-300 mt-1">Minggu, 31 Desember</p>
     </div>
 
     <!-- KARTU NOTIFIKASI WA ALAMI -->
-    <div class="max-w-md w-full mx-auto space-y-4">
-        <div id="t5-notif-card" onclick="openWAChatWithProcess(this)" class="cursor-pointer bg-white text-slate-900 rounded-2xl p-4 shadow-2xl border border-white/60 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
+    <div class="max-w-md w-full mx-auto space-y-4 shrink-0">
+        <div id="t5-notif-card" onclick="openWAChatWithProcess(this)" class="cursor-pointer bg-white text-slate-900 rounded-2xl p-4 shadow-2xl border border-white/60 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shrink-0">
             <!-- Header Notifikasi -->
             <div class="flex items-center justify-between text-[11px] text-slate-500 mb-2 font-semibold">
                 <div class="flex items-center space-x-1.5">
-                    <div class="w-4 h-4 rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-sm">
+                    <div class="w-4 h-4 rounded-full bg-[#25D366] flex items-center justify-center text-white shadow-sm shrink-0">
                         <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.173.086.275.072.376-.043.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/></svg>
                     </div>
                     <span class="tracking-wider uppercase font-bold text-emerald-800">WHATSAPP</span>
@@ -429,8 +492,8 @@
 
             <!-- Isi Chat Masuk Alami -->
             <div class="flex items-start space-x-3">
-                <div class="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-emerald-400 via-teal-300 to-green-300 status-ring-pulse flex-shrink-0 shadow">
-                    <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Mempelai" class="w-full h-full rounded-full object-cover">
+                <div class="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-emerald-400 via-teal-300 to-green-300 status-ring-pulse shrink-0 shadow aspect-square">
+                    <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Mempelai" class="w-full h-full rounded-full object-cover aspect-square">
                 </div>
                 <div class="flex-1 min-w-0">
                     <h2 class="text-sm font-bold text-slate-900 truncate">
@@ -464,7 +527,7 @@
 <!-- 2. WHATSAPP FULLSCREEN STATUS / STORY -->
 <!-- =================================================================== -->
 <div id="t5-story-modal" class="fixed inset-0 z-50 bg-[#0c1317] hidden items-center justify-center select-none">
-    <div class="phone-container h-full flex flex-col justify-between text-white bg-black relative shadow-2xl border-x border-white/10 overflow-hidden">
+    <div class="phone-container h-full min-h-[100dvh] max-h-[100dvh] flex flex-col justify-between text-white bg-black relative shadow-2xl border-x border-white/10 overflow-hidden">
     <div class="p-3 pt-4 flex space-x-1.5 z-20">
         <div class="flex-1 h-1 bg-white/30 rounded-full overflow-hidden"><div id="sb-0" class="h-full bg-white w-0 transition-all duration-100 ease-linear"></div></div>
         <div class="flex-1 h-1 bg-white/30 rounded-full overflow-hidden"><div id="sb-1" class="h-full bg-white w-0 transition-all duration-100 ease-linear"></div></div>
@@ -474,8 +537,8 @@
     <!-- Header Story WA -->
     <div class="flex items-center justify-between px-4 py-2 z-20">
         <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-emerald-400 shadow">
-                <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Status" class="w-full h-full object-cover">
+            <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-emerald-400 shadow shrink-0 aspect-square">
+                <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Status" class="w-full h-full object-cover aspect-square">
             </div>
             <div>
                 <h3 class="text-sm font-bold text-white"><%= fv(event?.groom_name, 'David') %> & <%= fv(event?.bride_name, 'Sarah') %></h3>
@@ -524,18 +587,18 @@
 <!-- 3. SIMULASI PANGGILAN SUARA & VIDEO WHATSAPP -->
 <!-- =================================================================== -->
 <div id="t5-call-modal" class="fixed inset-0 z-50 bg-[#0c1317] text-white hidden items-center justify-center select-none">
-    <div class="phone-container h-full flex flex-col items-center justify-between p-6 bg-gradient-to-b from-[#075E54] via-[#054c44] to-[#0b141a] text-white shadow-2xl relative border-x border-white/10 overflow-hidden">
-    <div class="text-center pt-8">
+    <div class="phone-container h-full min-h-[100dvh] max-h-[100dvh] flex flex-col items-center justify-between p-4 sm:p-6 bg-gradient-to-b from-[#075E54] via-[#054c44] to-[#0b141a] text-white shadow-2xl relative border-x border-white/10 overflow-y-auto">
+    <div class="text-center pt-4 sm:pt-8 shrink-0">
         <span id="t5-call-badge" class="inline-block px-3 py-1 rounded-full bg-white/10 text-xs font-semibold text-emerald-400 mb-3 border border-white/10">
             Panggilan WhatsApp Masuk
         </span>
-        <h2 class="text-2xl font-bold mb-1"><%= fv(event?.groom_name, 'David') %> & <%= fv(event?.bride_name, 'Sarah') %></h2>
+        <h2 class="text-xl sm:text-2xl font-bold mb-1"><%= fv(event?.groom_name, 'David') %> & <%= fv(event?.bride_name, 'Sarah') %></h2>
         <p id="t5-call-status" class="text-sm text-slate-300 font-mono">Berdering...</p>
     </div>
 
-    <div class="relative my-auto">
-        <div id="t5-call-avatar-ring" class="w-36 h-36 rounded-full overflow-hidden p-1.5 border-4 border-emerald-400 status-ring-pulse shadow-2xl">
-            <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Mempelai" class="w-full h-full rounded-full object-cover">
+    <div class="relative my-auto py-2 shrink-0">
+        <div id="t5-call-avatar-ring" class="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden p-1.5 border-4 border-emerald-400 status-ring-pulse shadow-2xl shrink-0 aspect-square mx-auto">
+            <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Mempelai" class="w-full h-full rounded-full object-cover aspect-square">
         </div>
     </div>
 
@@ -578,7 +641,7 @@
 <!-- =================================================================== -->
 <!-- 4. RUANG OBROLAN WHATSAPP UTAMA (WARNA FONT STANDAR WA RESMI) -->
 <!-- =================================================================== -->
-<div id="t5-chat-wrapper" class="hidden h-screen max-h-screen flex flex-col phone-container shadow-2xl relative wa-bg-authentic border-x border-black/10 overflow-hidden">
+<div id="t5-chat-wrapper" class="hidden flex flex-col phone-container shadow-2xl relative wa-bg-authentic border-x border-black/10 overflow-hidden">
     
     <!-- HEADER WHATSAPP RESMI (iOS STYLE) -->
     <header class="flex-shrink-0 z-40 bg-[#F6F6F6]/95 backdrop-blur-md text-[#000000] px-3 py-2 flex items-center justify-between border-b border-black/10 shadow-xs">
@@ -591,8 +654,8 @@
 
             <!-- AVATAR MEMPELAI DENGAN STATUS ONLINE -->
             <div onclick="openWAStory(0)" title="Ketuk untuk melihat Cerita Mempelai" class="relative cursor-pointer flex-shrink-0 group">
-                <div class="w-9 h-9 rounded-full p-0.5 bg-gradient-to-tr from-emerald-400 to-teal-400 ring-1.5 ring-emerald-500 status-ring-pulse">
-                    <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Mempelai" class="w-full h-full rounded-full object-cover">
+                <div class="w-9 h-9 rounded-full p-0.5 bg-gradient-to-tr from-emerald-400 to-teal-400 ring-1.5 ring-emerald-500 status-ring-pulse shrink-0 aspect-square">
+                    <img src="<%= bridePhoto || groomPhoto || '/images/demo/g-couple.svg' %>" alt="Mempelai" class="w-full h-full rounded-full object-cover aspect-square">
                 </div>
                 <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white"></span>
             </div>
@@ -744,8 +807,8 @@
                 <div class="space-y-2.5">
                     <!-- Mempelai Pria -->
                     <div class="wa-inner-card flex items-center space-x-3 p-2.5 rounded-xl">
-                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200 flex-shrink-0">
-                            <img src="<%= groomPhoto || '/images/demo/groom.svg' %>" alt="Pria" class="w-full h-full object-cover">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200 shrink-0 aspect-square">
+                            <img src="<%= groomPhoto || '/images/demo/groom.svg' %>" alt="Pria" class="w-full h-full object-cover aspect-square">
                         </div>
                         <div class="flex-1 min-w-0">
                             <h4 class="text-sm font-bold text-[#111b21] truncate"><%= fv(event?.groom_name, 'David Anderson') %></h4>
@@ -760,8 +823,8 @@
 
                     <!-- Mempelai Wanita -->
                     <div class="wa-inner-card flex items-center space-x-3 p-2.5 rounded-xl">
-                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200 flex-shrink-0">
-                            <img src="<%= bridePhoto || '/images/demo/bride.svg' %>" alt="Wanita" class="w-full h-full object-cover">
+                        <div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200 shrink-0 aspect-square">
+                            <img src="<%= bridePhoto || '/images/demo/bride.svg' %>" alt="Wanita" class="w-full h-full object-cover aspect-square">
                         </div>
                         <div class="flex-1 min-w-0">
                             <h4 class="text-sm font-bold text-[#111b21] truncate"><%= fv(event?.bride_name, 'Sarah Johnson') %></h4>
@@ -819,15 +882,15 @@
                     </div>
                 </div>
 
-                <!-- Tombol Navigasi Peta -->
+                <!-- Tombol Navigasi Peta & Kalender -->
                 <div class="grid grid-cols-2 gap-2 pt-1">
                     <a href="https://maps.google.com/?q=<%= encodeURIComponent(venueAddress || venueName || 'Lokasi Acara') %>" target="_blank"
-                       class="wa-btn-maps text-center py-2.5 px-3 bg-[#075E54] text-white rounded-xl text-xs font-bold hover:bg-emerald-700 transition-colors flex items-center justify-center space-x-1.5 shadow-xs">
-                        <svg class="w-3.5 h-3.5 text-white stroke-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                       class="wa-btn-maps text-center min-h-[42px] py-2.5 px-3 bg-[#075E54] text-white rounded-xl text-[13px] font-bold hover:bg-emerald-700 active:scale-95 transition-all flex items-center justify-center space-x-1.5 shadow-xs">
+                        <svg class="w-4 h-4 text-white stroke-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
                         <span class="text-white font-bold">Petunjuk Maps</span>
                     </a>
                     <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+<%= encodeURIComponent(fv(event?.groom_name, 'David') + '+%26+' + fv(event?.bride_name, 'Sarah')) %>&location=<%= encodeURIComponent(fv(venueName, '') + ', ' + fv(venueAddress, '')) %>" target="_blank"
-                       class="text-center py-2.5 px-3 bg-white text-[#111b21] border border-slate-300 rounded-xl text-xs font-semibold hover:bg-slate-50 transition-colors flex items-center justify-center space-x-1 shadow-xs">
+                       class="text-center min-h-[42px] py-2.5 px-3 bg-white text-[#111b21] border border-slate-300 rounded-xl text-[13px] font-semibold hover:bg-slate-50 active:scale-95 transition-all flex items-center justify-center space-x-1 shadow-xs">
                         <span class="text-[#111b21] font-semibold">+ Simpan Kalender</span>
                     </a>
                 </div>
@@ -887,9 +950,9 @@
                         <span class="text-xs font-bold text-blue-800">BANK BCA</span>
                         <span class="text-[11px] text-[#54656f]">a.n <%= fv(event?.groom_name, 'David Anderson') %></span>
                     </div>
-                    <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-lg border border-slate-200">
+                    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200">
                         <span id="t5-bca-num" class="font-mono text-sm font-bold text-[#111b21]">1234567890</span>
-                        <button onclick="copyT5('t5-bca-num', this)" class="px-2.5 py-1 bg-emerald-600 text-white text-[11px] font-bold rounded-lg hover:bg-emerald-700 transition-colors">
+                        <button onclick="copyT5('t5-bca-num', this)" class="min-h-[34px] px-3.5 py-1.5 bg-emerald-600 text-white text-xs font-bold rounded-lg hover:bg-emerald-700 active:scale-95 transition-all">
                             Salin
                         </button>
                     </div>
@@ -901,16 +964,16 @@
                         <span class="text-xs font-bold text-amber-800">BANK MANDIRI</span>
                         <span class="text-[11px] text-[#54656f]">a.n <%= fv(event?.bride_name, 'Sarah Johnson') %></span>
                     </div>
-                    <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-lg border border-slate-200">
+                    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200">
                         <span id="t5-mandiri-num" class="font-mono text-sm font-bold text-[#111b21]">0987654321</span>
-                        <button onclick="copyT5('t5-mandiri-num', this)" class="px-2.5 py-1 bg-emerald-600 text-white text-[11px] font-bold rounded-lg hover:bg-emerald-700 transition-colors">
+                        <button onclick="copyT5('t5-mandiri-num', this)" class="min-h-[34px] px-3.5 py-1.5 bg-emerald-600 text-white text-xs font-bold rounded-lg hover:bg-emerald-700 active:scale-95 transition-all">
                             Salin
                         </button>
                     </div>
                 </div>
 
                 <!-- Tombol Buka Pop-Up QRIS -->
-                <button onclick="openQRISModal()" class="w-full py-2 px-3 bg-emerald-50 hover:bg-emerald-100 text-[#075E54] font-bold text-xs rounded-xl border border-emerald-300 flex items-center justify-center space-x-1.5 transition-colors">
+                <button onclick="openQRISModal()" class="w-full min-h-[42px] py-2.5 px-3 bg-emerald-50 hover:bg-emerald-100 text-[#075E54] font-bold text-[13px] rounded-xl border border-emerald-300 flex items-center justify-center space-x-1.5 active:scale-95 transition-all">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
                     <span>Tampilkan Scan QRIS Amplop Digital</span>
                 </button>
@@ -934,7 +997,7 @@
 
                 <!-- Tombol Respon Cepat -->
                 <div class="space-y-2 pt-1">
-                    <div onclick="openRSVPDialog('hadir')" class="cursor-pointer p-3 rounded-xl border-2 border-emerald-500/50 hover:border-emerald-600 bg-emerald-50/70 transition-all space-y-1.5">
+                    <div onclick="openRSVPDialog('hadir')" class="cursor-pointer p-3 rounded-xl border-2 border-emerald-500/50 hover:border-emerald-600 bg-emerald-50/70 active:scale-[0.99] transition-all space-y-1.5">
                         <div class="flex items-center justify-between text-xs font-bold text-[#111b21]">
                             <span>🟢 Ya, Insya Allah Hadir</span>
                             <span id="t5-attending-stat" class="font-mono text-[#0b704c] font-bold"><%= attendingCount ?? 0 %> Tamu</span>
@@ -944,7 +1007,7 @@
                         </div>
                     </div>
 
-                    <div onclick="openRSVPDialog('tidak_hadir')" class="cursor-pointer p-3 rounded-xl border border-slate-300 hover:border-slate-400 bg-slate-50 transition-all space-y-1.5">
+                    <div onclick="openRSVPDialog('tidak_hadir')" class="cursor-pointer p-3 rounded-xl border border-slate-300 hover:border-slate-400 bg-slate-50 active:scale-[0.99] transition-all space-y-1.5">
                         <div class="flex items-center justify-between text-xs font-semibold text-[#111b21]">
                             <span>⚪ Maaf, Belum Bisa Hadir</span>
                             <span id="t5-notattending-stat" class="font-mono text-[#54656f]"><%= notAttendingCount ?? 0 %> Tamu</span>
@@ -973,7 +1036,7 @@
                 <% if ((wishes ?? []).length) { %>
                     <% (wishes ?? []).forEach(function(wish) { %>
                     <div class="flex items-start max-w-[88%]">
-                        <div class="wa-bubble-in p-3 shadow-sm text-xs w-full">
+                        <div class="wa-bubble-in p-3.5 shadow-xs text-[13.5px] rounded-2xl w-full">
                             <div class="flex items-center justify-between mb-1">
                                 <span class="font-bold text-[#111b21]"><%= wish.name %></span>
                                 <span class="text-[10px] px-1.5 py-0.2 rounded font-semibold <%= wish.attendance === 'hadir' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-700' %>">
@@ -1029,31 +1092,31 @@
         </button>
     </div>
 
-    <!-- 5. BOTTOM BAR CHAT INPUT (iOS WHATSAPP STYLE - FLEX-SHRINK-0) -->
-    <footer id="t5-bottom-bar" class="flex-shrink-0 w-full bg-[#F6F6F6]/95 backdrop-blur-md p-2 px-3 flex items-center space-x-2 z-40 border-t border-black/10 shadow-xs">
+    <!-- 5. BOTTOM BAR CHAT INPUT (iOS WHATSAPP COMPOSER BAR) -->
+    <footer id="t5-bottom-bar" class="flex-shrink-0 w-full bg-[#F6F6F6]/98 backdrop-blur-md p-2 px-3 flex items-center space-x-2 z-40 border-t border-black/10 shadow-xs" style="padding-bottom: max(8px, env(safe-area-inset-bottom));">
         <!-- Plus Button (+) iOS Blue -->
-        <button type="button" onclick="toggleStickerDrawer()" aria-label="Buka Lampiran" class="text-[#007AFF] hover:opacity-80 p-1 flex-shrink-0">
+        <button type="button" onclick="toggleStickerDrawer()" aria-label="Buka Lampiran" class="text-[#007AFF] hover:opacity-80 w-9 h-9 flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path></svg>
         </button>
 
-        <!-- Input Field (Pill Rounded Asli WA iOS) -->
-        <div class="flex-1 flex items-center bg-white rounded-full px-3.5 py-1.5 border border-gray-300/80 shadow-xs">
+        <!-- Input Field (Pill Rounded Asli WA iOS, Min Height 38px, Font 16px to prevent iOS zoom) -->
+        <div class="flex-1 flex items-center bg-white rounded-full px-3.5 py-1 min-h-[38px] border border-gray-300/80 shadow-xs">
             <input type="text" id="t5-quick-input" placeholder="Ketik pesan ucapan..." 
-                   class="flex-1 bg-transparent text-[#000000] text-[15px] border-0 focus:outline-none placeholder-gray-400">
+                   class="flex-1 bg-transparent text-[#000000] text-[16px] border-0 focus:outline-none placeholder-gray-400">
             <!-- Sticker Icon Inside Input -->
-            <button type="button" onclick="toggleStickerDrawer()" class="text-[#007AFF] hover:opacity-80 pl-1.5">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm6 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75z"></path></svg>
+            <button type="button" onclick="toggleStickerDrawer()" aria-label="Stiker" class="text-[#007AFF] hover:opacity-80 p-1">
+                <svg class="w-5.5 h-5.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm6 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75z"></path></svg>
             </button>
         </div>
 
         <!-- Camera Button -->
-        <button type="button" onclick="openWAStory(0)" title="Kamera Story" class="text-[#007AFF] hover:opacity-80 p-1 flex-shrink-0">
+        <button type="button" onclick="openWAStory(0)" title="Kamera Story" class="text-[#007AFF] hover:opacity-80 w-9 h-9 flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"></path></svg>
         </button>
 
         <!-- Send Button -->
-        <button type="button" id="t5-send-btn" onclick="sendQuickWish()" aria-label="Kirim Pesan" class="w-8 h-8 rounded-full bg-[#007AFF] text-white flex items-center justify-center flex-shrink-0 shadow hover:bg-blue-600 active:scale-95 transition-all">
-            <svg class="w-4 h-4 ml-0.5 text-white" fill="currentColor" viewBox="0 0 24 24">
+        <button type="button" id="t5-send-btn" onclick="sendQuickWish()" aria-label="Kirim Pesan" class="w-9 h-9 rounded-full bg-[#007AFF] text-white flex items-center justify-center flex-shrink-0 shadow hover:bg-blue-600 active:scale-95 transition-all">
+            <svg class="w-4.5 h-4.5 ml-0.5 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
             </svg>
         </button>
@@ -1506,8 +1569,9 @@ function revealAllSectionsSmooth(btnEl) {
 
         setTimeout(() => {
             const firstRevealed = document.getElementById('t5-couple-bubble') || document.getElementById('t5-event-bubble');
-            if (firstRevealed) {
-                firstRevealed.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (firstRevealed && chatMain) {
+                const targetTop = Math.max(0, firstRevealed.offsetTop - 70);
+                chatMain.scrollTo({ top: targetTop, behavior: 'smooth' });
             }
         }, 80);
     }, 700);
