@@ -231,6 +231,47 @@
             border-radius: 12px !important;
         }
 
+        /* WhatsApp Native Quoted Reply Box */
+        .wa-reply-quote {
+            background-color: rgba(0, 0, 0, 0.04) !important;
+            border-left: 3.5px solid #a855f7 !important;
+            border-radius: 6px !important;
+            border-top-left-radius: 2px !important;
+            border-bottom-left-radius: 2px !important;
+            padding: 4px 8px !important;
+            margin-bottom: 6px !important;
+            margin-top: 3px !important;
+            user-select: none;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+        .wa-reply-quote:hover {
+            background-color: rgba(0, 0, 0, 0.06) !important;
+        }
+        .wa-reply-quote:active {
+            background-color: rgba(0, 0, 0, 0.09) !important;
+        }
+        .wa-reply-quote-sender {
+            font-size: 11.5px !important;
+            font-weight: 700 !important;
+            color: #a855f7 !important;
+            line-height: 1.2 !important;
+            margin-bottom: 2px !important;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .wa-reply-quote-text {
+            font-size: 12px !important;
+            color: #54656f !important;
+            line-height: 1.3 !important;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         /* Typing Dots Animation */
         .wa-typing-bubble {
             background-color: #ffffff !important;
@@ -596,8 +637,10 @@
 
         <!-- Tombol Aksi Header (iOS Blue Outline Icons) -->
         <div class="flex items-center space-x-2.5 text-[#007AFF] shrink-0">
-            <button onclick="toggleAudio()" title="Musik Undangan" class="hover:opacity-75 p-1 transition-opacity">
-                <svg class="w-5.5 h-5.5" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"></path></svg>
+            <button id="t7-music-btn" onclick="toggleAudio()" title="Musik Undangan (Mute/Unmute)" class="hover:opacity-75 p-1 transition-opacity">
+                <!-- Icon Mute / Speaker Off by default -->
+                <svg id="t7-music-off-icon" class="w-5.5 h-5.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path></svg>
+                <svg id="t7-music-on-icon" class="w-5.5 h-5.5 hidden text-[#007AFF]" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"></path></svg>
             </button>
             <button onclick="openGroupInfo()" title="Info Grup" class="hover:opacity-75 p-1 transition-opacity">
                 <svg class="w-5.5 h-5.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -643,15 +686,26 @@
             </div>
         </div>
 
-        <!-- BUBBLE 2: DAVID MERESPONS & IZIN INVITE -->
+        <!-- BUBBLE 2: DAVID MERESPONS & IZIN INVITE (REPLY PESAN SARAH) -->
         <div id="chat-step-2" class="hidden flex items-start space-x-2 max-w-[90%] sm:max-w-[82%] chat-pop">
             <!-- Avatar Mini Pengirim -->
             <img src="<%= groomPhoto || '/images/demo/groom.svg' %>" alt="David" class="w-7 h-7 rounded-full object-cover shrink-0 mt-1 aspect-square bg-slate-200">
             <div class="wa-bubble-group has-tail px-3.5 py-2 shadow-xs w-fit">
-                <div class="flex items-center space-x-1 mb-0.5">
+                <div class="flex items-center space-x-1 mb-1">
                     <span class="wa-sender-groom"><%= fv(event?.groom_name, 'David') %> 🎩</span>
                     <span class="wa-sender-badge">Admin</span>
                 </div>
+
+                <!-- Kutipan Reply Pesan Sarah di Atasnya -->
+                <div class="wa-reply-quote" onclick="document.getElementById('chat-step-1')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })">
+                    <div class="wa-reply-quote-sender">
+                        <span><%= fv(event?.bride_name, 'Sarah') %> 💕</span>
+                    </div>
+                    <p class="wa-reply-quote-text">
+                        Yang, jangan lupa invite bestie kita si <%= (typeof to !== 'undefined' && to) ? to : (locals.to || 'Tamu Undangan') %>! Kan dia wajib banget tau kabar bahagia kita duluan 🙈✨
+                    </p>
+                </div>
+
                 <p class="text-[14.5px] leading-relaxed text-[#111b21]">
                     Ohiyaa bener banget! Izin langsung gue invite ke grup yaa biar dapet info eksklusif dari kita berdua haha 🥳🚀
                     <span class="wa-msg-meta"><span class="wa-time">09.41</span></span>
@@ -846,14 +900,14 @@
                 </div>
 
                 <!-- Tombol Navigasi Peta & Kalender -->
-                <div class="grid grid-cols-2 gap-2 pt-1">
+                <div class="grid grid-cols-2 gap-1.5 sm:gap-2 pt-1">
                     <a href="https://maps.google.com/?q=<%= encodeURIComponent(venueAddress || venueName || 'Lokasi Acara') %>" target="_blank"
-                       class="text-center min-h-[42px] py-2.5 px-3 bg-[#075E54] text-white rounded-xl text-[13px] font-bold hover:bg-emerald-700 active:scale-95 transition-all flex items-center justify-center space-x-1.5 shadow-xs">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                       class="text-center min-h-[38px] sm:min-h-[42px] py-2 px-1.5 sm:px-3 bg-[#075E54] text-white rounded-xl text-[11.5px] sm:text-[13px] font-bold hover:bg-emerald-700 active:scale-95 transition-all flex items-center justify-center space-x-1 shadow-xs whitespace-nowrap">
+                        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
                         <span class="text-white font-bold">Petunjuk Maps</span>
                     </a>
                     <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+<%= encodeURIComponent(fv(event?.groom_name, 'David') + '+%26+' + fv(event?.bride_name, 'Sarah')) %>&location=<%= encodeURIComponent(fv(venueName, '') + ', ' + fv(venueAddress, '')) %>" target="_blank"
-                       class="text-center min-h-[42px] py-2.5 px-3 bg-white text-[#111b21] border border-slate-300 rounded-xl text-[13px] font-semibold hover:bg-slate-50 active:scale-95 transition-all flex items-center justify-center space-x-1 shadow-xs">
+                       class="text-center min-h-[38px] sm:min-h-[42px] py-2 px-1.5 sm:px-3 bg-white text-[#111b21] border border-slate-300 rounded-xl text-[11.5px] sm:text-[13px] font-semibold hover:bg-slate-50 active:scale-95 transition-all flex items-center justify-center space-x-1 shadow-xs whitespace-nowrap">
                         <span class="text-[#111b21] font-semibold">+ Simpan Kalender</span>
                     </a>
                 </div>
@@ -938,9 +992,9 @@
                 </div>
 
                 <!-- Tombol Scan QRIS -->
-                <button onclick="openQRISModal()" class="w-full min-h-[42px] py-2.5 px-3 bg-emerald-50 hover:bg-emerald-100 text-[#075E54] font-bold text-[13px] rounded-xl border border-emerald-300 flex items-center justify-center space-x-1.5 active:scale-95 transition-all">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
-                    <span>Tampilkan Scan QRIS Amplop Digital</span>
+                <button onclick="openQRISModal()" class="w-full min-h-[38px] sm:min-h-[42px] py-2 px-2.5 sm:px-3 bg-emerald-50 hover:bg-emerald-100 text-[#075E54] font-bold text-[12px] sm:text-[13px] rounded-xl border border-emerald-300 flex items-center justify-center space-x-1.5 active:scale-95 transition-all whitespace-nowrap">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+                    <span>Scan QRIS Amplop Digital</span>
                 </button>
 
                 <div class="flex justify-end pt-1">
@@ -1281,23 +1335,34 @@ function stopFallbackSynthMusic() {
     }
 }
 
-// Toggle Audio Background Musik
-function toggleAudio(forcePlay = false) {
+// Toggle Audio Background Musik (Default: Muted)
+function toggleAudio(forcePlay = null) {
     const audio = document.getElementById('t7-audio');
-    if (!audio) return;
+    const onIcon = document.getElementById('t7-music-on-icon');
+    const offIcon = document.getElementById('t7-music-off-icon');
 
-    if (forcePlay || !isAudioPlaying) {
-        audio.play().then(() => {
-            isAudioPlaying = true;
-            stopFallbackSynthMusic();
-        }).catch(() => {
-            isAudioPlaying = true;
-            startFallbackSynthMusic();
-        });
+    const shouldPlay = (forcePlay !== null) ? forcePlay : !isAudioPlaying;
+
+    if (shouldPlay) {
+        if (audio) {
+            audio.play().then(() => {
+                isAudioPlaying = true;
+                stopFallbackSynthMusic();
+                if (onIcon) onIcon.classList.remove('hidden');
+                if (offIcon) offIcon.classList.add('hidden');
+            }).catch(() => {
+                isAudioPlaying = true;
+                startFallbackSynthMusic();
+                if (onIcon) onIcon.classList.remove('hidden');
+                if (offIcon) offIcon.classList.add('hidden');
+            });
+        }
     } else {
-        audio.pause();
+        if (audio) audio.pause();
         isAudioPlaying = false;
         stopFallbackSynthMusic();
+        if (onIcon) onIcon.classList.add('hidden');
+        if (offIcon) offIcon.classList.remove('hidden');
     }
 }
 
@@ -1429,7 +1494,6 @@ function startStaggeredGroupChat() {
                                         playIncomingSound();
                                         if (stepVN) stepVN.classList.remove('hidden');
                                         if (actionsHub) actionsHub.classList.remove('hidden');
-                                        toggleAudio(true);
                                         if (chatMain) chatMain.scrollTo({ top: chatMain.scrollHeight, behavior: 'smooth' });
                                     }, 1500);
 
@@ -1513,7 +1577,6 @@ function revealAllSectionsSmooth(btnEl) {
         if (typingBubble) typingBubble.classList.add('hidden');
         if (btnEl) btnEl.innerHTML = '<span>✓ Seluruh Rincian Terbuka</span>';
         playIncomingSound();
-        toggleAudio(true);
 
         const outBox = document.getElementById('t7-outgoing-bubbles');
         if (chatMain && outBox) {

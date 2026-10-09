@@ -23,7 +23,7 @@ export const templates: TemplateMeta[] = [
   { slug: 'template-1', name: 'Elegant Modern', view: 'templates/template-1/index', rsvpPath: '/template-1/rsvp' },
   { slug: 'template-2', name: 'Classic Romantic', view: 'templates/template-2/index', rsvpPath: '/template-2/rsvp' },
   { slug: 'template-3', name: 'Elegant Nature', view: 'templates/template-3/index', rsvpPath: '/template-3/rsvp' },
-  { slug: 'template-4', name: 'Bugis Emerald', view: 'templates/template-4/index', rsvpPath: '/template-4/rsvp' },
+  { slug: 'template-4', name: 'Cinematic Noir & Gold', view: 'templates/template-4/index', rsvpPath: '/template-4/rsvp' },
   { slug: 'template-7', name: 'WhatsApp Group (Bestie)', view: 'templates/template-7/index', rsvpPath: '/template-7/rsvp' },
   { slug: 'template-8', name: 'Telegram Group (Bestie)', view: 'templates/template-8/index', rsvpPath: '/template-8/rsvp' },
 ];
@@ -59,12 +59,12 @@ export const TEMPLATE_THEMES: Record<string, TemplateCardTheme> = {
     accentColor: '#eab308',
   },
   'template-4': {
-    monogram: 'Be',
-    displayTitle: 'Bugis Emerald',
+    monogram: 'Cn',
+    displayTitle: 'Cinematic Noir & Gold',
     code: 'TEMPLATE - 4',
-    bgGradient: 'background: linear-gradient(135deg, #04241a 0%, #0b4534 55%, #052c20 100%);',
-    monogramColor: '#6ee7b7',
-    accentColor: '#10b981',
+    bgGradient: 'background: linear-gradient(135deg, #0d0d0f 0%, #1f1b13 55%, #09090b 100%);',
+    monogramColor: '#fef08a',
+    accentColor: '#D4AF37',
   },
   'template-7': {
     monogram: 'Wa',
