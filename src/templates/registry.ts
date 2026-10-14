@@ -20,7 +20,7 @@ export interface TemplateCardTheme {
 }
 
 export const templates: TemplateMeta[] = [
-  { slug: 'template-1', name: 'Elegant Modern', view: 'templates/template-1/index', rsvpPath: '/template-1/rsvp' },
+  { slug: 'template-1', name: 'Stardew Valley Quest', view: 'templates/template-1/index', rsvpPath: '/template-1/rsvp' },
   { slug: 'template-2', name: 'Classic Romantic', view: 'templates/template-2/index', rsvpPath: '/template-2/rsvp' },
   { slug: 'template-3', name: 'Elegant Nature', view: 'templates/template-3/index', rsvpPath: '/template-3/rsvp' },
   { slug: 'template-4', name: 'Cinematic Noir & Gold', view: 'templates/template-4/index', rsvpPath: '/template-4/rsvp' },
@@ -35,12 +35,12 @@ export function getTemplate(slug: string): TemplateMeta | undefined {
 /** Tema visual kartu katalog (gradien gelap mewah, monogram inisial, warna teks). */
 export const TEMPLATE_THEMES: Record<string, TemplateCardTheme> = {
   'template-1': {
-    monogram: 'Em',
-    displayTitle: 'Elegant Modern',
+    monogram: 'Sv',
+    displayTitle: 'Stardew Valley Quest',
     code: 'TEMPLATE - 1',
-    bgGradient: 'background: linear-gradient(135deg, #091a30 0%, #172d4c 55%, #0d1e34 100%);',
-    monogramColor: '#a5b4fc',
-    accentColor: '#38bdf8',
+    bgGradient: 'background: linear-gradient(135deg, #2b1708 0%, #4d7c2b 55%, #1e3c64 100%);',
+    monogramColor: '#ffd84d',
+    accentColor: '#48b04d',
   },
   'template-2': {
     monogram: 'Cr',
