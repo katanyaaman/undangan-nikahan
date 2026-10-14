@@ -4,65 +4,263 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<%= csrfToken %>">
-    <title><%= title || 'KalaBahagia.com — Undangan Pernikahan Digital Sinematik & Elegan' %></title>
-    <meta name="description" content="KalaBahagia.com — Hadirkan undangan pernikahan digital bernuansa sinematik, musik romantis, RSVP real-time, navigasi Google Maps akurat, dan amplop digital langsung ke rekening Anda.">
+    <title><%= title || 'KalaBahagia.com — Undangan Pernikahan Digital Eksklusif' %></title>
+    <meta name="description" content="KalaBahagia.com — Undangan pernikahan digital berkelas editorial dengan musik pilihan, RSVP real-time, navigasi Google Maps, dan amplop digital langsung ke rekening Anda.">
     <link rel="stylesheet" href="/css/app.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
     <style>
-        .font-serif-luxury {
-            font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+        :root {
+            --ivory-bg: #FAF7F2;
+            --ivory-surface: #FFFFFF;
+            --ivory-subtle: #F3ECE1;
+            --charcoal: #1C1714;
+            --charcoal-muted: #6B5E55;
+            --charcoal-soft: #94877D;
+            --gold-accent: #B08237;
+            --gold-light: #E8D5B5;
+            --gold-border: rgba(176, 130, 55, 0.28);
         }
-        .hero-grain {
-            background-image: radial-gradient(rgba(197, 160, 89, 0.12) 1px, transparent 0);
-            background-size: 28px 28px;
+
+        * {
+            box-sizing: border-box;
         }
-        .gold-gradient-text {
-            background: linear-gradient(135deg, #fef08a 0%, #dfc573 50%, #b78a3a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100%;
+            min-height: 100%;
+            background-color: var(--ivory-bg) !important;
+            color: var(--charcoal) !important;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        .font-cormorant {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        /* Subtle luxury paper texture */
+        .paper-grain {
+            background-image: radial-gradient(rgba(176, 130, 55, 0.08) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        /* Fixed Navigation Header */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            z-index: 50;
+            background: rgba(250, 247, 242, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(28, 23, 20, 0.08);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            color: var(--charcoal-muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .nav-link:hover {
+            color: var(--charcoal);
+        }
+
+        /* Clean Luxury Buttons */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: var(--charcoal);
+            color: #FAF7F2;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            border-radius: 9999px;
+            text-decoration: none;
+            border: 1px solid var(--charcoal);
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(28, 23, 20, 0.15);
+            transition: all 0.25s ease;
+        }
+        .btn-primary:hover {
+            background: #2D2520;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(28, 23, 20, 0.22);
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 26px;
+            background: transparent;
+            color: var(--charcoal);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            border-radius: 9999px;
+            text-decoration: none;
+            border: 1px solid rgba(28, 23, 20, 0.25);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .btn-outline:hover {
+            border-color: var(--charcoal);
+            background: rgba(28, 23, 20, 0.04);
+            transform: translateY(-2px);
+        }
+
+        /* Editorial Hero Showcase */
+        .hero-showcase {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            border-radius: 24px;
+            background: #FFFFFF;
+            padding: 16px;
+            box-shadow: 0 20px 50px rgba(45, 37, 34, 0.08), 0 1px 3px rgba(45, 37, 34, 0.04);
+            border: 1px solid #EBE5DB;
+        }
+
+        .hero-screen {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #1C1714;
+        }
+
+        .hero-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.04);
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 5s ease-out;
+        }
+        .hero-img.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Ambient 3D Canvas Box */
+        .ambient-3d-pedestal {
+            width: 100%;
+            height: 110px;
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #FAF7F2;
+            border: 1px solid #EBE5DB;
+            margin-top: 14px;
+        }
+
+        /* Template Card in Catalog */
+        .template-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            border: 1px solid #EAE3D9;
+            box-shadow: 0 6px 20px rgba(45, 37, 34, 0.04);
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .template-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(45, 37, 34, 0.09);
+            border-color: #D6C8B5;
+        }
+
+        .card-thumb-wrap {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            background: #F3ECE1;
+        }
+        .card-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .template-card:hover .card-thumb {
+            transform: scale(1.05);
+        }
+
+        /* FAQ details */
+        details summary::-webkit-details-marker {
+            display: none;
         }
     </style>
 </head>
-<body class="bg-[#FAF7F2] text-[#29221D] font-sans antialiased selection:bg-[#B78A3A] selection:text-white">
+<body class="paper-grain">
 
-    <!-- Header / Navbar Sinematik -->
-    <header class="sticky top-0 z-50 bg-[#FAF7F2]/90 backdrop-blur-md border-b border-[#EAE3D9] transition-all">
-        <div class="container mx-auto px-4 sm:px-6 max-w-7xl flex items-center justify-between h-20">
-            <!-- Brand Logo KalaBahagia.com -->
-            <a href="/" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1C1613] to-[#2B231E] border border-[#B78A3A]/40 flex items-center justify-center shadow-sm group-hover:border-[#B78A3A] transition-colors">
-                    <svg class="w-5 h-5 text-[#dfc573]" fill="currentColor" viewBox="0 0 20 20">
+    <!-- ===================================================================== -->
+    <!-- 1. EDITORIAL HEADER & NAVIGATION                                      -->
+    <!-- ===================================================================== -->
+    <header class="site-header">
+        <div class="container mx-auto px-4 sm:px-8 max-w-7xl flex items-center justify-between">
+            <!-- Brand Mark -->
+            <a href="/" class="flex items-center gap-3.5" style="text-decoration: none;">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                     style="background: #1C1714; color: #FAF7F2;">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
                     </svg>
                 </div>
                 <div>
-                    <span class="font-serif-luxury text-xl sm:text-2xl font-bold tracking-tight text-[#1C1613] block leading-none">
-                        Kala Bahagia<span class="text-[#B78A3A]">.com</span>
+                    <span class="font-serif text-xl font-bold tracking-tight text-[#1C1714] block leading-none">
+                        Kala Bahagia
                     </span>
-                    <span class="text-[10px] tracking-widest uppercase font-semibold text-[#8C7D73] block mt-0.5">
-                        Sinematik Wedding Platform
+                    <span class="text-[10px] tracking-widest uppercase font-semibold text-[#94877D] block mt-1">
+                        Undangan Digital Pernikahan
                     </span>
                 </div>
             </a>
 
             <!-- Navigation Links -->
-            <nav class="hidden md:flex items-center gap-8">
-                <a href="#katalog" class="text-sm font-medium text-[#574D46] hover:text-[#B78A3A] transition-colors">Koleksi Desain</a>
-                <a href="#fitur" class="text-sm font-medium text-[#574D46] hover:text-[#B78A3A] transition-colors">Fitur Unggulan</a>
-                <a href="#cara-order" class="text-sm font-medium text-[#574D46] hover:text-[#B78A3A] transition-colors">Cara Order</a>
-                <a href="#faq" class="text-sm font-medium text-[#574D46] hover:text-[#B78A3A] transition-colors">Tanya Jawab</a>
+            <nav class="hidden lg:flex items-center gap-9">
+                <a href="#katalog" class="nav-link">Koleksi Desain</a>
+                <a href="#fitur" class="nav-link">Keunggulan</a>
+                <a href="#cara-order" class="nav-link">Cara Kerja</a>
+                <a href="#faq" class="nav-link">Bantuan</a>
             </nav>
 
             <!-- Actions -->
-            <div class="flex items-center gap-3">
-                <a href="/login" class="hidden sm:inline-flex items-center px-4 py-2.5 text-xs sm:text-sm font-semibold text-[#574D46] hover:text-[#1C1613] transition-colors">
+            <div class="flex items-center gap-4">
+                <a href="/login" class="hidden sm:inline-block text-xs font-semibold uppercase tracking-wider text-[#6B5E55] hover:text-[#1C1714] transition-colors" style="text-decoration: none;">
                     Masuk
                 </a>
-                <a href="#katalog" class="inline-flex items-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-[#B78A3A] via-[#C5A059] to-[#A1742B] hover:brightness-105 rounded-xl shadow-sm hover:shadow-md transition-all">
-                    <span>Pilih Template</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <a href="#katalog" class="btn-primary" style="padding: 10px 22px; font-size: 12px;">
+                    <span>PILIH DESAIN</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                     </svg>
                 </a>
@@ -70,80 +268,136 @@
         </div>
     </header>
 
-    <!-- HERO SECTION: Atmospheric, Cinematic & Evocative -->
-    <section class="relative overflow-hidden bg-[#161210] text-white py-20 sm:py-28 lg:py-36 hero-grain">
-        <!-- Ambient Warm Cinematic Glows -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-96 bg-gradient-to-b from-[#B78A3A]/20 via-[#dfc573]/10 to-transparent blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-[#dfc573]/10 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- ===================================================================== -->
+    <!-- 2. HERO SECTION: WARM EDITORIAL ELEGANCE & INTERACTIVE SHOWCASE        -->
+    <!-- ===================================================================== -->
+    <section class="pt-36 pb-20 lg:pt-48 lg:pb-28">
+        <div class="container mx-auto px-4 sm:px-8 max-w-7xl">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                
+                <!-- Left Column: Editorial Headline & Narrative Copy -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-7">
+                    
+                    <span class="inline-block text-xs font-semibold tracking-widest uppercase text-[#B08237]">
+                        Koleksi Eksklusif Pernikahan
+                    </span>
 
-        <div class="container mx-auto px-4 sm:px-6 max-w-5xl relative z-10 text-center">
-            
-            <!-- Cinematic Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-[#B78A3A]/40 backdrop-blur-md mb-8 shadow-sm">
-                <span class="w-2 h-2 rounded-full bg-[#dfc573] shadow-[0_0_8px_#dfc573]"></span>
-                <span class="text-xs font-medium text-amber-100 tracking-wide">
-                    Platform Undangan Pernikahan Digital Eksklusif
-                </span>
+                    <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-normal leading-[1.12] text-[#1C1714]">
+                        Undangan Pernikahan <br>
+                        yang Dirancang <br class="hidden sm:inline">
+                        <span class="italic font-normal">dengan Sepenuh Jiwa.</span>
+                    </h1>
+
+                    <p class="font-cormorant italic text-xl sm:text-2xl text-[#6B5E55] max-w-2xl leading-relaxed">
+                        "Setiap cinta memiliki ceritanya sendiri. Hadirkan kesan pertama yang hangat bagi keluarga dan sahabat melalui tipografi anggun, alunan musik syahdu, serta kemudahan navigasi lokasi dan amplop digital."
+                    </p>
+
+                    <!-- Concrete Proof Points (No empty AI claims) -->
+                    <div class="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs font-medium text-[#6B5E55]">
+                        <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F3ECE1]">
+                            <svg class="w-3.5 h-3.5 text-[#B08237]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            <span>Trial 7 Hari Gratis</span>
+                        </span>
+                        <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F3ECE1]">
+                            <svg class="w-3.5 h-3.5 text-[#B08237]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            <span>Amplop Digital 100% Utuh ke Rekening</span>
+                        </span>
+                        <span class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F3ECE1]">
+                            <svg class="w-3.5 h-3.5 text-[#B08237]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            <span>Bebas Kirim Tanpa Batas Tamu</span>
+                        </span>
+                    </div>
+
+                    <!-- Call to Actions -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-3">
+                        <a href="#katalog" class="btn-primary w-full sm:w-auto">
+                            <span>Eksplorasi Koleksi Desain</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                            </svg>
+                        </a>
+                        <a href="/login" class="btn-outline w-full sm:w-auto">
+                            <span>Masuk ke Dashboard</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Tactile Invitation Showcase & Seamless Crossfade -->
+                <div class="lg:col-span-5 flex flex-col items-center">
+                    
+                    <div class="hero-showcase">
+                        
+                        <!-- Top Bar with Active Template Name -->
+                        <div class="flex items-center justify-between pb-3 mb-2 px-1 border-b border-[#EBE5DB]">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-[#B08237]"></span>
+                                <span class="text-xs font-semibold text-[#1C1714]" id="showcase-caption">
+                                    Stardew Valley Quest (RPG)
+                                </span>
+                            </div>
+                            <span class="text-xs font-mono text-[#94877D]" id="showcase-counter">1 / 5</span>
+                        </div>
+
+                        <!-- Crossfade Image Screen -->
+                        <div class="hero-screen">
+                            <img src="/images/templates/template-1.jpg" alt="Template 1" class="hero-img active" data-index="0">
+                            <img src="/images/templates/template-2.jpg" alt="Template 2" class="hero-img" data-index="1">
+                            <img src="/images/templates/template-3.jpg" alt="Template 3" class="hero-img" data-index="2">
+                            <img src="/images/templates/template-4.jpg" alt="Template 4" class="hero-img" data-index="3">
+                            <img src="/images/templates/template-7.jpg" alt="Template 7" class="hero-img" data-index="4">
+
+                            <!-- Subtle Bottom Gradient -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+
+                            <!-- Bottom Floating Action -->
+                            <div class="absolute bottom-4 inset-x-4 flex items-center justify-between z-20">
+                                <div>
+                                    <span class="text-[10px] tracking-wider uppercase font-bold text-white/80 block" id="showcase-sub">
+                                        Tema Undangan Interaktif
+                                    </span>
+                                    <span class="text-xs font-serif font-bold text-white block mt-0.5" id="showcase-desc">
+                                        Eksplorasi Desa &amp; 5 Misi Cinta
+                                    </span>
+                                </div>
+                                <a id="showcase-link" href="/template-1" target="_blank"
+                                   class="px-3.5 py-1.5 bg-white text-[#1C1714] text-xs font-semibold rounded-full shadow hover:bg-[#FAF7F2] transition-colors" style="text-decoration: none;">
+                                    Buka Demo
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Tasteful 3D Wedding Bands Ambient Pedestal -->
+                        <div class="ambient-3d-pedestal">
+                            <canvas id="hero-3d-canvas"></canvas>
+                            <div class="absolute bottom-1 inset-x-0 text-center pointer-events-none">
+                                <span class="text-[9.5px] uppercase tracking-widest font-semibold text-[#94877D]">
+                                    Sentuh dan geser untuk memutar cincin
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
-
-            <!-- Majestic Cinematic Headline -->
-            <h1 class="font-serif-luxury text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-[1.12] mb-6 tracking-tight">
-                Cerita Cinta Anda, <br class="hidden sm:inline">
-                <span class="italic font-light gold-gradient-text">Terpahat Indah</span> dalam Satu Sentuhan.
-            </h1>
-
-            <!-- Emotional & Value-driven Subtitle -->
-            <p class="text-base sm:text-lg md:text-xl text-neutral-300 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
-                Hadirkan getaran bahagia yang tak terlupakan bagi setiap tamu. Undangan digital eksklusif dengan alunan musik syahdu, navigasi Google Maps presisi, RSVP instan, dan amplop digital langsung ke rekening Anda.
-            </p>
-
-            <!-- Dual Action Buttons -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
-                <a href="#katalog" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-gradient-to-r from-[#B78A3A] via-[#C5A059] to-[#A1742B] text-white font-semibold text-sm rounded-xl shadow-lg hover:shadow-[#B78A3A]/30 hover:scale-[1.02] transition-all">
-                    <span>Eksplorasi Koleksi Desain</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-                    </svg>
-                </a>
-                <a href="/login" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/15 text-white font-semibold text-sm rounded-xl border border-white/20 backdrop-blur-md transition-all">
-                    <span>Masuk ke Dashboard</span>
-                </a>
-            </div>
-
-            <!-- Value Proof Points (No empty claims, concrete utility) -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 border-t border-white/10 max-w-4xl mx-auto text-left sm:text-center">
-                <div class="flex items-center sm:justify-center gap-2 text-xs sm:text-sm text-neutral-300">
-                    <svg class="w-4 h-4 text-[#dfc573] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                    <span>Trial 7 Hari Aktif</span>
-                </div>
-                <div class="flex items-center sm:justify-center gap-2 text-xs sm:text-sm text-neutral-300">
-                    <svg class="w-4 h-4 text-[#dfc573] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                    <span>Navigasi Maps Presisi</span>
-                </div>
-                <div class="flex items-center sm:justify-center gap-2 text-xs sm:text-sm text-neutral-300">
-                    <svg class="w-4 h-4 text-[#dfc573] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                    <span>Amplop Digital 100% Utuh</span>
-                </div>
-                <div class="flex items-center sm:justify-center gap-2 text-xs sm:text-sm text-neutral-300">
-                    <svg class="w-4 h-4 text-[#dfc573] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                    <span>Kirim Tanpa Batas Tamu</span>
-                </div>
-            </div>
-
         </div>
     </section>
 
-    <!-- SECTION 2: KATALOG TEMPLATE EKSKLUSIF -->
-    <main id="katalog" class="py-20 sm:py-28 container mx-auto px-4 sm:px-6 max-w-7xl scroll-mt-20">
-        <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="text-xs font-bold tracking-widest uppercase text-[#B78A3A] block mb-2.5">
-                KOLEKSI KARYA SINEMATIK
+    <!-- ===================================================================== -->
+    <!-- 3. KATALOG TEMPLATE EKSKLUSIF (CLEAN EDITORIAL CARD GRID)              -->
+    <!-- ===================================================================== -->
+    <main id="katalog" class="py-24 sm:py-32 container mx-auto px-4 sm:px-8 max-w-7xl scroll-mt-20">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+            <span class="text-xs font-semibold tracking-widest uppercase text-[#B08237] block">
+                Koleksi Desain Pilihan
             </span>
-            <h2 class="font-serif-luxury text-3xl sm:text-4xl md:text-5xl text-[#1C1613] font-normal tracking-tight mb-4">
+            <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl text-[#1C1714] font-normal tracking-tight">
                 Pilihan Tema Eksklusif
             </h2>
-            <p class="text-sm sm:text-base text-[#6E6157] leading-relaxed">
-                Setiap desain dirancang dengan sentuhan editorial, tipografi berkelas, dan kesempurnaan tampilan pada setiap perangkat smartphone tamu Anda.
+            <p class="font-cormorant italic text-lg sm:text-xl text-[#6B5E55] leading-relaxed max-w-2xl mx-auto">
+                Setiap desain dirancang dengan ketelitian artistik tinggi, memastikan tampilan yang memukau dan nyaman dibuka pada ponsel setiap tamu Anda.
             </p>
         </div>
 
@@ -154,308 +408,475 @@
                     monogram: t.name.split(' ').map(w => w[0]).slice(0, 2).join(''),
                     displayTitle: t.name.replace(/\s*\(.*?\)/, ''),
                     code: t.slug.toUpperCase(),
-                    bgGradient: 'background: linear-gradient(135deg, #111827 0%, #1f2937 60%, #111827 100%);',
-                    monogramColor: '#fde047',
                 };
             %>
-            <article class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 border border-[#EAE3D9] flex flex-col justify-between overflow-hidden">
+            <article class="template-card">
                 <div>
-                    <!-- Photo Thumbnail Flatlay with Overlays (Matching Exact 240px Ratio) -->
-                    <div class="relative w-full overflow-hidden bg-slate-900 group flex-shrink-0" style="height: 240px; min-height: 240px; max-height: 240px; position: relative;">
+                    <!-- Photo Thumbnail -->
+                    <div class="card-thumb-wrap">
                         <img src="/images/templates/<%= t.slug %>.jpg" 
                              alt="<%= t.name %>" 
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-                             class="transform group-hover:scale-105 transition-transform duration-500"
-                             style="width: 100%; height: 100%; min-height: 240px; max-height: 240px; object-fit: cover; object-position: center; display: block;">
-                        
-                        <!-- Fallback gradient -->
-                        <div class="w-full h-full hidden absolute inset-0" style="<%= theme.style || 'background: #1e293b' %>; width: 100%; height: 100%;"></div>
+                             onerror="this.style.display='none';"
+                             class="card-thumb">
 
-                        <!-- Price Pill Badge -->
+                        <!-- Top Right Price Badge -->
                         <div class="absolute top-3.5 right-3.5 z-20">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#1C1613]/80 border border-white/20 text-[#fde047] backdrop-blur-md shadow-sm">
+                            <span class="inline-flex items-center px-3.5 py-1 rounded-full text-xs font-semibold bg-white/95 text-[#1C1714] shadow-sm border border-[#EAE3D9]">
                                 <%= formatIDR(t.price) %>
                             </span>
                         </div>
 
-                        <!-- Bottom Vignette with Monogram & Code -->
-                        <div class="absolute inset-x-0 bottom-0 pt-16 pb-3.5 px-4 bg-gradient-to-t from-black/90 via-black/55 to-transparent flex items-end justify-between gap-3 z-10" style="background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 55%, transparent 100%);">
-                            <div class="flex items-center gap-2.5 min-w-0 flex-1">
-                                <div class="w-8 h-8 rounded-lg bg-white/20 backdrop-blur-md border border-white/25 flex items-center justify-center flex-shrink-0 shadow-sm" style="width: 32px; height: 32px; border-radius: 8px;">
-                                    <span class="font-serif-luxury italic font-bold text-sm text-white select-none leading-none">
-                                        <%= theme.monogram %>
-                                    </span>
-                                </div>
-                                <h3 class="font-serif-luxury font-bold text-white text-base leading-tight truncate drop-shadow-sm">
-                                    <%= theme.displayTitle %>
-                                </h3>
-                            </div>
-
-                            <span class="px-2.5 py-1 bg-black/60 border border-white/15 text-gray-200 text-[10px] font-mono font-bold tracking-widest rounded-md uppercase backdrop-blur-md flex-shrink-0">
+                        <!-- Top Left Code -->
+                        <div class="absolute top-3.5 left-3.5 z-20">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-mono tracking-widest uppercase bg-[#1C1714]/80 text-white backdrop-blur-sm">
                                 <%= t.slug.toUpperCase() %>
                             </span>
                         </div>
+
+                        <!-- Bottom Vignette with Monogram & Name -->
+                        <div class="absolute inset-x-0 bottom-0 pt-16 pb-3.5 px-4 flex items-end justify-between gap-3 z-10"
+                             style="background: linear-gradient(to top, rgba(28,23,20,0.92) 0%, rgba(28,23,20,0.5) 60%, transparent 100%);">
+                            <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/15 border border-white/20">
+                                    <span class="font-serif italic font-bold text-xs text-white leading-none">
+                                        <%= theme.monogram %>
+                                    </span>
+                                </div>
+                                <h3 class="font-serif font-bold text-white text-base leading-tight truncate">
+                                    <%= theme.displayTitle %>
+                                </h3>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Content Details -->
-                    <div class="p-6">
-                        <div class="flex items-baseline justify-between mb-2">
-                            <h4 class="font-serif-luxury text-lg font-bold text-[#1C1613]"><%= t.name %></h4>
-                            <span class="text-xs font-semibold text-[#B78A3A] uppercase tracking-wider">Tersedia</span>
+                    <!-- Details -->
+                    <div class="p-6 space-y-2">
+                        <div class="flex items-baseline justify-between">
+                            <h4 class="font-serif text-lg font-bold text-[#1C1714]"><%= t.name %></h4>
+                            <span class="text-[10px] font-semibold tracking-wider text-[#B08237] uppercase">Tersedia</span>
                         </div>
-                        <p class="text-xs sm:text-sm text-[#6E6157] line-clamp-2 leading-relaxed min-h-[40px] mb-2"><%= t.description || 'Desain undangan digital elegan dengan kelengkapan fitur interaktif.' %></p>
+                        <p class="text-xs sm:text-sm text-[#6B5E55] line-clamp-2 leading-relaxed min-h-[38px]">
+                            <%= t.description || 'Desain undangan digital elegan dengan kelengkapan musik, galeri, dan buku doa.' %>
+                        </p>
                     </div>
                 </div>
 
                 <!-- Action Buttons: Preview & Pesan -->
                 <div class="p-6 pt-0 grid grid-cols-2 gap-3">
                     <a href="/<%= t.slug %>" target="_blank"
-                       class="h-11 inline-flex items-center justify-center gap-1.5 px-3.5 bg-white border border-[#DED7CE] hover:border-[#B78A3A] text-[#4A3E36] rounded-xl text-xs sm:text-sm font-semibold transition-colors">
-                        <svg class="w-4 h-4 text-[#8C7D73]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       class="btn-outline" style="padding: 10px 14px; font-size: 12px; border-radius: 10px;">
+                        <svg class="w-3.5 h-3.5 text-[#B08237]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
-                        <span>Demo</span>
+                        <span>Demo Live</span>
                     </a>
                     <a href="/order/<%= t.slug %>"
-                       class="h-11 inline-flex items-center justify-center gap-1 px-3.5 bg-gradient-to-r from-[#B78A3A] via-[#C5A059] to-[#A1742B] hover:brightness-105 text-white rounded-xl text-xs sm:text-sm font-semibold transition-all shadow-sm">
-                        <span>Pesan Desain</span>
+                       class="btn-primary" style="padding: 10px 14px; font-size: 12px; border-radius: 10px;">
+                        <span>Pilih Desain</span>
                     </a>
                 </div>
             </article>
             <% }); %>
         </div>
         <% } else { %>
-        <div class="text-center py-16 bg-white rounded-3xl border border-[#EAE3D9] shadow-sm">
-            <p class="text-[#8C7D73] text-base">Katalog sedang diperbarui. Silakan kembali beberapa saat lagi.</p>
+        <div class="text-center py-16 bg-white rounded-2xl border border-[#EAE3D9]">
+            <p class="text-[#6B5E55] text-base">Koleksi desain sedang diperbarui. Silakan kembali beberapa saat lagi.</p>
         </div>
         <% } %>
     </main>
 
-    <!-- SECTION 3: FITUR EKSKLUSIF YANG MENJUAL (TANGIBLE BENEFITS) -->
-    <section id="fitur" class="py-20 sm:py-28 bg-[#F4EFEA] border-y border-[#EAE3D9]">
-        <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <span class="text-xs font-bold tracking-widest uppercase text-[#B78A3A] block mb-2.5">
-                    MENGAPA MEMILIH KALABAHAGIA.COM
+    <!-- ===================================================================== -->
+    <!-- 4. KEUNGGULAN UTAMA (CLEAN EDITORIAL BENEFITS)                        -->
+    <!-- ===================================================================== -->
+    <section id="fitur" class="py-24 sm:py-32 bg-[#F3ECE1] border-y border-[#EBE3D7]">
+        <div class="container mx-auto px-4 sm:px-8 max-w-7xl">
+            
+            <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+                <span class="text-xs font-semibold tracking-widest uppercase text-[#B08237] block">
+                    Keunggulan Layanan
                 </span>
-                <h2 class="font-serif-luxury text-3xl sm:text-4xl md:text-5xl text-[#1C1613] font-normal tracking-tight mb-4">
+                <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl text-[#1C1714] font-normal tracking-tight">
                     Fitur Lengkap untuk Momen Sempurna
                 </h2>
-                <p class="text-sm sm:text-base text-[#6E6157] leading-relaxed">
-                    Dirancang dengan cermat untuk memberikan kemudahan bagi calon pengantin dan kenyamanan maksimal bagi para tamu undangan.
+                <p class="font-cormorant italic text-lg sm:text-xl text-[#6B5E55] leading-relaxed">
+                    Dirancang dengan teliti untuk memberikan kemudahan bagi calon mempelai dan kenyamanan maksimal bagi para tamu.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Feature 1 -->
-                <div class="bg-white rounded-2xl p-7 border border-[#EAE3D9] shadow-xs hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#B78A3A]/30 flex items-center justify-center text-[#B78A3A] mb-5">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+                <div class="bg-white rounded-2xl p-7 border border-[#EAE3D9] shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#EBE3D7] flex items-center justify-center text-[#B08237] mb-5">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-[#1C1714] mb-2">Musik &amp; Buka Amplop</h3>
+                        <p class="text-xs sm:text-sm text-[#6B5E55] leading-relaxed">
+                            Sambut tamu dengan alunan melodi romantis pilihan dan efek buka amplop virtual yang menyentuh hati.
+                        </p>
                     </div>
-                    <h3 class="font-serif-luxury text-lg font-bold text-[#1C1613] mb-2.5">Alunan Musik & Buka Amplop</h3>
-                    <p class="text-xs sm:text-sm text-[#6E6157] leading-relaxed">
-                        Sambut tamu dengan melodi romantis pilihan Anda dan efek buka amplop virtual yang menyentuh hati sejak klik pertama.
-                    </p>
                 </div>
 
                 <!-- Feature 2 -->
-                <div class="bg-white rounded-2xl p-7 border border-[#EAE3D9] shadow-xs hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#B78A3A]/30 flex items-center justify-center text-[#B78A3A] mb-5">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <div class="bg-white rounded-2xl p-7 border border-[#EAE3D9] shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#EBE3D7] flex items-center justify-center text-[#B08237] mb-5">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-[#1C1714] mb-2">Navigasi Google Maps Presisi</h3>
+                        <p class="text-xs sm:text-sm text-[#6B5E55] leading-relaxed">
+                            Pandu tamu Anda langsung ke lokasi akad dan resepsi secara akurat dalam satu sentuhan tanpa takut tersasar.
+                        </p>
                     </div>
-                    <h3 class="font-serif-luxury text-lg font-bold text-[#1C1613] mb-2.5">Navigasi Google Maps Presisi</h3>
-                    <p class="text-xs sm:text-sm text-[#6E6157] leading-relaxed">
-                        Tamu dipandu langsung ke titik lokasi akad dan resepsi dengan 1 kali klik, mencegah risiko tersesat di hari pernikahan.
-                    </p>
                 </div>
 
                 <!-- Feature 3 -->
-                <div class="bg-white rounded-2xl p-7 border border-[#EAE3D9] shadow-xs hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#B78A3A]/30 flex items-center justify-center text-[#B78A3A] mb-5">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                <div class="bg-white rounded-2xl p-7 border border-[#EAE3D9] shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#EBE3D7] flex items-center justify-center text-[#B08237] mb-5">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-[#1C1714] mb-2">Amplop Digital &amp; QRIS</h3>
+                        <p class="text-xs sm:text-sm text-[#6B5E55] leading-relaxed">
+                            Memudahkan tamu yang berhalangan hadir untuk mengirimkan tanda kasih langsung ke rekening Anda tanpa potongan admin.
+                        </p>
                     </div>
-                    <h3 class="font-serif-luxury text-lg font-bold text-[#1C1613] mb-2.5">Amplop Digital & QRIS</h3>
-                    <p class="text-xs sm:text-sm text-[#6E6157] leading-relaxed">
-                        Memudahkan tamu yang berhalangan hadir untuk mengirim tanda kasih langsung ke rekening bank atau dompet digital Anda secara aman.
-                    </p>
                 </div>
 
                 <!-- Feature 4 -->
-                <div class="bg-white rounded-2xl p-7 border border-[#EAE3D9] shadow-xs hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#B78A3A]/30 flex items-center justify-center text-[#B78A3A] mb-5">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                <div class="bg-white rounded-2xl p-7 border border-[#EAE3D9] shadow-sm flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#EBE3D7] flex items-center justify-center text-[#B08237] mb-5">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-[#1C1714] mb-2">RSVP &amp; Buku Doa Real-time</h3>
+                        <p class="text-xs sm:text-sm text-[#6B5E55] leading-relaxed">
+                            Pantau kepastian kehadiran tamu secara instan dan abadikan ucapan doa hangat sahabat di dashboard selamanya.
+                        </p>
                     </div>
-                    <h3 class="font-serif-luxury text-lg font-bold text-[#1C1613] mb-2.5">RSVP & Buku Doa Abadi</h3>
-                    <p class="text-xs sm:text-sm text-[#6E6157] leading-relaxed">
-                        Ketahui kepastian kehadiran tamu secara real-time dan abadikan ucapan doa hangat sahabat di dashboard pribadi Anda selamanya.
-                    </p>
                 </div>
             </div>
+
         </div>
     </section>
 
-    <!-- SECTION 4: CARA ORDER (3 LANGKAH JELAS & TANPA RIBET) -->
-    <section id="cara-order" class="py-20 sm:py-28 container mx-auto px-4 sm:px-6 max-w-5xl scroll-mt-20">
-        <div class="text-center max-w-2xl mx-auto mb-16">
-            <span class="text-xs font-bold tracking-widest uppercase text-[#B78A3A] block mb-2.5">
-                LANGKAH PRAKTIS
+    <!-- ===================================================================== -->
+    <!-- 5. CARA KERJA (3 LANGKAH JELAS)                                       -->
+    <!-- ===================================================================== -->
+    <section id="cara-order" class="py-24 sm:py-32 container mx-auto px-4 sm:px-8 max-w-5xl scroll-mt-20">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+            <span class="text-xs font-semibold tracking-widest uppercase text-[#B08237] block">
+                Kemudahan Penggunaan
             </span>
-            <h2 class="font-serif-luxury text-3xl sm:text-4xl md:text-5xl text-[#1C1613] font-normal tracking-tight mb-4">
-                Siap Kirim Hanya dalam 3 Langkah
+            <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl text-[#1C1714] font-normal tracking-tight">
+                Siap Kirim dalam 3 Langkah
             </h2>
-            <p class="text-sm sm:text-base text-[#6E6157]">
+            <p class="font-cormorant italic text-lg sm:text-xl text-[#6B5E55]">
                 Tidak perlu menunggu berhari-hari. Kelola semua kebutuhan undangan Anda sendiri dengan mudah dan cepat.
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Step 1 -->
-            <div class="bg-white rounded-2xl p-8 border border-[#EAE3D9] shadow-sm relative flex flex-col justify-between">
+            <div class="bg-white rounded-2xl p-8 border border-[#EAE3D9] shadow-sm flex flex-col justify-between">
                 <div>
-                    <span class="font-serif-luxury text-3xl font-bold text-[#dfc573] block mb-3">01</span>
-                    <h3 class="font-serif-luxury text-xl font-bold text-[#1C1613] mb-2">Pilih Tema Favorit</h3>
-                    <p class="text-xs sm:text-sm text-[#6E6157] leading-relaxed">
-                        Lihat preview demo setiap tema dan pilih gaya visual yang paling mencerminkan karakter pernikahan Anda.
+                    <span class="font-serif text-4xl font-bold text-[#B08237] block mb-3">01</span>
+                    <h3 class="font-serif text-xl font-bold text-[#1C1714] mb-2">Pilih Tema Favorit</h3>
+                    <p class="text-xs sm:text-sm text-[#6B5E55] leading-relaxed">
+                        Lihat demo live setiap tema dan pilih gaya visual yang paling mencerminkan kepribadian pernikahan Anda.
                     </p>
                 </div>
-                <div class="mt-6 pt-4 border-t border-[#F0EAE1] text-xs font-semibold text-[#B78A3A]">
-                    Tersedia Pilihan Tema Eksklusif
+                <div class="mt-6 pt-4 border-t border-[#F0EAE1] text-xs font-semibold text-[#B08237]">
+                    Tersedia Beragam Pilihan Tema
                 </div>
             </div>
 
             <!-- Step 2 -->
-            <div class="bg-white rounded-2xl p-8 border border-[#EAE3D9] shadow-sm relative flex flex-col justify-between">
+            <div class="bg-white rounded-2xl p-8 border border-[#EAE3D9] shadow-sm flex flex-col justify-between">
                 <div>
-                    <span class="font-serif-luxury text-3xl font-bold text-[#dfc573] block mb-3">02</span>
-                    <h3 class="font-serif-luxury text-xl font-bold text-[#1C1613] mb-2">Lengkapi Data Acara</h3>
-                    <p class="text-xs sm:text-sm text-[#6E6157] leading-relaxed">
-                        Masukkan nama kedua mempelai, jadwal akad & resepsi, lokasi Google Maps, dan foto galeri dari dashboard.
+                    <span class="font-serif text-4xl font-bold text-[#B08237] block mb-3">02</span>
+                    <h3 class="font-serif text-xl font-bold text-[#1C1714] mb-2">Lengkapi Data Acara</h3>
+                    <p class="text-xs sm:text-sm text-[#6B5E55] leading-relaxed">
+                        Masukkan nama kedua mempelai, jadwal akad &amp; resepsi, lokasi Google Maps, dan foto galeri dari dashboard.
                     </p>
                 </div>
-                <div class="mt-6 pt-4 border-t border-[#F0EAE1] text-xs font-semibold text-[#B78A3A]">
+                <div class="mt-6 pt-4 border-t border-[#F0EAE1] text-xs font-semibold text-[#B08237]">
                     Langsung Aktif dengan Trial 7 Hari
                 </div>
             </div>
 
             <!-- Step 3 -->
-            <div class="bg-white rounded-2xl p-8 border border-[#EAE3D9] shadow-sm relative flex flex-col justify-between">
+            <div class="bg-white rounded-2xl p-8 border border-[#EAE3D9] shadow-sm flex flex-col justify-between">
                 <div>
-                    <span class="font-serif-luxury text-3xl font-bold text-[#dfc573] block mb-3">03</span>
-                    <h3 class="font-serif-luxury text-xl font-bold text-[#1C1613] mb-2">Sebarkan Tautan</h3>
-                    <p class="text-xs sm:text-sm text-[#6E6157] leading-relaxed">
-                        Salin tautan personal Anda, sertakan nama tamu khusus, lalu kirim ke sanak keluarga dan sahabat lewat WhatsApp.
+                    <span class="font-serif text-4xl font-bold text-[#B08237] block mb-3">03</span>
+                    <h3 class="font-serif text-xl font-bold text-[#1C1714] mb-2">Sebarkan Tautan</h3>
+                    <p class="text-xs sm:text-sm text-[#6B5E55] leading-relaxed">
+                        Salin tautan personal Anda, sertakan nama tamu khusus, lalu kirim ke keluarga dan sahabat lewat WhatsApp.
                     </p>
                 </div>
-                <div class="mt-6 pt-4 border-t border-[#F0EAE1] text-xs font-semibold text-[#B78A3A]">
+                <div class="mt-6 pt-4 border-t border-[#F0EAE1] text-xs font-semibold text-[#B08237]">
                     Bebas Kirim Tanpa Batas Kuota Tamu
                 </div>
             </div>
         </div>
+
     </section>
 
-    <!-- SECTION 5: FAQ / TANYA JAWAB UMUM -->
-    <section id="faq" class="py-20 sm:py-24 bg-[#F4EFEA] border-t border-[#EAE3D9]">
-        <div class="container mx-auto px-4 sm:px-6 max-w-4xl">
-            <div class="text-center mb-14">
-                <span class="text-xs font-bold tracking-widest uppercase text-[#B78A3A] block mb-2.5">
-                    PERTANYAAN UMUM
+    <!-- ===================================================================== -->
+    <!-- 6. PERTANYAAN UMUM (FAQ)                                              -->
+    <!-- ===================================================================== -->
+    <section id="faq" class="py-24 sm:py-28 bg-[#F3ECE1] border-t border-[#EBE3D7]">
+        <div class="container mx-auto px-4 sm:px-8 max-w-4xl">
+            
+            <div class="text-center mb-14 space-y-3">
+                <span class="text-xs font-semibold tracking-widest uppercase text-[#B08237] block">
+                    Bantuan &amp; Jawaban
                 </span>
-                <h2 class="font-serif-luxury text-3xl sm:text-4xl text-[#1C1613] font-normal tracking-tight">
-                    Hal yang Sering Ditanyakan
+                <h2 class="font-serif text-3xl sm:text-4xl text-[#1C1714] font-normal tracking-tight">
+                    Pertanyaan yang Sering Diajukan
                 </h2>
             </div>
 
             <div class="space-y-4">
-                <details class="group bg-white rounded-2xl p-6 border border-[#EAE3D9] transition-all">
-                    <summary class="font-serif-luxury text-base sm:text-lg font-bold text-[#1C1613] cursor-pointer flex items-center justify-between list-none">
+                <details class="group bg-white rounded-2xl p-6 border border-[#EAE3D9] shadow-sm transition-all">
+                    <summary class="font-serif text-base sm:text-lg font-bold text-[#1C1714] cursor-pointer flex items-center justify-between list-none">
                         <span>Berapa lama undangan digital saya akan aktif?</span>
-                        <svg class="w-5 h-5 text-[#8C7D73] transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        <svg class="w-5 h-5 text-[#94877D] transition-transform duration-200 group-open:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </summary>
-                    <p class="mt-3 text-xs sm:text-sm text-[#6E6157] leading-relaxed">
-                        Saat mendaftar, undangan Anda langsung aktif dengan masa trial 7 hari gratis. Setelah upgrade, undangan akan tetap aktif hingga acara pernikahan selesai dan kenangan buku tamu tetap tersimpan aman.
+                    <p class="mt-3 text-xs sm:text-sm text-[#6B5E55] leading-relaxed">
+                        Saat mendaftar, undangan langsung aktif dengan masa trial 7 hari gratis. Setelah upgrade, undangan aktif hingga 90 hari setelah acara pernikahan selesai dan buku doa tetap tersimpan aman.
                     </p>
                 </details>
 
-                <details class="group bg-white rounded-2xl p-6 border border-[#EAE3D9] transition-all">
-                    <summary class="font-serif-luxury text-base sm:text-lg font-bold text-[#1C1613] cursor-pointer flex items-center justify-between list-none">
+                <details class="group bg-white rounded-2xl p-6 border border-[#EAE3D9] shadow-sm transition-all">
+                    <summary class="font-serif text-base sm:text-lg font-bold text-[#1C1714] cursor-pointer flex items-center justify-between list-none">
                         <span>Apakah ada batas jumlah tamu yang bisa saya kirimkan undangan?</span>
-                        <svg class="w-5 h-5 text-[#8C7D73] transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        <svg class="w-5 h-5 text-[#94877D] transition-transform duration-200 group-open:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </summary>
-                    <p class="mt-3 text-xs sm:text-sm text-[#6E6157] leading-relaxed">
-                        Tidak ada batasan sama sekali (unlimited). Anda bebas membagikan tautan undangan ke ratusan maupun ribuan tamu tanpa biaya tambahan.
+                    <p class="mt-3 text-xs sm:text-sm text-[#6B5E55] leading-relaxed">
+                        Tidak ada batasan sama sekali. Anda bebas membagikan tautan undangan ke ratusan maupun ribuan tamu tanpa dikenakan biaya tambahan per tamu.
                     </p>
                 </details>
 
-                <details class="group bg-white rounded-2xl p-6 border border-[#EAE3D9] transition-all">
-                    <summary class="font-serif-luxury text-base sm:text-lg font-bold text-[#1C1613] cursor-pointer flex items-center justify-between list-none">
+                <details class="group bg-white rounded-2xl p-6 border border-[#EAE3D9] shadow-sm transition-all">
+                    <summary class="font-serif text-base sm:text-lg font-bold text-[#1C1714] cursor-pointer flex items-center justify-between list-none">
                         <span>Apakah uang amplop digital dipotong biaya admin?</span>
-                        <svg class="w-5 h-5 text-[#8C7D73] transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        <svg class="w-5 h-5 text-[#94877D] transition-transform duration-200 group-open:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </summary>
-                    <p class="mt-3 text-xs sm:text-sm text-[#6E6157] leading-relaxed">
-                        Tidak ada potongan sama sekali dari KalaBahagia.com. Nomor rekening atau QRIS yang ditampilkan adalah milik Anda langsung, sehingga tanda kasih dari tamu 100% masuk ke rekening Anda.
+                    <p class="mt-3 text-xs sm:text-sm text-[#6B5E55] leading-relaxed">
+                        Sama sekali tidak ada potongan dari KalaBahagia.com. Nomor rekening atau barcode QRIS yang ditampilkan adalah milik Anda langsung, sehingga dana tanda kasih dari tamu 100% masuk ke rekening pribadi Anda.
                     </p>
                 </details>
 
-                <details class="group bg-white rounded-2xl p-6 border border-[#EAE3D9] transition-all">
-                    <summary class="font-serif-luxury text-base sm:text-lg font-bold text-[#1C1613] cursor-pointer flex items-center justify-between list-none">
+                <details class="group bg-white rounded-2xl p-6 border border-[#EAE3D9] shadow-sm transition-all">
+                    <summary class="font-serif text-base sm:text-lg font-bold text-[#1C1714] cursor-pointer flex items-center justify-between list-none">
                         <span>Bisakah saya mengganti foto dan musik latar sendiri?</span>
-                        <svg class="w-5 h-5 text-[#8C7D73] transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        <svg class="w-5 h-5 text-[#94877D] transition-transform duration-200 group-open:rotate-180 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </summary>
-                    <p class="mt-3 text-xs sm:text-sm text-[#6E6157] leading-relaxed">
-                        Bisa. Dari dashboard yang mudah digunakan, Anda dapat mengunggah foto mempelai, mengatur galeri kenangan, dan mengganti lagu romantis kesukaan Anda kapan saja.
+                    <p class="mt-3 text-xs sm:text-sm text-[#6B5E55] leading-relaxed">
+                        Sangat bisa. Dari dashboard pengantin yang mudah digunakan, Anda dapat mengunggah foto mempelai, mengatur galeri kenangan, dan mengganti lagu pernikahan kesukaan Anda kapan saja.
                     </p>
                 </details>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- 7. CLOSING BANNER & FOOTER                                            -->
+    <!-- ===================================================================== -->
+    <section class="py-24 sm:py-32 text-center bg-[#FAF7F2] border-t border-[#EAE3D9]">
+        <div class="container mx-auto px-4 sm:px-8 max-w-3xl space-y-6">
+            <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-normal leading-tight text-[#1C1714]">
+                Waktunya Mengabadikan <br>
+                <span class="italic font-light">Kala Bahagia Anda.</span>
+            </h2>
+            <p class="font-cormorant italic text-lg sm:text-xl text-[#6B5E55] max-w-xl mx-auto leading-relaxed">
+                Mulai buat undangan pernikahan Anda hari ini. Nikmati kemudahan pengaturan instan dan buat para tamu terkesan sejak undangan pertama kali dibuka.
+            </p>
+            <div class="pt-4">
+                <a href="#katalog" class="btn-primary">
+                    <span>PILIH TEMA SEKARANG</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 6: CLOSING CINEMATIC BANNER -->
-    <section class="relative overflow-hidden bg-[#161210] text-white py-20 sm:py-24 text-center hero-grain">
-        <div class="container mx-auto px-4 sm:px-6 max-w-3xl relative z-10">
-            <h2 class="font-serif-luxury text-3xl sm:text-4xl md:text-5xl font-normal leading-tight mb-5">
-                Waktunya Mengabadikan <br>
-                <span class="italic font-light gold-gradient-text">Kala Bahagia Anda.</span>
-            </h2>
-            <p class="text-sm sm:text-base text-neutral-300 max-w-xl mx-auto mb-10 leading-relaxed font-light">
-                Mulai buat undangan pernikahan sinematik Anda hari ini. Nikmati kemudahan pengaturan instan dan buat para tamu terkesan sejak undangan dibuka.
-            </p>
-            <a href="#katalog" class="inline-flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-[#B78A3A] via-[#C5A059] to-[#A1742B] text-white font-semibold text-sm rounded-xl shadow-lg hover:shadow-[#B78A3A]/30 hover:scale-[1.02] transition-all">
-                <span>Pilih Template Sekarang</span>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                </svg>
-            </a>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-[#100D0B] text-neutral-400 py-14 border-t border-white/10">
-        <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
+    <!-- Footer -->
+    <footer style="background: #1C1714; color: #FAF7F2; padding: 60px 0 40px 0;">
+        <div class="container mx-auto px-4 sm:px-8 max-w-7xl">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/10">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#1C1613] to-[#2B231E] border border-[#B78A3A]/40 flex items-center justify-center">
-                        <svg class="w-4 h-4 text-[#dfc573]" fill="currentColor" viewBox="0 0 20 20">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-9 h-9 rounded-full flex items-center justify-center bg-white/10">
+                        <svg class="w-4 h-4 text-[#E8D5B5]" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
                         </svg>
                     </div>
-                    <span class="font-serif-luxury text-lg font-bold text-white tracking-tight">
-                        KalaBahagia<span class="text-[#B78A3A]">.com</span>
+                    <span class="font-serif text-lg font-bold text-white tracking-tight">
+                        Kala Bahagia
                     </span>
                 </div>
-                <div class="flex flex-wrap items-center justify-center gap-6 text-xs sm:text-sm">
-                    <a href="#katalog" class="hover:text-white transition-colors">Koleksi Desain</a>
-                    <a href="#fitur" class="hover:text-white transition-colors">Fitur</a>
-                    <a href="#cara-order" class="hover:text-white transition-colors">Cara Order</a>
-                    <a href="/login" class="hover:text-white transition-colors">Masuk Dashboard</a>
+                <div class="flex flex-wrap items-center justify-center gap-8 text-xs font-semibold uppercase tracking-wider text-[#A89F95]">
+                    <a href="#katalog" class="hover:text-white transition-colors" style="text-decoration: none;">Koleksi Desain</a>
+                    <a href="#fitur" class="hover:text-white transition-colors" style="text-decoration: none;">Keunggulan</a>
+                    <a href="#cara-order" class="hover:text-white transition-colors" style="text-decoration: none;">Cara Order</a>
+                    <a href="/login" class="hover:text-white transition-colors" style="text-decoration: none;">Masuk Dashboard</a>
                 </div>
             </div>
-            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8A7E73]">
                 <p>© <%= new Date().getFullYear() %> KalaBahagia.com. Seluruh hak cipta dilindungi.</p>
-                <p>Platform Undangan Pernikahan Digital Sinematik & Elegan di Indonesia.</p>
+                <p class="font-cormorant italic text-sm text-[#B8AF9F]">Platform Undangan Pernikahan Digital Elegan.</p>
             </div>
         </div>
     </footer>
+
+    <!-- ===================================================================== -->
+    <!-- 8. JAVASCRIPT: SHOWCASE CROSSFADE & THREE.JS RINGS                    -->
+    <!-- ===================================================================== -->
+    <script>
+    (function() {
+        // -------------------------------------------------------------
+        // 1. Interactive 3D Wedding Bands (Three.js on Subtle Pedestal)
+        // -------------------------------------------------------------
+        const canvas = document.getElementById('hero-3d-canvas');
+        if (canvas && window.THREE) {
+            const parent = canvas.parentElement;
+            const w = parent.clientWidth || 400;
+            const h = parent.clientHeight || 110;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(38, w / h, 0.1, 100);
+            camera.position.set(0, 0, 8.5);
+
+            const renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                alpha: true,
+                antialias: true
+            });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(w, h);
+
+            // Lighting
+            const ambient = new THREE.AmbientLight(0xfffaed, 1.2);
+            scene.add(ambient);
+
+            const key = new THREE.DirectionalLight(0xffdf80, 1.8);
+            key.position.set(5, 5, 5);
+            scene.add(key);
+
+            // Gold Material
+            const goldMat = new THREE.MeshStandardMaterial({
+                color: 0xc99c42,
+                roughness: 0.22,
+                metalness: 0.88
+            });
+
+            const ringGroup = new THREE.Group();
+
+            // Band 1
+            const r1 = new THREE.Mesh(new THREE.TorusGeometry(1.4, 0.12, 24, 72), goldMat);
+            r1.rotation.x = Math.PI / 3;
+            r1.rotation.y = Math.PI / 6;
+            ringGroup.add(r1);
+
+            // Band 2
+            const r2 = new THREE.Mesh(new THREE.TorusGeometry(1.25, 0.10, 24, 72), goldMat);
+            r2.rotation.x = -Math.PI / 4;
+            r2.rotation.y = -Math.PI / 6;
+            r2.position.set(0.65, 0.2, 0);
+            ringGroup.add(r2);
+
+            scene.add(ringGroup);
+
+            // Mouse & touch interaction
+            let isDragging = false;
+            let startX = 0;
+            let targetRot = 0;
+            let currentRot = 0;
+
+            parent.addEventListener('pointerdown', (e) => {
+                isDragging = true;
+                startX = e.clientX;
+            });
+            window.addEventListener('pointermove', (e) => {
+                if (isDragging) {
+                    const dx = e.clientX - startX;
+                    startX = e.clientX;
+                    targetRot += dx * 0.02;
+                }
+            });
+            window.addEventListener('pointerup', () => { isDragging = false; });
+
+            window.addEventListener('resize', () => {
+                if (!parent) return;
+                const nw = parent.clientWidth;
+                const nh = parent.clientHeight;
+                camera.aspect = nw / nh;
+                camera.updateProjectionMatrix();
+                renderer.setSize(nw, nh);
+            });
+
+            function renderLoop() {
+                requestAnimationFrame(renderLoop);
+                if (!isDragging) {
+                    targetRot += 0.006;
+                }
+                currentRot += (targetRot - currentRot) * 0.08;
+                ringGroup.rotation.y = currentRot;
+                ringGroup.rotation.x = Math.sin(Date.now() * 0.0015) * 0.1;
+                renderer.render(scene, camera);
+            }
+            renderLoop();
+        }
+
+        // -------------------------------------------------------------
+        // 2. Showcase Auto-Crossfade Gallery
+        // -------------------------------------------------------------
+        const slides = document.querySelectorAll('.hero-img');
+        const captionEl = document.getElementById('showcase-caption');
+        const counterEl = document.getElementById('showcase-counter');
+        const subEl = document.getElementById('showcase-sub');
+        const descEl = document.getElementById('showcase-desc');
+        const linkEl = document.getElementById('showcase-link');
+
+        const showcaseData = [
+            { name: 'Stardew Valley Quest (RPG)', sub: 'Tema Interaktif', desc: 'Eksplorasi Desa & 5 Misi Cinta', link: '/template-1' },
+            { name: 'Classic Romantic Floral', sub: 'Tema Romantis', desc: 'Sentuhan Pastel Bunga & Tipografi Halus', link: '/template-2' },
+            { name: 'Elegant Nature Botanica', sub: 'Tema Editorial', desc: 'Nuansa Alam Earthy & Nuansa Tenang', link: '/template-3' },
+            { name: 'Cinematic Noir & Gold', sub: 'Tema Sinematik', desc: 'Kemewahan Hitam Emas & Aksen Modern', link: '/template-4' },
+            { name: 'WhatsApp Group (Bestie)', sub: 'Tema Kekinian', desc: 'Format Obrolan Akrab & Menyenangkan', link: '/template-7' }
+        ];
+
+        let activeIdx = 0;
+        function updateSlide(idx) {
+            slides.forEach((s, i) => {
+                if (i === idx) s.classList.add('active');
+                else s.classList.remove('active');
+            });
+            if (showcaseData[idx]) {
+                const item = showcaseData[idx];
+                if (captionEl) captionEl.textContent = item.name;
+                if (counterEl) counterEl.textContent = (idx + 1) + ' / ' + slides.length;
+                if (subEl) subEl.textContent = item.sub;
+                if (descEl) descEl.textContent = item.desc;
+                if (linkEl) linkEl.href = item.link;
+            }
+            activeIdx = idx;
+        }
+
+        if (slides.length > 1) {
+            setInterval(() => {
+                const next = (activeIdx + 1) % slides.length;
+                updateSlide(next);
+            }, 4000);
+        }
+    })();
+    </script>
 
 </body>
 </html>

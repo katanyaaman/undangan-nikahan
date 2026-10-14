@@ -1,0 +1,5 @@
+# Claude Code Instructions for Undangan Online
+Always read and follow the instructions in `AGENTS.md`, `DESIGN.md`, and the specialized skills located in the `skills/` directory:
+- UI & Copywriting: `skills/antislop-*/SKILL.md` and `DESIGN.md`
+- 3D & Three.js visuals: `skills/threejs-*/SKILL.md`
+- Always apply mobile-first responsiveness, zero memory leaks on Three.js (proper dispose), and cap pixelRatio at 2.

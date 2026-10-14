@@ -13,4 +13,18 @@ To update antislop later: download `antislop.md` again, or run `npx antislop-ai 
 <!-- antislop:end -->
 
 ## Design System & UI Guidelines
-For any visual, styling, typography, animations, color palette, or layout work, always consult [DESIGN.md](file:///c:/Users/mdirg/Github/undangan-nikahan/DESIGN.md) alongside `antislop`.
+For any visual, styling, typography, animations, color palette, or layout work, always consult [DESIGN.md](DESIGN.md) alongside `antislop`.
+
+## Three.js & 3D Visual Guidelines
+Whenever creating or editing 3D components, interactive visuals, background animations, or Three.js effects:
+- Always read and follow the relevant skills in `skills/threejs-*/SKILL.md`:
+  - `skills/threejs-fundamentals/SKILL.md` (scene setup, resize, aspect ratio, clean dispose to prevent memory leaks)
+  - `skills/threejs-materials/SKILL.md` & `skills/threejs-textures/SKILL.md` (PBR, MeshPhysicalMaterial, color spaces)
+  - `skills/threejs-lighting/SKILL.md` (shadows, soft lighting, ambient, directional)
+  - `skills/threejs-shaders/SKILL.md` (procedural effects, glowing, particles, wave distortions)
+  - `skills/threejs-postprocessing/SKILL.md` (bloom, vignette, ACESFilmic tone mapping)
+  - `skills/threejs-animation/SKILL.md` (animation mixer, smooth lerping, camera transitions)
+  - `skills/threejs-interaction/SKILL.md` (raycasting, responsive mobile touch & mouse interaction)
+- **Zero Memory Leak Rule**: Always clean up event listeners, geometries, materials, textures, and cancel `requestAnimationFrame` when components unmount or page transitions occur.
+- **Mobile Performance Rule**: Cap `devicePixelRatio` to `Math.min(window.devicePixelRatio, 2)` to ensure smooth 60fps on mobile devices.
+
